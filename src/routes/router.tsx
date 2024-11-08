@@ -1,4 +1,6 @@
 import ProjectLayout from '@/components/createProject/ProjectLayout';
+import ErrorBoundary from '@/components/errorPageComponent/errorBoundary';
+import NotFound from '@/components/errorPageComponent/notFound';
 import Layout from '@/layout/Layout';
 import Concat from '@/pages/Concat';
 import Home from '@/pages/Home';
@@ -23,6 +25,7 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
+    errorElement: <ErrorBoundary />,
     children: [
       {
         path: '/',
@@ -51,6 +54,10 @@ export const router = createBrowserRouter([
             ],
           },
         ],
+      },
+      {
+        path: '*', // 모든 정의되지 않은 경로를 잡아냄
+        element: <NotFound />,
       },
     ],
   },
