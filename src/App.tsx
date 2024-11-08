@@ -1,11 +1,10 @@
-import { Button } from '@/components/ui/button';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './routes/router';
 
 function App() {
   return (
     <div>
-      <Button variant='outline' size='icon'>
-        테스트
-      </Button>
+      <RouterProvider router={router} />
     </div>
   );
 }
