@@ -1,4 +1,4 @@
-import { ChevronDown, Home, Search, Settings } from 'lucide-react';
+import { ChevronDown, Home, Search, Settings, Bell } from 'lucide-react';
 
 import {
   Sidebar,
@@ -51,17 +51,17 @@ export function HomeSidebar() {
     <Sidebar>
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem>
+          <SidebarMenuItem className='flex items-center justify-between'>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton>
+                <SidebarMenuButton className='flex items-center w-auto'>
                   OOO님
-                  <ChevronDown className='ml-auto' />
+                  <ChevronDown className='ml-1' />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent className='w-[--radix-popper-anchor-width]'>
                 <DropdownMenuItem>
-                  <span>계정 정보(이름,이메일)</span>
+                  <span>계정 정보</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <span>계정 설정</span>
@@ -71,6 +71,7 @@ export function HomeSidebar() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+            <Bell className='pl-1 cursor-pointer' />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
