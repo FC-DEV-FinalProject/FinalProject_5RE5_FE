@@ -17,7 +17,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from './ui/dropdown-menu';
+} from '../ui/dropdown-menu';
 
 // Menu items.
 const items = [
@@ -41,7 +41,7 @@ const items = [
 
 const quickStartItem = [
   {
-    title: 'project1',
+    title: 'Project1',
     url: 'project1',
   },
 ];
@@ -51,33 +51,41 @@ export function HomeSidebar() {
     <Sidebar>
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem className='flex items-center justify-between'>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuButton className='flex items-center w-auto'>
-                  OOO님
-                  <ChevronDown className='ml-1' />
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className='w-[--radix-popper-anchor-width]'>
-                <DropdownMenuItem>
-                  <span>계정 정보</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <span>계정 설정</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <span>로그아웃</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <Bell className='pl-1 cursor-pointer' />
+          <SidebarMenuItem className='pt-3 pl-3 font-bold'>
+            <span>로고 자리</span>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>sidebarGroupLabel</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem className='flex items-center justify-between'>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <SidebarMenuButton className='flex items-center w-auto'>
+                      OOO님
+                      <ChevronDown className='ml-1' />
+                    </SidebarMenuButton>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className='w-[--radix-popper-anchor-width]'>
+                    <DropdownMenuItem>
+                      <span>계정 정보</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <span>계정 설정</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <span>로그아웃</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                <Bell className='pl-1 cursor-pointer' />
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
