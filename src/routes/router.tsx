@@ -1,7 +1,8 @@
-import ProjectLayout from '@/components/createProject/ProjectLayout';
 import ErrorBoundary from '@/components/errorPageComponent/errorBoundary';
 import NotFound from '@/components/errorPageComponent/notFound';
+import HomeLayout from '@/layout/HomeLayout';
 import Layout from '@/layout/Layout';
+import ProjectLayout from '@/layout/ProjectLayout';
 import Concat from '@/pages/Concat';
 import Home from '@/pages/Home';
 import MyProject from '@/pages/MyProject';
@@ -22,43 +23,60 @@ const isAuthenticated = true; // 실제 로그인 상태를 가져오는 로직�
 // const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
 export const router = createBrowserRouter([
+  // 홈 레이아웃
   {
     path: '/',
-    element: <Layout />,
+    element: <HomeLayout />, // 홈 전용 레이아웃
     errorElement: <ErrorBoundary />,
     children: [
       {
-        path: '/',
+        index: true, // 홈 화면
         element: <Home />,
       },
       {
-        element: <PublicRoute isAuthenticated={isAuthenticated} />, // 로그인하지 않은 상태만 접근 가능
+        element: <ProtectedRoute isAuthenticated={isAuthenticated} />, // 보호된 경로
+        children: [
+          { path: 'my-project', element: <MyProject /> }, // my-project는 HomeLayout 사용
+        ],
+      },
+    ],
+  },
+  // PublicRoute (로그인/회원가입 등 레이아웃 없음)
+  {
+    element: <Layout />, // 레이아웃 없는 화면
+    children: [
+      {
+        element: <PublicRoute isAuthenticated={isAuthenticated} />,
         children: [
           { path: 'signin', element: <SignIn /> },
           { path: 'signup', element: <SignUp /> },
           { path: 'reset-password', element: <ResetPassword /> },
         ],
       },
+    ],
+  },
+  // PrivateRoute (프로젝트 레이아웃)
+  {
+    element: <ProtectedRoute isAuthenticated={isAuthenticated} />,
+    children: [
       {
-        element: <ProtectedRoute isAuthenticated={isAuthenticated} />, // 로그인 상태만 접근 가능
+        path: 'profile',
+        element: <Profile />,
+      },
+      {
+        path: 'project',
+        element: <ProjectLayout />, // 프로젝트 전용 레이아웃
         children: [
-          { path: 'my-project', element: <MyProject /> },
-          { path: 'profile', element: <Profile /> },
-          {
-            path: 'project',
-            element: <ProjectLayout />,
-            children: [
-              { index: true, path: 'tts', element: <TTS /> },
-              { path: 'vc', element: <VC /> },
-              { path: 'concat', element: <Concat /> },
-            ],
-          },
+          { index: true, path: 'tts', element: <TTS /> },
+          { path: 'vc', element: <VC /> },
+          { path: 'concat', element: <Concat /> },
         ],
       },
-      {
-        path: '*', // 모든 정의되지 않은 경로를 잡아냄
-        element: <NotFound />,
-      },
     ],
+  },
+  // Not Found
+  {
+    path: '*',
+    element: <NotFound />,
   },
 ]);
