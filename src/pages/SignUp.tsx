@@ -127,7 +127,7 @@ const SignUp: React.FC = () => {
         />
 
         <FormField
-          label=""
+          label="주소"
           id="addressDetail"
           type="text"
           value={formData.detailAddress}

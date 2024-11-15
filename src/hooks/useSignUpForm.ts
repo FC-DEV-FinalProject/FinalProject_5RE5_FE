@@ -52,12 +52,10 @@ export const useSignUpForm = () => {
   const validateForm = () => {
     const newErrors: FormErrors = {};
 
-    // userId validation
     if (!VALIDATION_PATTERNS.userId.test(formData.userId)) {
       newErrors.userId = ERROR_MESSAGES.userId;
     }
 
-    // Password validation
     if (!VALIDATION_PATTERNS.password.test(formData.password)) {
       newErrors.password = ERROR_MESSAGES.password;
     }
@@ -68,34 +66,27 @@ export const useSignUpForm = () => {
       newErrors.confirmPassword = ERROR_MESSAGES.confirmPassword;
     }
 
-    // Name validation
     if (!VALIDATION_PATTERNS.name.test(formData.name)) {
       newErrors.name = ERROR_MESSAGES.name;
     }
 
-    // Birth date validation
     const birthYear = parseInt(formData.birthDate.split('-')[0], 10);
     const currentYear = new Date().getFullYear();
     if (currentYear - birthYear < 14) {
       newErrors.birthDate = ERROR_MESSAGES.underage;
     }
 
-    // Email validation
     if (!VALIDATION_PATTERNS.email.test(formData.email)) {
       newErrors.email = ERROR_MESSAGES.email;
     }
 
-    // Phone number validation
     if (!VALIDATION_PATTERNS.phoneNumber.test(formData.phoneNumber)) {
       newErrors.phoneNumber = ERROR_MESSAGES.phoneNumber;
     }
 
-    // Address validation
     if (!formData.detailAddress) {
       newErrors.detailAddress = ERROR_MESSAGES.detailAddress;
     }
-
-    // Terms validation
     const requiredTerms = terms.filter(term => term.chkTerm);
     const allRequiredTermsChecked = requiredTerms.every(term => document.getElementById(term.termCode) as HTMLInputElement)?.checked;
     if (!allRequiredTermsChecked) {
