@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@radix-ui/react-dropdown-menu";
+import { Label } from "@radix-ui/react-label";
 import DaumPostcode from 'react-daum-postcode';
 
 interface AddressSearchProps {
@@ -10,6 +10,12 @@ interface AddressSearchProps {
   onClose: () => void;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
+interface DaumAddress {
+  address: string;
+  addressType: string;
+  bname: string;
+  buildingName: string;
+}
 
 export const AddressSearch: React.FC<AddressSearchProps> = ({
   address,
@@ -18,7 +24,8 @@ export const AddressSearch: React.FC<AddressSearchProps> = ({
   onClose,
   setIsOpen
 }) => {
-  const handleComplete = (data: any) => {
+  
+  const handleComplete = (data: DaumAddress) => {
     let fullAddress = data.address;
     let extraAddress = '';
 
