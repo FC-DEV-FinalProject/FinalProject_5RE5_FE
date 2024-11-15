@@ -28,7 +28,7 @@ const SignUp: React.FC = () => {
   }
 
   return (
-    <div className="container p-6 mx-auto">
+    <div className="container h-full p-6 mx-auto">
       <h2 className="mb-2 text-2xl font-bold text-center">회원가입</h2>
       <h4 className="mb-6 font-bold text-center text-l">이미 계정이 있으신가요? 
         <Link to="/signin">로그인 화면으로 이동</Link>
@@ -128,7 +128,7 @@ const SignUp: React.FC = () => {
         />
 
         <FormField
-          label="주소"
+          label=""
           id="addressDetail"
           type="text"
           value={formData.detailAddress}

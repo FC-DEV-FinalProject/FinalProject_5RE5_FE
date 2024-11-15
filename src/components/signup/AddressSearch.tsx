@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@radix-ui/react-dropdown-menu";
 import DaumPostcode from 'react-daum-postcode';
 
 interface AddressSearchProps {
@@ -35,9 +36,12 @@ export const AddressSearch: React.FC<AddressSearchProps> = ({
 
   return (
     <>
-      <div className="flex space-x-2">
-        <Input type="text" value={address} readOnly placeholder="주소 검색을 클릭하세요" />
-        <Button type="button" onClick={onClose}>주소 검색</Button>
+      <div className="space-y-2">
+        <Label>주소</Label>
+        <div className="flex space-x-2">
+          <Input type="text" value={address} readOnly placeholder="주소 검색을 클릭하세요" />
+          <Button type="button" onClick={onClose}>주소 검색</Button>
+        </div>
       </div>
 
       {isOpen && (
