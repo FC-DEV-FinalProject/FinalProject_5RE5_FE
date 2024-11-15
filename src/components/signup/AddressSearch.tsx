@@ -1,11 +1,11 @@
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import DaumPostcode from 'react-daum-postcode';
 
 interface AddressSearchProps {
   address: string;
   isOpen: boolean;
-  onComplete: (data: any) => void;
+  onComplete: (data: { address: string }) => void;
   onClose: () => void;
 }
 

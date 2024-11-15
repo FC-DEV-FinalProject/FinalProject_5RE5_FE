@@ -36,8 +36,8 @@ const SignUp: React.FC = () => {
       <form className="space-y-4" onSubmit={handleSubmit}>
         <FormField 
           label="아이디"
-          id=""
-          type=""
+          id="userId"
+          type="text"
           value={formData.userId}
           onChange={(value) => handleInputChange('userId', value)}
           error={errors.userId}
@@ -65,6 +65,7 @@ const SignUp: React.FC = () => {
           type="text"
           value={formData.emailVerification}
           onChange={(value) => handleInputChange('emailVerification', value)}
+          error={errors.emailVerification}
           placeholder="인증번호를 입력하세요"
         />
 
@@ -103,7 +104,7 @@ const SignUp: React.FC = () => {
           id="phone"
           type="tel"
           value={formData.phoneNumber}
-          onChange={(value) => handleInputChange('phoneNumber', value)}
+          onChange={(value: string) => handleInputChange('phoneNumber', value)}
           error={errors.phoneNumber}
           placeholder="전화번호를 입력하세요"
         />
@@ -113,7 +114,7 @@ const SignUp: React.FC = () => {
           id="birthDate"
           type="text"
           value={formData.birthDate}
-          onChange={(value) => handleInputChange('birthDate', value)}
+          onChange={(value: string) => handleInputChange('birthDate', value)}
           error={errors.birthDate}
           placeholder="YYYY-MM-DD"
           maxLength={10}
@@ -122,7 +123,7 @@ const SignUp: React.FC = () => {
         <AddressSearch
           address={formData.address}
           isOpen={isOpen}
-          onComplete={(data) => handleInputChange('address', data.address)}
+          onComplete={(data: { address: string; }) => handleInputChange('address', data.address)}
           onClose={() => setIsOpen(false)}
         />
 
@@ -131,7 +132,7 @@ const SignUp: React.FC = () => {
           id="addressDetail"
           type="text"
           value={formData.detailAddress}
-          onChange={(value) => handleInputChange('detailAddress', value)}
+          onChange={(value: string) => handleInputChange('detailAddress', value)}
           error={errors.detailAddress}
           placeholder="상세 주소를 입력하세요"
         />

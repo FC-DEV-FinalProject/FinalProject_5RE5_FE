@@ -7,7 +7,7 @@ interface TermsSectionProps {
   error?: string;
 }
 
-export const TermsSection: React.FC<TermsSectionProps> = ({ terms, error }) => (
+export const TermsSection: React.FC<TermsSectionProps> = ({ terms, error, onChange }) => (
   <div className="space-y-2">
     <Label>약관 동의</Label>
     {terms.map((term) => (
@@ -21,7 +21,7 @@ export const TermsSection: React.FC<TermsSectionProps> = ({ terms, error }) => (
         </label>
       </div>
     ))}
-    {error && <p className="text-red-500">{error}</p>}
+    {error && <p className="text-red-500" role="alert">{error}</p>}
   </div>
 );
 
