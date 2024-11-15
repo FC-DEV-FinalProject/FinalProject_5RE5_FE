@@ -25,7 +25,6 @@ export interface IListViewProps {
 
 const ListView = ({ option = 'list', data }: Omit<IListViewProps, 'navi'>) => {
   const navigate = useNavigate();
-  console.log('a');
   return (
     <div>
       {option === 'list' ? (

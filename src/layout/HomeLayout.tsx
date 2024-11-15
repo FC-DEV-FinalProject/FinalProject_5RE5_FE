@@ -15,6 +15,7 @@ export default function HomeLayout() {
           style={
             {
               '--sidebar-width': '210px',
+              maxWidth: '210px',
               //   '--sidebar-width-mobile': '10rem',
             } as CSSProperties
           }
