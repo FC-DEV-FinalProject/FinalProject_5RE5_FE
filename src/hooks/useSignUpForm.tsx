@@ -89,6 +89,20 @@ export const useSignUpForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleTermChange = (termCode: string, checked: boolean) => {
+    if (termCode === 'all') {
+      // 전체 동의 로직
+      const updatedTerms = terms.map(term => ({ ...term, agreed: checked }));
+      setTerms(updatedTerms);
+    } else {
+      // 개별 약관 동의 로직
+      const updatedTerms = terms.map(term => 
+        term.termCode === termCode ? { ...term, agreed: checked } : term
+      );
+      setTerms(updatedTerms);
+    }
+  };
+
   return {
     formData,
     errors,
@@ -97,5 +111,6 @@ export const useSignUpForm = () => {
     setIsOpen,
     handleInputChange,
     validateForm,
+    handleTermChange
   };
 };

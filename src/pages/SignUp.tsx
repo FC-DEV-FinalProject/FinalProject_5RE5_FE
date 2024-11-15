@@ -16,6 +16,7 @@ const SignUp: React.FC = () => {
     setIsOpen,
     handleInputChange,
     validateForm,
+    handleTermChange
   } = useSignUpForm();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -130,6 +131,7 @@ const SignUp: React.FC = () => {
         <TermsSection
           terms={terms}
           error={errors.terms}
+          onChange={handleTermChange}
         />
 
         <Button type="submit" className="w-full">가입하기</Button>
