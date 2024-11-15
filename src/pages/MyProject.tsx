@@ -1,4 +1,7 @@
-import ListView, { ViewOptionType } from '@/components/common/ListView';
+import ListView, {
+  IListViewProps,
+  ViewOptionType,
+} from '@/components/common/ListView';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -11,11 +14,15 @@ import { PROJECT_DATA } from '@/mock/project';
 import { AlignJustifyIcon, LayoutGridIcon } from 'lucide-react';
 import { useState } from 'react';
 
-const MyProject = () => {
-  const [viewOption, setViewOption] = useState<ViewOptionType>('list');
+const MyProject = ({
+  option = 'list',
+  data = PROJECT_DATA,
+}: Omit<IListViewProps, 'navi'>) => {
+  const [viewOption, setViewOption] = useState<ViewOptionType>(option);
+
   return (
     <div className='w-[100%]'>
-      <div className='flex justify-between p-10 '>
+      <div className='flex justify-between p-5 '>
         <div className='selectDiv'>
           <Select>
             <SelectTrigger className='w-[100px]'>
@@ -48,8 +55,14 @@ const MyProject = () => {
           </Button>
         </div>
       </div>
-      <div className='p-10 pt-0 tableDiv'>
-        <ListView option={viewOption} data={PROJECT_DATA} />
+      <div className='p-5 pt-0 tableDiv'>
+        {data ? (
+          <ListView option={viewOption} data={data} />
+        ) : (
+          <div className='flex items-center justify-center h-40'>
+            <p>데이터를 불러오는 중입니다...</p>
+          </div>
+        )}
       </div>
     </div>
   );
