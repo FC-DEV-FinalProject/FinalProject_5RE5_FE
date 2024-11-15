@@ -31,7 +31,9 @@ const SignIn = () => {
           >
             <div className='w-2/3 mb-2'>
               <Input
-                {...register('id', { required: '아이디를 입력하세요.' })}
+                {...register('id', {
+                  required: '아이디를 입력하세요.',
+                })}
                 placeholder='ID'
               />
               {errors.id && (
@@ -46,6 +48,7 @@ const SignIn = () => {
                 })}
                 placeholder='Password'
                 type='password'
+                autoComplete='new-password'
               />
               {errors.password && (
                 <p className='mt-1 text-sm text-error'>
@@ -55,13 +58,20 @@ const SignIn = () => {
             </div>
 
             <div className='flex items-center justify-start w-2/3 gap-2 mb-4'>
-              <Checkbox id='keep-login' />
+              <Checkbox
+                id='keep-login'
+                aria-label='로그인 상태 유지'
+                aria-describedby='로그인 상태 유지'
+              />
               <label
                 htmlFor='keep-login'
                 className='text-sm cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
               >
                 로그인 유지하기
               </label>
+              <span id='keep-login-description' className='sr-only'>
+                체크하면 다음 접속 시 자동으로 로그인됩니다
+              </span>
             </div>
 
             <Button type='submit' className='w-2/3'>
