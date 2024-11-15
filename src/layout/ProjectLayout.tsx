@@ -1,4 +1,4 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useHotkeys } from 'react-hotkeys-hook';
@@ -6,6 +6,9 @@ import { useHotkeys } from 'react-hotkeys-hook';
 const ProjectLayout = () => {
   // Footer 상태 관리 (열림/닫힘 여부)
   const [isFooterExpanded, setIsFooterExpanded] = useState(false);
+
+  // 현재 URL에서 projectId 가져오기
+  const { projectId } = useParams();
 
   // Footer 토글 함수
   const toggleFooter = () => {
@@ -26,28 +29,18 @@ const ProjectLayout = () => {
         <nav>
           <ul className='flex gap-4'>
             <li>
-              <Link to='#project1' className='hover:underline'>
+              <Link to={`tts/project1`} className='hover:underline'>
                 Project 01
               </Link>
             </li>
             <li>
-              <Link to='#project2' className='hover:underline'>
+              <Link to={`tts/project2`} className='hover:underline'>
                 Project 02
               </Link>
             </li>
             <li>
-              <Link to='#project3' className='hover:underline'>
+              <Link to={`tts/project3`} className='hover:underline'>
                 Project 03
-              </Link>
-            </li>
-            <li>
-              <Link to='#project4' className='hover:underline'>
-                Project 04
-              </Link>
-            </li>
-            <li>
-              <Link to='#project5' className='hover:underline'>
-                Project 05
               </Link>
             </li>
           </ul>
@@ -59,17 +52,17 @@ const ProjectLayout = () => {
         <aside className='p-4 bg-gray-200 w-[90px]'>
           <ul>
             <li className='mb-8'>
-              <Link to='#link1' className='hover:underline'>
+              <Link to={`tts/${projectId}`} className='hover:underline'>
                 TTS
               </Link>
             </li>
             <li className='mb-8'>
-              <Link to='#link2' className='hover:underline'>
+              <Link to={`vc/${projectId}`} className='hover:underline'>
                 VC
               </Link>
             </li>
             <li>
-              <Link to='#link3' className='hover:underline'>
+              <Link to={`concat/${projectId}`} className='hover:underline'>
                 Concat
               </Link>
             </li>
@@ -85,17 +78,26 @@ const ProjectLayout = () => {
         <aside className='p-4 bg-gray-200 w-[280px]'>
           <ul>
             <li className='mb-2'>
-              <Link to='#link4' className='hover:underline'>
+              <Link
+                to={`tts/${projectId || 'project1'}`}
+                className='hover:underline'
+              >
                 Link 4
               </Link>
             </li>
             <li className='mb-2'>
-              <Link to='#link5' className='hover:underline'>
+              <Link
+                to={`vc/${projectId || 'project1'}`}
+                className='hover:underline'
+              >
                 Link 5
               </Link>
             </li>
             <li>
-              <Link to='#link6' className='hover:underline'>
+              <Link
+                to={`concat/${projectId || 'project1'}`}
+                className='hover:underline'
+              >
                 Link 6
               </Link>
             </li>
