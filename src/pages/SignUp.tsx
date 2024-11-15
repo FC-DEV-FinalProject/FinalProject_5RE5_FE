@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useSignUpForm } from '@/hooks/useSignUpForm';
 import { FormField } from '@/components/signup/FormField';
 import { AddressSearch } from '@/components/signup/AddressSearch';
-import { TermsSection } from '@/components/signup/termSection';
+import { TermsSection } from '@/components/signup/TermSection';
 
 const SignUp: React.FC = () => {
   const { 

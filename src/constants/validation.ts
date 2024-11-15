@@ -4,5 +4,5 @@ export const VALIDATION_PATTERNS = {
   consecutiveChars: /(.)\1\1/,
   name: /^[가-힣a-zA-Z]+$/,
   email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-  phoneNumber: /^\d{10,11}$/
+  phoneNumber: /^010\d{8}$/
 };
