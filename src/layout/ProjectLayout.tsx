@@ -1,6 +1,7 @@
 import { Outlet, Link } from 'react-router-dom';
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { useHotkeys } from 'react-hotkeys-hook';
 
 const ProjectLayout = () => {
   // Footer 상태 관리 (열림/닫힘 여부)
@@ -10,6 +11,12 @@ const ProjectLayout = () => {
   const toggleFooter = () => {
     setIsFooterExpanded((prev) => !prev);
   };
+
+  // 단축키 기능 프로젝트 레이아웃에서만 가능하도록
+  useHotkeys('ctrl+s', (event) => {
+    event.preventDefault();
+    alert('저장?');
+  });
 
   return (
     <div className='flex flex-col h-screen'>
