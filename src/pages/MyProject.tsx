@@ -56,7 +56,13 @@ const MyProject = ({
         </div>
       </div>
       <div className='p-5 pt-0 tableDiv'>
-        <ListView option={viewOption} data={data} />
+        {data ? (
+          <ListView option={viewOption} data={data} />
+        ) : (
+          <div className='flex items-center justify-center h-40'>
+            <p>데이터를 불러오는 중입니다...</p>
+          </div>
+        )}
       </div>
     </div>
   );
