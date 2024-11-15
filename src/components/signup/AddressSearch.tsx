@@ -8,6 +8,7 @@ interface AddressSearchProps {
   isOpen: boolean;
   onComplete: (data: { address: string }) => void;
   onClose: () => void;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AddressSearch: React.FC<AddressSearchProps> = ({
@@ -15,6 +16,7 @@ export const AddressSearch: React.FC<AddressSearchProps> = ({
   isOpen,
   onComplete,
   onClose,
+  setIsOpen
 }) => {
   const handleComplete = (data: any) => {
     let fullAddress = data.address;
@@ -40,7 +42,7 @@ export const AddressSearch: React.FC<AddressSearchProps> = ({
         <Label>주소</Label>
         <div className="flex space-x-2">
           <Input type="text" value={address} readOnly placeholder="주소 검색을 클릭하세요" />
-          <Button type="button" onClick={onClose}>주소 검색</Button>
+          <Button type="button" onClick={() => setIsOpen(true)}>주소 검색</Button>
         </div>
       </div>
 

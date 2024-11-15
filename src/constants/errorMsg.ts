@@ -4,7 +4,6 @@ export const ERROR_MESSAGES = {
   consecutivePassword: '비밀번호에 동일 문자를 3회 이상 연속 사용할 수 없습니다.',
   confirmPassword: '비밀번호가 일치하지 않습니다.',
   name: '이름은 실명을 입력해야 하며 특수문자를 포함할 수 없습니다.',
-  underage: '만 14세 이상만 가입할 수 있습니다.',
   email: '유효한 이메일 주소를 입력해주세요.',
   phoneNumber: '휴대폰 번호는 10~11자의 숫자만 입력 가능합니다.',
   detailAddress: '상세주소를 입력해주세요.',

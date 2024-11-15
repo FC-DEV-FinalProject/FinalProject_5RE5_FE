@@ -16,7 +16,6 @@ export interface FormData {
   address: string;
   detailAddress: string;
   phoneNumber: string;
-  birthDate: string;
 }
 
 export interface FormErrors {

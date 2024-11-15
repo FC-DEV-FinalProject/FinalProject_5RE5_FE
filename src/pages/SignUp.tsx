@@ -109,22 +109,12 @@ const SignUp: React.FC = () => {
           placeholder="전화번호를 입력하세요"
         />
 
-        <FormField
-          label="생년월일"
-          id="birthDate"
-          type="text"
-          value={formData.birthDate}
-          onChange={(value: string) => handleInputChange('birthDate', value)}
-          error={errors.birthDate}
-          placeholder="YYYY-MM-DD"
-          maxLength={10}
-        />
-
         <AddressSearch
           address={formData.address}
           isOpen={isOpen}
           onComplete={(data: { address: string; }) => handleInputChange('address', data.address)}
           onClose={() => setIsOpen(false)}
+          setIsOpen={setIsOpen}
         />
 
         <FormField

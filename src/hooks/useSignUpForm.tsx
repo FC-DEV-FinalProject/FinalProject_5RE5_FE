@@ -13,7 +13,6 @@ const initialFormData: FormData = {
   address: '',
   detailAddress: '',
   phoneNumber: '',
-  birthDate: ''
 };
 
 export const useSignUpForm = () => {
@@ -42,8 +41,6 @@ export const useSignUpForm = () => {
     
     if (name === 'phoneNumber') {
       processedValue = value.replace(/[^\d]/g, '');
-    } else if (name === 'birthDate') {
-      processedValue = value.replace(/[^\d]/g, '').replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
     }
 
     setFormData(prev => ({ ...prev, [name]: processedValue }));
@@ -70,12 +67,6 @@ export const useSignUpForm = () => {
       newErrors.name = ERROR_MESSAGES.name;
     }
 
-    const birthYear = parseInt(formData.birthDate.split('-')[0], 10);
-    const currentYear = new Date().getFullYear();
-    if (currentYear - birthYear < 14) {
-      newErrors.birthDate = ERROR_MESSAGES.underage;
-    }
-
     if (!VALIDATION_PATTERNS.email.test(formData.email)) {
       newErrors.email = ERROR_MESSAGES.email;
     }
@@ -89,6 +80,7 @@ export const useSignUpForm = () => {
     }
     const requiredTerms = terms.filter(term => term.chkTerm);
     const allRequiredTermsChecked = requiredTerms.every(term => document.getElementById(term.termCode) as HTMLInputElement)?.checked;
+    
     if (!allRequiredTermsChecked) {
       newErrors.terms = ERROR_MESSAGES.terms;
     }
