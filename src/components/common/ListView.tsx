@@ -53,14 +53,15 @@ const List = ({ data, navi }: IListViewProps) => {
     );
   };
 
-  const handleSelectAll = (event: MouseEvent<HTMLButtonElement>): void => {
+  const handleSelectAll = (): void => {
+    const allChecked = items.every((item) => item.checked);
     setItems(
       items.map((item) => ({
         ...item,
-        checked: event.currentTarget.ariaChecked !== 'true',
+        checked: !allChecked,
       }))
     );
-    event.currentTarget.ariaChecked !== 'true'
+    !allChecked
       ? handleCheckedList.addAll(items.map((item) => item.projectId))
       : handleCheckedList.removeAll();
   };

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const useChecked = () => {
-  const [checkedList, setCheckedList] = useState<Number[]>([]);
+  const [checkedList, setCheckedList] = useState<number[]>([]);
 
   const handleCheckedList = {
     get: () => {
