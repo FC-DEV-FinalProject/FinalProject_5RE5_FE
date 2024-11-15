@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
 
 interface ILoginFormInput {
   id: string;
@@ -38,7 +39,7 @@ const SignIn = () => {
               )}
             </div>
 
-            <div className='w-2/3'>
+            <div className='w-2/3 mb-4'>
               <Input
                 {...register('password', {
                   required: '비밀번호를 입력하세요.',
@@ -53,10 +54,32 @@ const SignIn = () => {
               )}
             </div>
 
-            <Button type='submit' className='w-2/3 mt-5'>
+            <div className='flex items-center justify-start w-2/3 gap-2 mb-4'>
+              <Checkbox id='keep-login' />
+              <label
+                htmlFor='keep-login'
+                className='text-sm cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+              >
+                로그인 유지하기
+              </label>
+            </div>
+
+            <Button type='submit' className='w-2/3'>
               로그인
             </Button>
           </form>
+
+          <ul className='flex items-center justify-between w-2/3 gap-2 m-auto mt-5 text-sm'>
+            <li className="relative after:content-['|'] after:absolute after:top-[-1px] after:right-[-34px]">
+              <Link to='/reset-password'>비밀번호 찾기</Link>
+            </li>
+            <li className="relative after:content-['|'] after:absolute after:top-[-1px] after:right-[-34px]">
+              <Link to=''>아이디 찾기</Link>
+            </li>
+            <li className=''>
+              <Link to='/signUp'>회원가입</Link>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
