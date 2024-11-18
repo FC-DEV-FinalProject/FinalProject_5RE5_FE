@@ -67,9 +67,9 @@ export const router = createBrowserRouter([
         path: 'project',
         element: <ProjectLayout />, // 프로젝트 전용 레이아웃
         children: [
-          { index: true, path: 'tts', element: <TTS /> },
-          { path: 'vc', element: <VC /> },
-          { path: 'concat', element: <Concat /> },
+          { index: true, path: 'tts/:projectId', element: <TTS /> },
+          { path: 'vc/:projectId', element: <VC /> },
+          { path: 'concat/:projectId', element: <Concat /> },
         ],
       },
     ],
