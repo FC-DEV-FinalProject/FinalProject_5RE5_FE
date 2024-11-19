@@ -8,6 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { ChevronDown } from 'lucide-react';
 
 // 재사용 가능한 Dropdown 컴포넌트
 export const DropdownSelector = ({
@@ -28,8 +29,12 @@ export const DropdownSelector = ({
       </label>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant='outline' className='w-full'>
+          <Button
+            variant='outline'
+            className='flex items-center justify-between w-full'
+          >
             {value}
+            <ChevronDown className='w-4 h-4' />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className='w-56'>
