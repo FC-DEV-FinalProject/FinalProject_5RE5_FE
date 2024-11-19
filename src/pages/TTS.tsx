@@ -34,6 +34,13 @@ const TTS = () => {
     setTextInputs(textInputs.map(input => ({ ...input, isSelected: newIsAllSelected })));
   };
 
+  const deleteSelectedInputs = () => {
+    setTextInputs(textInputs.filter(input => !input.isSelected));
+    setIsAllSelected(false);
+  };
+
+  const anySelected = textInputs.some(input => input.isSelected);
+
   return (
     <div className="container p-4 mx-auto">
       <div className="flex items-center justify-between mb-4">
@@ -48,13 +55,22 @@ const TTS = () => {
       </div>
 
       <div>
-        <div>
-          <Checkbox 
-            id="select-all"
-            checked={isAllSelected}
-            onCheckedChange={toggleAllSelection}
-          />
-          <label htmlFor="select-all">전체 선택</label>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center space-x-2">
+            <Checkbox 
+              id="select-all"
+              checked={isAllSelected}
+              onCheckedChange={toggleAllSelection}
+            />
+            <label htmlFor="select-all">전체 선택</label>
+          </div>
+          <Button
+            onClick={deleteSelectedInputs}
+            disabled={!anySelected}
+            variant="destructive"
+          >
+            선택 삭제
+          </Button>
         </div>
         {textInputs.map((input) => (
           <div key={input.id} className="flex items-center mb-2 space-x-2">
@@ -66,13 +82,15 @@ const TTS = () => {
             <Input 
               value={input.text}
               onChange={(e) => handleTextChange(input.id, e.target.value)}
-              placeholder="내용을 입력해주세요. (최대 00자)"
+              placeholder="내용을 입력해주세요.(최대 2,000자)"
             />
           </div>
         ))}
       </div>
 
-      <Button onClick={addTextInput}>텍스트 추가</Button>
+      <div className="text-center">
+        <Button onClick={addTextInput}>+ 텍스트 추가</Button>
+      </div>
     </div>
 
   );
