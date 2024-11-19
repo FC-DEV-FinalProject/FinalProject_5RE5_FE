@@ -19,10 +19,11 @@ export const SliderControl = ({
           value={[value]}
           onValueChange={(v) => onChange(v)}
           max={100}
+          min={-100}
           className='flex-1'
         />
         <span className='text-sm font-medium text-gray-700'>
-          {value > 0 ? value : '없음'}
+          {value ? value : '없음'}
         </span>
       </div>
     </div>
