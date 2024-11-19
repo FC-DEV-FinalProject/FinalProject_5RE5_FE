@@ -1,73 +1,56 @@
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+
+import { DropdownSelector } from '@/components/ui/dropDownSelector';
+import { SliderControl } from '@/components/ui/sliderControl';
 
 const EditContent = () => {
-  // 선택된 성우 이름 관리
-  const [selectedFavorite, setselectedFavorite] = useState('성우 이름');
+  const [selectedFavorite, setSelectedFavorite] = useState('성우 이름');
   const [selectedVoice, setSelectedVoice] = useState('성우 이름');
+
+  // 슬라이더 데이터 배열
+  const sliders = [
+    { id: 'speed', label: '속도', value: 0, setValue: useState(0) },
+    { id: 'height', label: '높이', value: 0, setValue: useState(0) },
+    {
+      id: 'endProcessing',
+      label: '끝음 처리',
+      value: 0,
+      setValue: useState(0),
+    },
+    { id: 'endLength', label: '끝음 길이', value: 0, setValue: useState(0) },
+    { id: 'volume', label: '볼륨 조절', value: 0, setValue: useState(0) },
+  ];
 
   return (
     <div className='flex flex-col w-full gap-4 p-4 bg-gray-100 rounded shadow'>
-      {/* 즐겨찾기 */}
-      <div>
-        <label className='block mb-1 text-sm font-medium text-gray-700'>
-          즐겨찾기
-        </label>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='outline' className='w-full'>
-              {selectedFavorite}
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className='w-56'>
-            <DropdownMenuLabel>목소리 선택</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuRadioGroup
-              value={selectedFavorite}
-              onValueChange={setselectedFavorite}
-            >
-              <DropdownMenuRadioItem value='Wimon'>Wimon</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='원준'>원준</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='James'>James</DropdownMenuRadioItem>
-            </DropdownMenuRadioGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+      {/* 즐겨찾기 Dropdown */}
+      <DropdownSelector
+        label='즐겨찾기'
+        value={selectedFavorite}
+        onChange={setSelectedFavorite}
+        options={['Wimon', '원준', 'James']}
+      />
 
-      <div>
-        <label className='block mb-1 text-sm font-medium text-gray-700'>
-          보이스 옵션
-        </label>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='outline' className='w-full'>
-              {selectedVoice}
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className='w-56'>
-            <DropdownMenuLabel>목소리 선택</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {/* 단일 선택을 위한 RadioGroup */}
-            <DropdownMenuRadioGroup
-              value={selectedVoice}
-              onValueChange={setSelectedVoice}
-            >
-              <DropdownMenuRadioItem value='Wimon'>Wimon</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='원준'>원준</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='James'>James</DropdownMenuRadioItem>
-            </DropdownMenuRadioGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+      {/* 보이스 옵션 Dropdown */}
+      <DropdownSelector
+        label='보이스 옵션'
+        value={selectedVoice}
+        onChange={setSelectedVoice}
+        options={['Wimon', '원준', 'James']}
+      />
+
+      {/*slider */}
+      {sliders.map((slider) => {
+        const [value, setValue] = slider.setValue;
+        return (
+          <SliderControl
+            key={slider.id}
+            label={slider.label}
+            value={value}
+            onChange={(v) => setValue(v[0])}
+          />
+        );
+      })}
     </div>
   );
 };

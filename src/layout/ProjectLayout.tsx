@@ -6,7 +6,22 @@ import { Button } from '@/components/ui/button';
 import EditContent from '@/components/sidebar/sidebarContent/EditContent';
 
 const FileContent = () => {
-  return <Button>텍스트 파일추가</Button>;
+  return (
+    <div className='flex flex-col h-full'>
+      <div className='flex-1 w-full'>
+        <Button className='w-full'>텍스트 파일추가</Button>
+      </div>
+
+      <div className='flex items-center justify-between gap-1 '>
+        <Button className='flex-1' variant='default'>
+          생성하기
+        </Button>
+        <Button variant='ghost' size='icon' aria-label='도움말'>
+          <CircleHelp />
+        </Button>
+      </div>
+    </div>
+  );
 };
 
 const ProjectLayout = () => {
@@ -103,16 +118,6 @@ const ProjectLayout = () => {
 
           {/* 탭별 콘텐츠 */}
           {activeTab === 'file' ? <FileContent /> : <EditContent />}
-
-          {/* 생성하기 버튼 및 물음표 아이콘 */}
-          <div className='flex items-center justify-between gap-2 mt-auto'>
-            <Button className='flex-1' variant='default'>
-              생성하기
-            </Button>
-            <Button variant='ghost' size='icon' aria-label='도움말'>
-              <CircleHelp />
-            </Button>
-          </div>
         </aside>
       </div>
 
