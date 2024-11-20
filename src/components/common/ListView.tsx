@@ -37,7 +37,10 @@ const ListView = ({ option = 'list', data }: Omit<IListViewProps, 'navi'>) => {
 };
 
 const List = ({ data, navi }: IListViewProps) => {
-  const [items, setItems] = useState<IProjectProps[]>(data || []);
+  const [items, setItems] = useState<IProjectProps[]>(() => {
+    const initialData = data || [];
+    return initialData.map((item) => ({ ...item, checked: false }));
+  });
   const [masterChecked, setMasterChecked] = useState<boolean>(false);
   const { checkedList, handleCheckedList } = useChecked();
 
@@ -130,8 +133,8 @@ const List = ({ data, navi }: IListViewProps) => {
 };
 
 const Tile = ({ data, navi }: IListViewProps) => {
-  const onTest = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
+  const onTest = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+    // 체크박스 클릭 동작
   };
   return (
     <div>
@@ -147,7 +150,12 @@ const Tile = ({ data, navi }: IListViewProps) => {
             >
               <Checkbox
                 className='relative z-0 hover:bg-neutral-100'
-                onClick={onTest}
+                onClick={(
+                  e: React.MouseEvent<HTMLInputElement, MouseEvent>
+                ) => {
+                  e.stopPropagation();
+                  onTest(e);
+                }}
               />
               <div className='content-center h-40 text-center'>썸네일</div>
               <div>{item.name}</div>
