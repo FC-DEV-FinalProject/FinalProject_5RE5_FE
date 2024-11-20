@@ -12,14 +12,14 @@ import { ROUTES } from '@/constants/route';
 import useChecked from '@/hooks/useChecked';
 import { IProjectProps } from '@/types/project';
 import { SquareArrowOutUpRightIcon } from 'lucide-react';
-import { MouseEvent, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 export type ViewOptionType = 'tile' | 'list';
 
 export interface IListViewProps {
   option?: ViewOptionType;
-  data: IProjectProps[];
+  data?: IProjectProps[];
   navi: NavigateFunction;
 }
 
@@ -37,7 +37,8 @@ const ListView = ({ option = 'list', data }: Omit<IListViewProps, 'navi'>) => {
 };
 
 const List = ({ data, navi }: IListViewProps) => {
-  const [items, setItems] = useState<IProjectProps[]>(data);
+  const [items, setItems] = useState<IProjectProps[]>(data || []);
+  const [masterChecked, setMasterChecked] = useState<boolean>(false);
   const { checkedList, handleCheckedList } = useChecked();
 
   const handleCheckboxChange = (id: number): void => {
@@ -54,17 +55,21 @@ const List = ({ data, navi }: IListViewProps) => {
   };
 
   const handleSelectAll = (): void => {
-    const allChecked = items.every((item) => item.checked);
     setItems(
       items.map((item) => ({
         ...item,
-        checked: !allChecked,
+        checked: !masterChecked,
       }))
     );
-    !allChecked
+    !masterChecked
       ? handleCheckedList.addAll(items.map((item) => item.projectId))
       : handleCheckedList.removeAll();
   };
+
+  useEffect(() => {
+    const allChecked = items.every((item) => item.checked);
+    setMasterChecked(allChecked);
+  }, [items]);
 
   const onTest = () => {
     alert(`삭제요청 리스트: ${checkedList}`);
@@ -77,7 +82,7 @@ const List = ({ data, navi }: IListViewProps) => {
         <TableHeader>
           <TableRow>
             <TableHead className='w-10'>
-              <Checkbox onClick={handleSelectAll} />
+              <Checkbox onClick={handleSelectAll} checked={masterChecked} />
             </TableHead>
             <TableHead className='w-[50%]'>Name</TableHead>
             <TableHead>Last modified</TableHead>
@@ -125,22 +130,34 @@ const List = ({ data, navi }: IListViewProps) => {
 };
 
 const Tile = ({ data, navi }: IListViewProps) => {
+  const onTest = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+  };
   return (
     <div>
       <ul className='flex flex-wrap flex-1'>
-        {data.map((item, idx) => (
-          <li
-            key={item.name + idx}
-            className='p-5 m-5 w-[30%] border hover:cursor-pointer hover:scale-95 duration-100 rounded-lg z-0'
-            onClick={() => {
-              navi(ROUTES.PROJECT + ROUTES.TTS + `/${item.projectId}`);
-            }}
-          >
-            <Checkbox className='fixed z-10' />
-            <div className='content-center h-40 text-center'>썸네일</div>
-            <div>{item.name}</div>
-          </li>
-        ))}
+        {data ? (
+          data.map((item, idx) => (
+            <li
+              key={item.name + idx}
+              className='p-5 m-5 w-[30%] border hover:cursor-pointer hover:scale-95 duration-100 rounded-lg z-10'
+              onClick={() => {
+                navi(ROUTES.PROJECT + ROUTES.TTS + `/${item.projectId}`);
+              }}
+            >
+              <Checkbox
+                className='relative z-0 hover:bg-neutral-100'
+                onClick={onTest}
+              />
+              <div className='content-center h-40 text-center'>썸네일</div>
+              <div>{item.name}</div>
+            </li>
+          ))
+        ) : (
+          <div className='flex items-center justify-center h-40'>
+            <p>데이터를 불러오는 중입니다...</p>
+          </div>
+        )}
       </ul>
     </div>
   );
