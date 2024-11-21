@@ -38,12 +38,12 @@ export const useSignUpForm = () => {
 
   const handleInputChange = (name: keyof FormData, value: string) => {
     let processedValue = value;
-    
+
     if (name === 'phoneNumber') {
       processedValue = value.replace(/[^\d]/g, '');
     }
 
-    setFormData(prev => ({ ...prev, [name]: processedValue }));
+    setFormData((prev) => ({ ...prev, [name]: processedValue }));
   };
 
   const validateForm = () => {
@@ -100,7 +100,7 @@ export const useSignUpForm = () => {
       setTerms(updatedTerms);
     } else {
       // 개별 약관 동의 로직
-      const updatedTerms = terms.map(term => 
+      const updatedTerms = terms.map((term) =>
         term.termCode === termCode ? { ...term, agreed: checked } : term
       );
       setTerms(updatedTerms);
@@ -115,6 +115,6 @@ export const useSignUpForm = () => {
     setIsOpen,
     handleInputChange,
     validateForm,
-    handleTermChange
+    handleTermChange,
   };
 };
