@@ -31,7 +31,6 @@ jobs:
           SOURCE_DIR: ./dist # 빌드된 정적 파일 경로
 
       - name: Invalidate CloudFront cache
-        uses: awact/actions-cloudfront-invalidate@v1.3
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
