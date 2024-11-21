@@ -15,6 +15,7 @@ interface TextInput {
 
 const TTS = () => {
   const { projectId } = useParams<{ projectId: string }>();
+  const [projectName, setProjectName] = useState(projectId || '');
   const [textInputs, setTextInputs] = useState<TextInput[]>([{ id: 0, text: '', isSelected: false, isEditing: false }]);
   const [isAllSelected, setIsAllSelected] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -73,10 +74,18 @@ const TTS = () => {
 
   const anySelected = textInputs.some(input => input.isSelected);
 
+  const handleProjectNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setProjectName(e.target.value);
+  };
+
   return (
     <div className="container p-4 mx-auto" ref={containerRef}>
       <div className="flex items-center justify-between mb-4">
-        <h1>{projectId}</h1>
+        <Input 
+          value={projectName}
+          onChange={handleProjectNameChange}
+          className="w-1/2 text-2xl font-bold"
+        />
         <div className="flex items-center space-x-4">
           <span className="text-gray-500">{new Date().toLocaleDateString()}</span>
           <div className="flex">
@@ -105,22 +114,24 @@ const TTS = () => {
           </Button>
         </div>
         <div className="flex items-center justify-between mb-4">
-          <Select>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="성우이름" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="option1">성우 1</SelectItem>
-              <SelectItem value="option2">성우 2</SelectItem>
-              <SelectItem value="option3">성우 3</SelectItem>
-            </SelectContent>
-          </Select>
-          <Button variant="secondary">효과 라디오</Button>
+          <div className="flex">
+            <Select>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="성우이름" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="option1">성우 1</SelectItem>
+                <SelectItem value="option2">성우 2</SelectItem>
+                <SelectItem value="option3">성우 3</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button variant="secondary" className="ml-2">효과 라디오</Button>
+          </div>
           <div className="flex justify-between">
             <Button variant="secondary" className="mr-1">음량</Button>
             <Button variant="secondary" className="mr-1">속도</Button>
             <Button variant="secondary" className="mr-1">높이</Button>
-            <Button variant="secondary">초기화</Button>
+            <Button variant="secondary" className="mr-1">초기화</Button>
             <Button>
               <Repeat2 />재생성
             </Button>
