@@ -38,12 +38,12 @@ export const useSignUpForm = () => {
 
   const handleInputChange = (name: keyof FormData, value: string) => {
     let processedValue = value;
-    
+
     if (name === 'phoneNumber') {
       processedValue = value.replace(/[^\d]/g, '');
     }
 
-    setFormData(prev => ({ ...prev, [name]: processedValue }));
+    setFormData((prev) => ({ ...prev, [name]: processedValue }));
   };
 
   const validateForm = () => {
@@ -78,12 +78,12 @@ export const useSignUpForm = () => {
     if (!formData.detailAddress) {
       newErrors.detailAddress = ERROR_MESSAGES.detailAddress;
     }
-    const requiredTerms = terms.filter(term => term.chkTerm);
-    const allRequiredTermsChecked = requiredTerms.every(term => document.getElementById(term.termCode) as HTMLInputElement)?.checked;
-    
-    if (!allRequiredTermsChecked) {
-      newErrors.terms = ERROR_MESSAGES.terms;
-    }
+    // const requiredTerms = terms.filter(term => term.chkTerm);
+    // const allRequiredTermsChecked = requiredTerms.every(term => document.getElementById(term.termCode) as HTMLInputElement)?.checked;
+
+    // if (!allRequiredTermsChecked) {
+    //   newErrors.terms = ERROR_MESSAGES.terms;
+    // }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -92,11 +92,11 @@ export const useSignUpForm = () => {
   const handleTermChange = (termCode: string, checked: boolean) => {
     if (termCode === 'all') {
       // 전체 동의 로직
-      const updatedTerms = terms.map(term => ({ ...term, agreed: checked }));
+      const updatedTerms = terms.map((term) => ({ ...term, agreed: checked }));
       setTerms(updatedTerms);
     } else {
       // 개별 약관 동의 로직
-      const updatedTerms = terms.map(term => 
+      const updatedTerms = terms.map((term) =>
         term.termCode === termCode ? { ...term, agreed: checked } : term
       );
       setTerms(updatedTerms);
@@ -111,6 +111,6 @@ export const useSignUpForm = () => {
     setIsOpen,
     handleInputChange,
     validateForm,
-    handleTermChange
+    handleTermChange,
   };
 };
