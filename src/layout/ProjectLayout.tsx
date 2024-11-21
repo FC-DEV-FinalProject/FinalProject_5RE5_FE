@@ -1,11 +1,34 @@
 import { Outlet, Link, useParams } from 'react-router-dom';
 import { useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, CircleHelp } from 'lucide-react';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { Button } from '@/components/ui/button';
+import EditContent from '@/components/sidebar/sidebarContent/EditContent';
+
+const FileContent = () => {
+  return (
+    <div className='flex flex-col h-full'>
+      <div className='flex-1 w-full'>
+        <Button className='w-full'>텍스트 파일추가</Button>
+      </div>
+
+      <div className='flex items-center justify-between gap-1 '>
+        <Button className='flex-1' variant='default'>
+          생성하기
+        </Button>
+        <Button variant='ghost' size='icon' aria-label='도움말'>
+          <CircleHelp />
+        </Button>
+      </div>
+    </div>
+  );
+};
 
 const ProjectLayout = () => {
   // Footer 상태 관리 (열림/닫힘 여부)
   const [isFooterExpanded, setIsFooterExpanded] = useState(false);
+
+  const [activeTab, setActiveTab] = useState<'file' | 'edit'>('file');
 
   // 현재 URL에서 projectId 가져오기
   const { projectId } = useParams();
@@ -75,33 +98,26 @@ const ProjectLayout = () => {
         </main>
 
         {/* 우측 사이드바 */}
-        <aside className='p-4 bg-gray-200 w-[280px]'>
-          <ul>
-            <li className='mb-2'>
-              <Link
-                to={`tts/${projectId || 'project1'}`}
-                className='hover:underline'
-              >
-                Link 4
-              </Link>
-            </li>
-            <li className='mb-2'>
-              <Link
-                to={`vc/${projectId || 'project1'}`}
-                className='hover:underline'
-              >
-                Link 5
-              </Link>
-            </li>
-            <li>
-              <Link
-                to={`concat/${projectId || 'project1'}`}
-                className='hover:underline'
-              >
-                Link 6
-              </Link>
-            </li>
-          </ul>
+        <aside className='p-4 bg-gray-200 w-[280px] flex flex-col'>
+          <div className='flex gap-4 mb-4'>
+            <Button
+              variant={activeTab === 'file' ? 'default' : 'outline'}
+              size='sm'
+              onClick={() => setActiveTab('file')}
+            >
+              File
+            </Button>
+            <Button
+              variant={activeTab === 'edit' ? 'default' : 'outline'}
+              size='sm'
+              onClick={() => setActiveTab('edit')}
+            >
+              Edit
+            </Button>
+          </div>
+
+          {/* 탭별 콘텐츠 */}
+          {activeTab === 'file' ? <FileContent /> : <EditContent />}
         </aside>
       </div>
 
