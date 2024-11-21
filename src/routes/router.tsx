@@ -1,26 +1,22 @@
-import ErrorBoundary from '@/components/errorPageComponent/errorBoundary';
-import NotFound from '@/components/errorPageComponent/notFound';
-import HomeLayout from '@/layout/HomeLayout';
-import Layout from '@/layout/Layout';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import ProjectLayout from '@/layout/ProjectLayout';
 import Concat from '@/pages/Concat';
+import TTS from '@/pages/TTS';
+import VC from '@/pages/VC';
+import ProtectedRoute from '@/routes/ProtectedRoute';
+import HomeLayout from '@/layout/HomeLayout';
+import Layout from '@/layout/Layout';
 import Home from '@/pages/Home';
 import MyProject from '@/pages/MyProject';
 import Profile from '@/pages/Profile';
 import ResetPassword from '@/pages/ResetPassword';
 import SignIn from '@/pages/SignIn';
 import SignUp from '@/pages/SignUp';
-import TTS from '@/pages/TTS';
-import VC from '@/pages/VC';
-import ProtectedRoute from '@/routes/ProtectedRoute';
+import ErrorBoundary from '@/components/errorPageComponent/errorBoundary';
+import NotFound from '@/components/errorPageComponent/notFound';
 import PublicRoute from '@/routes/PublicRoute';
-import { createBrowserRouter } from 'react-router-dom';
 
 const isAuthenticated = true; // 실제 로그인 상태를 가져오는 로직으로 대체
-
-// import { useAuthStore } from '@/stores/authStore';
-
-// const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
 export const router = createBrowserRouter([
   // 홈 레이아웃
@@ -64,12 +60,17 @@ export const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: 'project/:selectedMenu/:projectId', // selectedMenu와 projectId 모두 명시적으로 지정
+        path: 'project',
         element: <ProjectLayout />, // 프로젝트 전용 레이아웃
         children: [
-          { path: 'tts/:projectId', element: <TTS /> },
-          { path: 'vc/:projectId', element: <VC /> },
-          { path: 'concat/:projectId', element: <Concat /> },
+          // 프로젝트 기본 페이지: `/project`로 접근 시 기본적으로 리디렉션하거나 안내 페이지 제공
+          {
+            index: true,
+            element: <TTS />,
+          },
+          { path: ':selectedMenu/:projectId', element: <TTS /> },
+          { path: ':selectedMenu/:projectId', element: <VC /> },
+          { path: ':selectedMenu/:projectId', element: <Concat /> },
         ],
       },
     ],

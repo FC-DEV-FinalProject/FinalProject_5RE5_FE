@@ -1,21 +1,18 @@
-import { Outlet, Link, useParams } from 'react-router-dom';
-import { useState } from 'react';
-import { ChevronDown, ChevronUp, CircleHelp } from 'lucide-react';
-import { useHotkeys } from 'react-hotkeys-hook';
-import { Button } from '@/components/ui/button';
-import EditContent from '@/components/sidebar/sidebarContent/EditContent';
+import ConcatSidebar from '@/components/sidebar/ConcatSidebar';
 import TTSSidebar from '@/components/sidebar/TTSSidebar';
 import VCSidebar from '@/components/sidebar/VCSidebar';
-import ConcatSidebar from '@/components/sidebar/ConcatSidebar';
+import { ChevronDown, ChevronUp } from 'lucide-react';
+import { useState } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
+import { Link, useParams } from 'react-router-dom';
+import TTS from '@/pages/TTS';
+import VC from '@/pages/VC';
+import Concat from '@/pages/Concat';
 
 const ProjectLayout = () => {
   // Footer 상태 관리 (열림/닫힘 여부)
   const [isFooterExpanded, setIsFooterExpanded] = useState(false);
-
-  const [activeTab, setActiveTab] = useState<'file' | 'edit'>('file');
-
-  // 현재 URL에서 projectId 가져오기
-  const { projectId, selectedMenu } = useParams();
+  const { selectedMenu, projectId } = useParams();
 
   // Footer 토글 함수
   const toggleFooter = () => {
@@ -27,6 +24,27 @@ const ProjectLayout = () => {
     event.preventDefault();
     alert('저장?');
   });
+
+  // 컴포넌트를 조건부로 렌더링
+  let ContentComponent;
+  let SidebarComponent;
+
+  switch (selectedMenu) {
+    case 'tts':
+      ContentComponent = <TTS />;
+      SidebarComponent = <TTSSidebar />;
+      break;
+    case 'vc':
+      ContentComponent = <VC />;
+      SidebarComponent = <VCSidebar />;
+      break;
+    case 'concat':
+      ContentComponent = <Concat />;
+      SidebarComponent = <ConcatSidebar />;
+      break;
+    default:
+      ContentComponent = <div>잘못된 경로입니다.</div>;
+  }
 
   return (
     <div className='flex flex-col h-screen'>
@@ -84,14 +102,12 @@ const ProjectLayout = () => {
 
         {/* 메인 콘텐츠 */}
         <main className='flex-1 p-4 overflow-auto bg-white'>
-          <Outlet />
+          {ContentComponent}
         </main>
 
         {/* 우측 사이드바 */}
         <aside className='p-4 bg-gray-200 w-[280px] flex flex-col'>
-          {selectedMenu === 'tts' && <TTSSidebar />}
-          {selectedMenu === 'vc' && <VCSidebar />}
-          {selectedMenu === 'concat' && <ConcatSidebar />}
+          {SidebarComponent}
         </aside>
       </div>
 
