@@ -24,17 +24,29 @@ jobs:
         with:
           args: --delete
         env:
-          AWS_S3_BUCKET: <5re5park-s3-frontend> # S3 버킷 이름
+          AWS_S3_BUCKET: 5re5park-s3-frontend # S3 버킷 이름
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: <ap-northeast-2> # 예: us-east-1
+          AWS_REGION: ap-northeast-2 # 예: us-east-1
           SOURCE_DIR: ./dist # 빌드된 정적 파일 경로
 
       - name: Invalidate CloudFront cache
         uses: awact/actions-cloudfront-invalidate@v1.3
         with:
-          distribution-id: <E1QWPYGDMFJRID>
+          distribution-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
           paths: '/*'
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+
+
+- name: Invalidate CloudFront Cache
+  run: |
+    aws cloudfront create-invalidation \
+      --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+      --paths "/*"
+  env:
+    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    AWS_REGION: us-east-1
