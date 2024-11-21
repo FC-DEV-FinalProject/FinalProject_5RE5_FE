@@ -38,15 +38,4 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-
-
-- name: Invalidate CloudFront Cache
-  run: |
-    aws cloudfront create-invalidation \
-      --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
-      --paths "/*"
-  env:
-    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    AWS_REGION: us-east-1
+# 이거 진짜로 되는걸까
