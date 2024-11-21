@@ -31,7 +31,7 @@ const ProjectLayout = () => {
   const [activeTab, setActiveTab] = useState<'file' | 'edit'>('file');
 
   // 현재 URL에서 projectId 가져오기
-  const { projectId } = useParams();
+  const { projectId, selectedMenu } = useParams();
 
   // Footer 토글 함수
   const toggleFooter = () => {
