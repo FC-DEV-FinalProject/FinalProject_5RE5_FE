@@ -1,5 +1,5 @@
 import { TTSState } from "@/types/tts";
-import { Checkbox } from "@/components/ui/checkbox";
+import { CustomCheckbox } from "@/components/common/CustomCheckbox";
 import { Input } from "@/components/ui/input";
 
 interface TextInputListProps {
@@ -22,7 +22,7 @@ export const TextInputList: React.FC<TextInputListProps> = ({
           key={input.id} 
           className="flex items-center mb-2 space-x-2"
         >
-          <Checkbox
+          <CustomCheckbox
             id={`input-${input.id}`}
             checked={input.isSelected}
             onCheckedChange={() => toggleSelection(input.id)}

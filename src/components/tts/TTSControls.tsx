@@ -2,12 +2,15 @@ import { TTSState } from "@/types/tts";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Repeat2 } from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
+import { CustomCheckbox } from "@/components/common/CustomCheckbox";
 
 interface TTSControlsProps {
   state: TTSState;
   toggleAllSelection: () => void;
   deleteSelectedInputs: () => void;
+  addTextInput: () => void;
+  saveInput: () => void;
+  cancelEdit: () => void;
 }
 
 export const TTSControls: React.FC<TTSControlsProps> = ({
@@ -22,7 +25,7 @@ export const TTSControls: React.FC<TTSControlsProps> = ({
       <div>
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
-            <Checkbox
+            <CustomCheckbox
               id="select-all"
               checked={state.isAllSelected}
               onCheckedChange={toggleAllSelection}
@@ -38,7 +41,6 @@ export const TTSControls: React.FC<TTSControlsProps> = ({
           </Button>
         </div>
 
-        {/* Voice and Audio Controls */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex">
             <Select>
@@ -64,17 +66,6 @@ export const TTSControls: React.FC<TTSControlsProps> = ({
           </div>
         </div>
       </div>
-
-      {/* <div className="text-center">
-        {state.editingId !== null ? (
-          <>
-            <Button onClick={saveInput} className="mr-1">저장</Button>
-            <Button onClick={cancelEdit}>취소</Button>
-          </>
-        ) : (
-          <Button onClick={addTextInput}>+ 텍스트 추가</Button>
-        )}
-      </div> */}
     </>
   );
 };
