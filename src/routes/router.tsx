@@ -64,10 +64,10 @@ export const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: 'project',
+        path: 'project/:selectedMenu/:projectId', // selectedMenu와 projectId 모두 명시적으로 지정
         element: <ProjectLayout />, // 프로젝트 전용 레이아웃
         children: [
-          { index: true, path: 'tts/:projectId', element: <TTS /> },
+          { path: 'tts/:projectId', element: <TTS /> },
           { path: 'vc/:projectId', element: <VC /> },
           { path: 'concat/:projectId', element: <Concat /> },
         ],
