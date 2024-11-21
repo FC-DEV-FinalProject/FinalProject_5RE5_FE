@@ -20,6 +20,7 @@ const buttonVariants = cva(
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
         active: 'text-sky-500 hover:bg-accent',
+        // sideActive:'text'
       },
       size: {
         default: 'h-9 px-4 py-2',
