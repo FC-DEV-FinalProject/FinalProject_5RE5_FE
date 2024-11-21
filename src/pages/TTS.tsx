@@ -117,9 +117,9 @@ const TTS = () => {
           </Select>
           <Button variant="secondary">효과 라디오</Button>
           <div className="flex justify-between">
-            <Button variant="secondary">음량</Button>
-            <Button variant="secondary">속도</Button>
-            <Button variant="secondary">높이</Button>
+            <Button variant="secondary" className="mr-1">음량</Button>
+            <Button variant="secondary" className="mr-1">속도</Button>
+            <Button variant="secondary" className="mr-1">높이</Button>
             <Button variant="secondary">초기화</Button>
             <Button>
               <Repeat2 />재생성
