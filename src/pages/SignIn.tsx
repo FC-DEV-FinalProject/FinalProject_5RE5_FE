@@ -18,18 +18,23 @@ const SignIn = () => {
   const onSubmit: SubmitHandler<ILoginFormInput> = (data) => console.log(data);
 
   return (
-    <div className='flex items-center justify-center h-screen'>
-      <div className='w-1/3 pb-28'>
-        <h1 className='mb-5 text-5xl font-bold text-center'>
-          <Link to='/'>AIPARK</Link>
+    <div className='flex login-wrap'>
+      <div className='w-[53%] bg-[#D6EEFE]'>
+        <h1 className='mt-[40px]'>
+          <Link to='/'>
+            <img src='./src/assets/logo.png' alt='' />
+          </Link>
         </h1>
 
+        <p>내가 적은 시나리오</p>
+        <p>AI 오디오로 생성해줘</p>
+      </div>
+
+      <div className='w-[47%]'>
+        <p>시작하기</p>
         <div>
-          <form
-            className='flex flex-col items-center justify-center'
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <div className='w-2/3 mb-2'>
+          <form className='' onSubmit={handleSubmit(onSubmit)}>
+            <div>
               <Input
                 {...register('id', {
                   required: '아이디를 입력하세요.',
@@ -39,9 +44,7 @@ const SignIn = () => {
               {errors.id && (
                 <p className='mt-1 text-sm text-error'>{errors.id.message}</p>
               )}
-            </div>
 
-            <div className='w-2/3 mb-4'>
               <Input
                 {...register('password', {
                   required: '비밀번호를 입력하세요.',
@@ -57,7 +60,7 @@ const SignIn = () => {
               )}
             </div>
 
-            <div className='flex items-center justify-start w-2/3 gap-2 mb-4'>
+            <div className=''>
               <Checkbox
                 id='keep-login'
                 aria-label='로그인 상태 유지'
@@ -74,23 +77,21 @@ const SignIn = () => {
               </span>
             </div>
 
-            <Button type='submit' className='w-2/3'>
-              로그인
-            </Button>
+            <Button type='submit'>로그인</Button>
           </form>
-
-          <ul className='flex items-center justify-between w-2/3 gap-2 m-auto mt-5 text-sm'>
-            <li className="relative after:content-['|'] after:absolute after:top-[-1px] after:right-[-34px]">
-              <Link to='/reset-password'>비밀번호 찾기</Link>
-            </li>
-            <li className="relative after:content-['|'] after:absolute after:top-[-1px] after:right-[-34px]">
-              <Link to=''>아이디 찾기</Link>
-            </li>
-            <li className=''>
-              <Link to='/signUp'>회원가입</Link>
-            </li>
-          </ul>
         </div>
+
+        <ul className=''>
+          <li className=''>
+            <Link to='/reset-password'>비밀번호 찾기</Link>
+          </li>
+          <li className=''>
+            <Link to=''>아이디 찾기</Link>
+          </li>
+          <li className=''>
+            <Link to='/signup'>회원가입</Link>
+          </li>
+        </ul>
       </div>
     </div>
   );
