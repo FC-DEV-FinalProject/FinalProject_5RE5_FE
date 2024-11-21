@@ -15,7 +15,16 @@ const SignIn = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<ILoginFormInput>();
-  const onSubmit: SubmitHandler<ILoginFormInput> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<ILoginFormInput> = async (data) => {
+    console.log(data);
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: data.id, password: data.password }),
+    });
+
+    console.log(response);
+  };
 
   return (
     <div className='flex items-center justify-center h-screen'>

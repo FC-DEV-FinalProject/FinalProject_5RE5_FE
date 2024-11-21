@@ -48,6 +48,7 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^15.11.0",
+    "msw": "^2.6.5",
     "postcss": "^8.4.47",
     "prettier": "^3.3.3",
     "tailwindcss": "^3.4.14",
@@ -59,5 +60,10 @@
     "@rollup/rollup-darwin-x64": "^4.26.0",
     "@rollup/rollup-linux-x64-gnu": "^4.26.0",
     "@rollup/rollup-win32-x64-msvc": "^4.26.0"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }
