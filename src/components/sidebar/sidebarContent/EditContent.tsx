@@ -7,20 +7,45 @@ import { Button } from '@/components/ui/button';
 const EditContent = () => {
   const [selectedFavorite, setSelectedFavorite] = useState('성우 이름');
   const [selectedVoice, setSelectedVoice] = useState('성우 이름');
+  const [isPreviewLoading, setIsPreviewLoading] = useState(false);
+  const [isApplyLoading, setIsApplyLoading] = useState(false);
 
-  // 슬라이더 데이터 배열
-  const sliders = [
-    { id: 'speed', label: '속도', value: 0, setValue: useState(0) },
-    { id: 'height', label: '높이', value: 0, setValue: useState(0) },
-    {
-      id: 'endProcessing',
-      label: '끝음 처리',
-      value: 0,
-      setValue: useState(0),
-    },
-    { id: 'endLength', label: '끝음 길이', value: 0, setValue: useState(0) },
-    { id: 'volume', label: '볼륨 조절', value: 0, setValue: useState(0) },
-  ];
+  const [sliders, setSliders] = useState({
+    speed: 0,
+    height: 0,
+    endProcessing: 0,
+    endLength: 0,
+    volume: 0,
+  });
+
+  const handleSliderChange = (id: string, value: number) => {
+    setSliders((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+
+  const handlePreview = async () => {
+    try {
+      setIsPreviewLoading(true);
+      // 미리 듣기 로직 구현
+    } catch (error) {
+      console.error('미리 듣기 실패:', error);
+    } finally {
+      setIsPreviewLoading(false);
+    }
+  };
+
+  const handleApply = async () => {
+    try {
+      setIsApplyLoading(true);
+      // 전체 적용 로직 구현
+    } catch (error) {
+      console.error('전체 적용 실패:', error);
+    } finally {
+      setIsApplyLoading(false);
+    }
+  };
 
   return (
     <div className='flex flex-col w-full h-full gap-4 p-4 bg-gray-100 rounded shadow'>
@@ -43,23 +68,32 @@ const EditContent = () => {
         />
 
         {/* 슬라이더 */}
-        {sliders.map((slider) => {
-          const [value, setValue] = slider.setValue;
-          return (
-            <SliderControl
-              key={slider.id}
-              label={slider.label}
-              value={value}
-              onChange={(v) => setValue(v[0])}
-            />
-          );
-        })}
+        {Object.entries(sliders).map(([id, value]) => (
+          <SliderControl
+            key={id}
+            label={id}
+            value={value}
+            onChange={(v) => handleSliderChange(id, v[0])}
+          />
+        ))}
       </div>
 
       {/* 하단 버튼 */}
       <div className='flex flex-col gap-4'>
-        <Button className='w-full text-white bg-black'>미리 듣기</Button>
-        <Button className='w-full text-white bg-black'>전체 적용하기</Button>
+        <Button
+          className='w-full text-white bg-black'
+          onClick={handlePreview}
+          disabled={isPreviewLoading}
+        >
+          미리 듣기
+        </Button>
+        <Button
+          className='w-full text-white bg-black'
+          onClick={handleApply}
+          disabled={isApplyLoading}
+        >
+          {isApplyLoading ? '처리중...' : '전체 적용하기'}
+        </Button>
       </div>
     </div>
   );
