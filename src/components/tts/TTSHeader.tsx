@@ -15,6 +15,7 @@ export const TTSHeader: React.FC<TTSHeaderProps> = ({
       <Input
         value={projectName}
         onChange={onProjectNameChange}
+        maxLength={50}
         className="w-1/2 text-2xl font-bold"
       />
       <div className="flex items-center space-x-4">
