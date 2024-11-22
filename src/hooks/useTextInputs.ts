@@ -23,6 +23,9 @@ export const useTextInputs = () => {
   };
 
   const handleTextChange = (id: number, newText: string) => {
+    if (newText.length > 1000) return;
+    if (!/^[가-힣a-zA-Z0-9\s.,!?]*$/.test(newText)) return;
+    
     setState(prev => ({
       ...prev,
       textInputs: prev.textInputs.map(input => 
