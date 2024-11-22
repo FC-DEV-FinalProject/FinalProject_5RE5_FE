@@ -79,7 +79,6 @@ export const useSignUpForm = () => {
       newErrors.detailAddress = ERROR_MESSAGES.detailAddress;
     }
     const requiredTerms = terms.filter(term => term.chkTerm);
-    // const allRequiredTermsChecked = requiredTerms.every(term => document.getElementById(term.termCode) as HTMLInputElement)?.checked;
     const allRequiredTermsChecked = requiredTerms.every(term => {
       const element = document.getElementById(term.termCode);
       return element instanceof HTMLInputElement ? element.checked : false;
