@@ -21,7 +21,7 @@ const TTS: React.FC = () => {
     toggleAllSelection,
     deleteSelectedInputs,
     saveInput,
-    cancelEdit
+    cancelEdit,
   } = useTextInputs();
 
   useOutsideClick(containerRef, () => {
@@ -35,7 +35,7 @@ const TTS: React.FC = () => {
   };
 
   return (
-    <div className="container p-4 mx-auto" ref={containerRef}>
+    <div className='container p-4 mx-auto' ref={containerRef}>
       <TTSHeader
         projectName={projectName}
         onProjectNameChange={handleProjectNameChange}
@@ -57,10 +57,12 @@ const TTS: React.FC = () => {
         cancelEdit={cancelEdit}
       />
 
-      <div className="mt-4 text-center">
+      <div className='mt-4 text-center'>
         {state.editingId !== null ? (
           <>
-            <Button onClick={saveInput} className="mr-1">저장</Button>
+            <Button onClick={saveInput} className='mr-1'>
+              저장
+            </Button>
             <Button onClick={cancelEdit}>취소</Button>
           </>
         ) : (

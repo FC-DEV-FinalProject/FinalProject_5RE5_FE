@@ -1,22 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import EditContent from '@/components/sidebar/sidebarContent/EditContent';
-
-const FileContent = () => {
-  return (
-    <div className='flex flex-col h-full'>
-      <div className='flex-1 w-full'>
-        <Button className='w-full'>텍스트 파일추가</Button>
-      </div>
-
-      <div className='flex items-center justify-between gap-1'>
-        <Button className='flex-1' variant='default'>
-          생성하기
-        </Button>
-      </div>
-    </div>
-  );
-};
+import { FileContent } from '@/components/sidebar/sidebarContent/FileContet';
 
 const TTSSidebar = () => {
   const [activeTab, setActiveTab] = useState<'file' | 'edit'>('file');
