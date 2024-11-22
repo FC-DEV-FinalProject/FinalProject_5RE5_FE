@@ -78,12 +78,15 @@ export const useSignUpForm = () => {
     if (!formData.detailAddress) {
       newErrors.detailAddress = ERROR_MESSAGES.detailAddress;
     }
-    // const requiredTerms = terms.filter(term => term.chkTerm);
-    // const allRequiredTermsChecked = requiredTerms.every(term => document.getElementById(term.termCode) as HTMLInputElement)?.checked;
-
-    // if (!allRequiredTermsChecked) {
-    //   newErrors.terms = ERROR_MESSAGES.terms;
-    // }
+    const requiredTerms = terms.filter(term => term.chkTerm);
+    const allRequiredTermsChecked = requiredTerms.every(term => {
+      const element = document.getElementById(term.termCode);
+      return element instanceof HTMLInputElement ? element.checked : false;
+    });
+    
+    if (!allRequiredTermsChecked) {
+      newErrors.terms = ERROR_MESSAGES.terms;
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -91,8 +94,8 @@ export const useSignUpForm = () => {
 
   const handleTermChange = (termCode: string, checked: boolean) => {
     if (termCode === 'all') {
-      // 전체 동의 로직
-      const updatedTerms = terms.map((term) => ({ ...term, agreed: checked }));
+      // 전체 동의
+      const updatedTerms = terms.map(term => ({ ...term, agreed: checked }));
       setTerms(updatedTerms);
     } else {
       // 개별 약관 동의 로직
