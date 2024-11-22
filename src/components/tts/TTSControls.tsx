@@ -8,9 +8,6 @@ interface TTSControlsProps {
   state: TTSState;
   toggleAllSelection: () => void;
   deleteSelectedInputs: () => void;
-  addTextInput: () => void;
-  saveInput: () => void;
-  cancelEdit: () => void;
 }
 
 export const TTSControls: React.FC<TTSControlsProps> = ({
