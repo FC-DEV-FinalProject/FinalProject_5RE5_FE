@@ -4,10 +4,14 @@ export const SliderControl = ({
   label,
   value,
   onChange,
+  min,
+  max,
 }: {
   label: string;
   value: number;
   onChange: (value: number[]) => void;
+  min: number;
+  max: number;
 }) => {
   return (
     <div className='flex flex-col items-start w-full gap-2'>
@@ -18,12 +22,13 @@ export const SliderControl = ({
         <Slider
           value={[value]}
           onValueChange={(v) => onChange(v)}
-          max={100}
-          min={-100}
+          max={max}
+          min={min}
+          step={0.1} // 소수점 조정을 위한 step 추가
           className='flex-1'
         />
         <span className='text-sm font-medium text-gray-700'>
-          {value ? value : '없음'}
+          {value ? value.toFixed(2) : '기본'}
         </span>
       </div>
     </div>
