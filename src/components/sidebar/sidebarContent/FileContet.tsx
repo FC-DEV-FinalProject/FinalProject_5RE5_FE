@@ -1,12 +1,13 @@
 import { Button } from '@/components/ui/button';
-import { useTextInputs } from '@/hooks/useTextInputs';
+import { useTextInputs } from '@/stores/textInputStore';
 import { useEffect } from 'react';
+
 export const FileContent = () => {
-  const { state, addTextInputs } = useTextInputs();
+  const { textInputs, addTextInputs } = useTextInputs(); // zustand 상태 사용
 
   useEffect(() => {
-    console.log('업데이트된 상태:', state.textInputs);
-  }, [state.textInputs]); // 상태 변경 시 실행
+    console.log('업데이트된 상태:', textInputs);
+  }, [textInputs]); // 상태 변경 시 실행
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -17,7 +18,7 @@ export const FileContent = () => {
         const sentences = text
           .split(/[.!?]/)
           .filter((sentence) => sentence.trim());
-        addTextInputs(sentences);
+        addTextInputs(sentences); // zustand 상태 업데이트
       };
       reader.readAsText(file);
     }

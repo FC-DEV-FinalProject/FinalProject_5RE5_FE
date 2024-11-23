@@ -1,12 +1,12 @@
 import React, { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useTextInputs } from '@/hooks/useTextInputs';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { TTSHeader } from '@/components/tts/TTSHeader';
 import { TTSControls } from '@/components/tts/TTSControls';
 import { TextInputList } from '@/components/tts/TextInputList';
 import { Button } from '@/components/ui/button';
+import { useTextInputs } from '@/stores/textInputStore';
 
 const TTS: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
@@ -14,7 +14,7 @@ const TTS: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const {
-    state,
+    textInputs,
     addTextInput,
     handleTextChange,
     toggleSelection,
@@ -22,10 +22,12 @@ const TTS: React.FC = () => {
     deleteSelectedInputs,
     saveInput,
     cancelEdit,
+    isAllSelected,
+    editingId,
   } = useTextInputs();
 
   useOutsideClick(containerRef, () => {
-    if (state.editingId !== null) {
+    if (textInputs.some((input) => input.isEditing)) {
       cancelEdit();
     }
   });
@@ -42,7 +44,7 @@ const TTS: React.FC = () => {
       />
 
       <TTSControls
-        state={state}
+        state={{ textInputs, editingId, isAllSelected }}
         toggleAllSelection={toggleAllSelection}
         deleteSelectedInputs={deleteSelectedInputs}
         addTextInput={addTextInput}
@@ -51,14 +53,14 @@ const TTS: React.FC = () => {
       />
 
       <TextInputList
-        state={state}
+        state={{ textInputs, isAllSelected, editingId }}
         toggleSelection={toggleSelection}
         handleTextChange={handleTextChange}
         cancelEdit={cancelEdit}
       />
 
       <div className='mt-4 text-center'>
-        {state.editingId !== null ? (
+        {textInputs.some((input) => input.isEditing) ? (
           <>
             <Button onClick={saveInput} className='mr-1'>
               저장
