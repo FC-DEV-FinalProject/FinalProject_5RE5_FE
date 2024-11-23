@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
+import axios from 'axios';
 
 interface ILoginFormInput {
   id: string;
@@ -15,7 +16,28 @@ const SignIn = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<ILoginFormInput>();
-  const onSubmit: SubmitHandler<ILoginFormInput> = (data) => console.log(data);
+
+  async function login(userId: string, password: string) {
+    try {
+      const response = await axios.post(
+        '/api/member/login',
+        {
+          userId,
+          password,
+        },
+        {
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const onSubmit: SubmitHandler<ILoginFormInput> = async (data) => {
+    login(data.id, data.password);
+  };
 
   return (
     <div className='flex login-wrap'>

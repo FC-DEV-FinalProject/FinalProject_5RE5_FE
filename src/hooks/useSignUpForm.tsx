@@ -38,12 +38,12 @@ export const useSignUpForm = () => {
 
   const handleInputChange = (name: keyof FormData, value: string) => {
     let processedValue = value;
-    
+
     if (name === 'phoneNumber') {
       processedValue = value.replace(/[^\d]/g, '');
     }
 
-    setFormData(prev => ({ ...prev, [name]: processedValue }));
+    setFormData((prev) => ({ ...prev, [name]: processedValue }));
   };
 
   const validateForm = () => {
@@ -79,7 +79,10 @@ export const useSignUpForm = () => {
       newErrors.detailAddress = ERROR_MESSAGES.detailAddress;
     }
     const requiredTerms = terms.filter(term => term.chkTerm);
-    const allRequiredTermsChecked = requiredTerms.every(term => document.getElementById(term.termCode) as HTMLInputElement)?.checked;
+    const allRequiredTermsChecked = requiredTerms.every(term => {
+      const element = document.getElementById(term.termCode);
+      return element instanceof HTMLInputElement ? element.checked : false;
+    });
     
     if (!allRequiredTermsChecked) {
       newErrors.terms = ERROR_MESSAGES.terms;
@@ -91,12 +94,12 @@ export const useSignUpForm = () => {
 
   const handleTermChange = (termCode: string, checked: boolean) => {
     if (termCode === 'all') {
-      // 전체 동의 로직
+      // 전체 동의
       const updatedTerms = terms.map(term => ({ ...term, agreed: checked }));
       setTerms(updatedTerms);
     } else {
       // 개별 약관 동의 로직
-      const updatedTerms = terms.map(term => 
+      const updatedTerms = terms.map((term) =>
         term.termCode === termCode ? { ...term, agreed: checked } : term
       );
       setTerms(updatedTerms);
@@ -111,6 +114,6 @@ export const useSignUpForm = () => {
     setIsOpen,
     handleInputChange,
     validateForm,
-    handleTermChange
+    handleTermChange,
   };
 };
