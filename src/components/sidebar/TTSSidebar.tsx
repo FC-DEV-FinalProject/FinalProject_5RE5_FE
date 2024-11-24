@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import EditContent from '@/components/sidebar/sidebarContent/EditContent';
-import { FileContent } from '@/components/sidebar/sidebarContent/FileContet';
+import { FileContent } from '@/components/sidebar/sidebarContent/FileContent';
 
 const TTSSidebar = () => {
   const [activeTab, setActiveTab] = useState<'file' | 'edit'>('file');
