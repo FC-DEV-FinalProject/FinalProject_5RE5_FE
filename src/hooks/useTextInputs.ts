@@ -37,7 +37,6 @@ export const useTextInputs = () => {
           })),
         ],
       };
-      console.log('업데이트된 상태 내부에서:', updatedState.textInputs); // 업데이트 후 확인
       return updatedState;
     });
   };

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { TTSState } from '@/types/tts'; // TTSState 인터페이스 가져오기
+import { TTSState } from '@/types/tts';
 
 interface TTSStore extends TTSState {
   addTextInput: () => void;
@@ -14,7 +14,7 @@ interface TTSStore extends TTSState {
 
 export const useTextInputs = create<TTSStore>((set) => ({
   textInputs: [
-    { id: 0, text: '', isSelected: false, isEditing: false }, // 초기값 설정
+    { id: 1, text: '', isSelected: false, isEditing: false }, // 초기값 설정
   ],
   isAllSelected: false, // 초기값 설정
   editingId: null, // 초기값 설정
