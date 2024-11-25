@@ -11,15 +11,21 @@ export const FileContent = () => {
       reader.onload = () => {
         const text = reader.result as string;
 
+        // 줄바꿈 포함하여 문장 나누기
         const lines = text.split(/\n/); // 줄바꿈으로 나눔
         const sentences = lines
-          .flatMap(
-            (line) => line.match(/[^.!?]+[.!?]?/g) || [] //매칭 결과가 없으면 빈 배열 반환
-          )
-          .filter((sentence) => sentence.trim()) // 빈 값 제거
-          .map((sentence) => sentence.trim()); // 공백 제거
+          .flatMap((line) => line.match(/[^.!?]+[.!?]?/g) || []) //문장이 없을경우 빈배열 반환
+          .filter((sentence) => sentence.trim()) //빈값제거
+          .map((sentence) => sentence.trim()); //공백제거
 
-        addTextInputs(sentences);
+        if (sentences.length > 30) {
+          alert(
+            `문장이 너무 많습니다. 최대 30개의 문장만 처리됩니다. (${sentences.length - 30}개의 문장은 무시됩니다.)`
+          );
+        }
+
+        // 최대 30개의 문장만 추가
+        addTextInputs(sentences.slice(0, 30));
       };
       reader.readAsText(file);
     }
