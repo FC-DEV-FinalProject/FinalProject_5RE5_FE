@@ -25,6 +25,7 @@ module.exports = {
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
+        aipark_primary: '#3DDC85',
         error: '#B3261E',
         green: {
           1: '#E2F9EA',
