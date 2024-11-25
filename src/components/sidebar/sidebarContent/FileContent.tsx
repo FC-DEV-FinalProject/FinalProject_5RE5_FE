@@ -11,11 +11,10 @@ export const FileContent = () => {
       reader.onload = () => {
         const text = reader.result as string;
 
-        // 줄바꿈 포함하여 문장 나누기
         const lines = text.split(/\n/); // 줄바꿈으로 나눔
         const sentences = lines
           .flatMap(
-            (line) => line.match(/[^.!?]+[.!?]?/g) || [] // null 방지: 매칭 결과가 없으면 빈 배열 반환
+            (line) => line.match(/[^.!?]+[.!?]?/g) || [] //매칭 결과가 없으면 빈 배열 반환
           )
           .filter((sentence) => sentence.trim()) // 빈 값 제거
           .map((sentence) => sentence.trim()); // 공백 제거
