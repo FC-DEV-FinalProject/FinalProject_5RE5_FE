@@ -41,7 +41,7 @@ export const TTSControls: React.FC<TTSControlsProps> = ({
           </Button>
         </div>
 
-        <div className="flex items-center justify-between mb-4">
+        {/* <div className="flex items-center justify-between mb-4">
           <div className="flex">
             <Select>
               <SelectTrigger className="w-[180px]">
@@ -64,7 +64,7 @@ export const TTSControls: React.FC<TTSControlsProps> = ({
               <Repeat2 />재생성
             </Button>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );
