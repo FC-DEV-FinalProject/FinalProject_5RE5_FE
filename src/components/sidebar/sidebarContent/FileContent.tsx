@@ -10,14 +10,21 @@ export const FileContent = () => {
       const reader = new FileReader();
       reader.onload = () => {
         const text = reader.result as string;
-        const sentences =
-          text.match(/[^.!?]+[.!?]/g)?.map((sentence) => sentence.trim()) || [];
+
+        // 줄바꿈 포함하여 문장 나누기
+        const lines = text.split(/\n/); // 줄바꿈으로 나눔
+        const sentences = lines
+          .flatMap(
+            (line) => line.match(/[^.!?]+[.!?]?/g) || [] // null 방지: 매칭 결과가 없으면 빈 배열 반환
+          )
+          .filter((sentence) => sentence.trim()) // 빈 값 제거
+          .map((sentence) => sentence.trim()); // 공백 제거
+
         addTextInputs(sentences);
       };
       reader.readAsText(file);
     }
   };
-
   return (
     <div className='flex flex-col h-full'>
       <div className='flex-1 w-full'>
