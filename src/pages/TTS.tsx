@@ -53,7 +53,7 @@ const TTS: React.FC = () => {
       />
 
       <TextInputList
-        state={{ textInputs, isAllSelected, editingId }}
+        state={{ textInputs, isAllSelected, editingId}}
         toggleSelection={toggleSelection}
         handleTextChange={handleTextChange}
         cancelEdit={cancelEdit}
