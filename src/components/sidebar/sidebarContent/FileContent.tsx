@@ -35,7 +35,7 @@ export const FileContent = () => {
       };
 
       reader.readAsText(file);
-      e.target.value = '';
+      e.target.value = ''; // 파일 입력 초기화
     }
   };
   return (
