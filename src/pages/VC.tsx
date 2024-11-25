@@ -25,11 +25,17 @@ const VC = () => {
   return (
     <div>
       <div id='commonDiv' className='flex '>
-        <Input className='mr-5' defaultValue={projectName} onChange={onType} />
+        <Input
+          className='mr-5'
+          defaultValue={projectName}
+          onChange={onType}
+          aria-label='프로젝트 이름'
+          placeholder='프로젝트 이름을 입력하세요'
+        />
         <Button className='mr-5' onClick={handleButton.save}>
           저장하기 <SaveIcon />
         </Button>
-        <Button className='mr-5'>
+        <Button className='mr-5' onClick={handleButton.download}>
           다운로드 <DownloadIcon />
         </Button>
       </div>

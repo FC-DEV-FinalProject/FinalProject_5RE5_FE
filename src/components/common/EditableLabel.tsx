@@ -12,7 +12,7 @@ const EditableLabel: React.FC<IEditableLabelProps> = ({
   onSave,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = useState(initialValue.trim());
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -27,7 +27,12 @@ const EditableLabel: React.FC<IEditableLabelProps> = ({
 
   const handleInputBlur = () => {
     setIsEditing(false);
-    onSave(value);
+    try {
+      onSave(value);
+    } catch (error) {
+      console.error('Failed to save value:', error);
+      setValue(initialValue);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,23 +43,31 @@ const EditableLabel: React.FC<IEditableLabelProps> = ({
     if (e.key === 'Enter') {
       handleInputBlur();
     }
+    if (e.key === 'Escape') {
+      setValue(initialValue); // initialvalue가 아니라 기존값 상태를 반환하도록
+      setIsEditing(false);
+    }
   };
 
   return (
-    <div>
+    <div role='group' aria-label='편집 가능한 레이블'>
       {isEditing ? (
         <>
-          <Input
+          <input
             ref={inputRef}
             type='text'
             value={value}
             onChange={handleInputChange}
             onBlur={handleInputBlur}
             onKeyDown={handleKeyDown}
+            aria-label='텍스트 편집'
+            title='Enter를 눌러 저장하거나 Escape를 눌러 취소하세요'
           />
         </>
       ) : (
-        <Label onClick={handleLabelClick}>{value}</Label>
+        <Label onClick={handleLabelClick} role='button' title='클릭하여 편집'>
+          {value}
+        </Label>
       )}
     </div>
   );
