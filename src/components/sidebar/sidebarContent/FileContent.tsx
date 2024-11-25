@@ -10,9 +10,8 @@ export const FileContent = () => {
       const reader = new FileReader();
       reader.onload = () => {
         const text = reader.result as string;
-        const sentences = text
-          .split(/[.!?]/)
-          .filter((sentence) => sentence.trim());
+        const sentences =
+          text.match(/[^.!?]+[.!?]/g)?.map((sentence) => sentence.trim()) || [];
         addTextInputs(sentences);
       };
       reader.readAsText(file);
