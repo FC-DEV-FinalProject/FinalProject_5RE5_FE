@@ -35,6 +35,7 @@ export const FileContent = () => {
       };
 
       reader.readAsText(file);
+      e.target.value = '';
     }
   };
   return (
