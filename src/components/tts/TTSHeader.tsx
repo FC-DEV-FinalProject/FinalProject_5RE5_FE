@@ -25,8 +25,8 @@ export const TTSHeader: React.FC<TTSHeaderProps> = ({
       <div className="flex items-center space-x-4">
         <span className="text-gray-500">{new Date().toLocaleDateString()}</span>
         <div className="flex">
-          <Button type="submit" className="mr-1 rounded-3xl">저장하기</Button>
-          <Button type="button" className="rounded-3xl">다운로드</Button>
+          <Button type="submit" className="mr-1 rounded-3xl bg-green-4">저장</Button>
+          <Button type="button" className="rounded-3xl bg-green-4">전체 다운로드</Button>
         </div>
       </div>
     </div>
