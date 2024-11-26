@@ -41,7 +41,7 @@ export const TextInputList: React.FC<TextInputListProps> = ({
               <Button variant="secondary" className="mr-1">음량</Button>
               <Button variant="secondary" className="mr-1">속도</Button>
               <Button variant="secondary" className="mr-1">높이</Button>
-              <Button variant="secondary" className="mr-1">초기화</Button>
+              <Button variant="ghost" className="mr-1">초기화</Button>
               <Button>
                 <Repeat2 />재생성
               </Button>
