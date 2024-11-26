@@ -57,7 +57,7 @@ export const FileContent = () => {
       </div>
 
       <div className='flex items-center justify-between gap-1'>
-        <Button className='flex-1' variant='default'>
+        <Button className='flex-1' variant='green'>
           생성하기
         </Button>
       </div>
