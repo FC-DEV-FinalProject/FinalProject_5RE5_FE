@@ -17,7 +17,7 @@ module.exports = {
         },
       },
       animation: {
-        'text-slide': 'textSlide 4s infinite',
+        'text-slide': 'textSlide 6s infinite',
       },
       borderRadius: {
         lg: 'var(--radius)',
