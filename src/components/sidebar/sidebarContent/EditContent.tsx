@@ -61,7 +61,7 @@ const EditContent = () => {
   };
 
   return (
-    <div className='flex flex-col w-full h-full gap-4 p-4 rounded '>
+    <div className='flex flex-col w-full h-full gap-4 rounded '>
       {/* 컨텐츠 영역 */}
       <div className='flex flex-col flex-1 gap-4'>
         {/* 즐겨찾기 Dropdown */}
@@ -89,8 +89,8 @@ const EditContent = () => {
                 onClick={() => handleSpeedClick(value)}
                 className={`flex-1 py-2 rounded ${
                   selectedSpeed === value
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-300 text-gray-700'
+                    ? 'border border-gray-300 bg-blue-2 text-gray-700'
+                    : 'border border-gray-300 bg-gray-100 text-gray-500 opacity-50 '
                 }`}
               >
                 {value}
