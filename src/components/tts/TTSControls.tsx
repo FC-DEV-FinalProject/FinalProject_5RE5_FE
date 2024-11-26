@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Repeat2 } from "lucide-react";
 import { CustomCheckbox } from "@/components/common/CustomCheckbox";
+// import { RoundButton } from "../common/RoundButton";
 
 interface TTSControlsProps {
   state: TTSState;
@@ -32,10 +33,11 @@ export const TTSControls: React.FC<TTSControlsProps> = ({
             />
             <label htmlFor="select-all">전체 선택</label>
           </div>
-          <Button
-            onClick={deleteSelectedInputs}
-            disabled={!anySelected}
-            variant="destructive"
+          <Button 
+            onClick={deleteSelectedInputs} 
+            disabled={!anySelected} 
+            variant="outline" 
+            className="w-24 rounded-3xl"
           >
             선택 삭제
           </Button>

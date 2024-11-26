@@ -7,7 +7,6 @@ import { TTSControls } from '@/components/tts/TTSControls';
 import { TextInputList } from '@/components/tts/TextInputList';
 import { Button } from '@/components/ui/button';
 import { useTextInputs } from '@/stores/textInputStore';
-import { RoundButton } from '@/components/common/RoundButton';
 
 const TTS: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
@@ -69,8 +68,7 @@ const TTS: React.FC = () => {
             <Button onClick={cancelEdit}>취소</Button>
           </>
         ) : (
-          // <Button onClick={addTextInput}>+ 텍스트 추가</Button>
-          <RoundButton onClick={addTextInput} variant="outline" size="lg" rounded="2xl">+ 텍스트 추가</RoundButton>
+          <Button onClick={addTextInput} variant="outline"  className="rounded-3xl w-52">+ 텍스트 추가</Button>
         )}
       </div>
     </div>
