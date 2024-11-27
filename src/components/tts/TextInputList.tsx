@@ -34,6 +34,7 @@ export const TextInputList: React.FC<TextInputListProps> = ({
 
   const [hoveredLanguage, setHoveredLanguage] = useState<string | null>(null);
   const [hoveredStyle, setHoveredStyle] = useState<string | null>(null);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   // useEffect(() => {
   //   fetch('/api/language')
@@ -56,17 +57,23 @@ export const TextInputList: React.FC<TextInputListProps> = ({
   //       .then(data => setVoices(data.response.voiceList));
   //   }
   // }, [selectedStyle]);
+
   useEffect(() => {
     if (selectedLanguage) {
-      setStyles(mockStyles[selectedLanguage as keyof typeof mockStyles]);
+      setStyles(mockStyles[selectedLanguage as keyof typeof mockStyles] || []);
     }
   }, [selectedLanguage]);
 
   useEffect(() => {
     if (selectedStyle) {
-      setVoices(mockVoices[selectedStyle as keyof typeof mockVoices]);
+      setVoices(mockVoices[selectedStyle as keyof typeof mockVoices] || []);
     }
   }, [selectedStyle]);
+
+  const handleVoiceSelect = (voiceName: string) => {
+    setSelectedVoice(voiceName);
+    setIsPopoverOpen(false);
+  };
   
 
   return (
@@ -79,14 +86,14 @@ export const TextInputList: React.FC<TextInputListProps> = ({
           <div className="mb-4">
             <div className="flex items-center justify-between">
               <div className="flex items-end mb-2 space-x-1">
-              <Popover>
+                <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen} >
                   <PopoverTrigger asChild>
-                    <Button variant="outline">언어 선택</Button>
+                    <Button variant="outline">{selectedVoice || "성우 선택"}</Button>
                   </PopoverTrigger>
                   <PopoverContent className="p-0" align="start">
                     <div className="flex">
                       <div className="border-r">
-                        {mockLanguages.map(lang => (
+                        {languages.map(lang => (
                           <div
                             key={lang.languageCode}
                             className="p-2 cursor-pointer hover:bg-gray-100"
@@ -117,7 +124,7 @@ export const TextInputList: React.FC<TextInputListProps> = ({
                             <div
                               key={voice.voiceSeq}
                               className="p-2 cursor-pointer hover:bg-gray-100"
-                              onClick={() => setSelectedVoice(voice.name)}
+                              onClick={() => handleVoiceSelect(voice.name)}
                             >
                               {voice.name}
                             </div>
@@ -127,16 +134,7 @@ export const TextInputList: React.FC<TextInputListProps> = ({
                     </div>
                   </PopoverContent>
                 </Popover>
-                {/* 선택된 값 표시 */}
-                {selectedLanguage && (
-                  <span className="ml-2">{mockLanguages.find(l => l.languageCode === selectedLanguage)?.languageName}</span>
-                )}
-                {selectedStyle && (
-                  <span className="ml-2">{mockStyles[selectedLanguage as keyof typeof mockStyles].find(s => s.name === selectedStyle)?.mood}</span>
-                )}
-                {selectedVoice && (
-                  <span className="ml-2">{selectedVoice}</span>
-                )}
+                
                 {/* <Select onValueChange={setSelectedLanguage}>
                   <SelectTrigger className="w-[95px] border-none shadow-none ml-4">
                     <SelectValue placeholder="성우 선택" />
