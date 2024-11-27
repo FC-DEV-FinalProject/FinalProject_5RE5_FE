@@ -3,19 +3,33 @@ import { Button } from '@/components/ui/button';
 import { useTextInputs } from '@/stores/textInputStore';
 import { CircularProgress } from '@/components/ui/CircularProgress';
 
+interface IFileStatus {
+  name: string;
+  status: '완료' | '오류'; // 완료 또는 오류 상태
+}
+
 export const FileContent = () => {
   const { addTextInputs } = useTextInputs();
-  const [allFiles, setAllFiles] = useState<string[]>([]); // 전체 업로드 시도된 파일 리스트
+  const [allFiles, setAllFiles] = useState<IFileStatus[]>([]); // 전체 업로드 시도된 파일 리스트
   const [uploadedFiles, setUploadedFiles] = useState<string[]>([]); // 업로드 완료된 파일 리스트
   const [uploadingCount, setUploadingCount] = useState<number>(0); // 현재 업로드 중인 파일 개수
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
-      const fileNames = Array.from(files).map((file) => file.name);
+      const fileNames = Array.from(files).map((file) => ({
+        name: file.name,
+        status: '업로드 중',
+      }));
 
       // 전체 업로드 시도된 파일 추가
-      setAllFiles((prev) => [...prev, ...fileNames]);
+      setAllFiles((prev) => [
+        ...prev,
+        ...fileNames.map((file) => ({
+          name: file.name,
+          status: '완료' as '완료', // status의 타입을 맞추기 위해 '완료'로 지정
+        })),
+      ]);
       setUploadingCount((prev) => prev + fileNames.length); // 업로드 중 파일 개수 증가
 
       Array.from(files).forEach((file) => {
@@ -38,9 +52,22 @@ export const FileContent = () => {
             // 문장 추가
             addTextInputs(sentences.slice(0, 30));
 
+            // 업로드 완료된 파일 상태 업데이트
+            setAllFiles((prev) =>
+              prev.map((item) =>
+                item.name === file.name ? { ...item, status: '완료' } : item
+              )
+            );
+
             // 업로드 완료된 파일 추가
             setUploadedFiles((prev) => [...prev, file.name]);
           } catch (error) {
+            // 파일 상태를 오류로 업데이트
+            setAllFiles((prev) =>
+              prev.map((item) =>
+                item.name === file.name ? { ...item, status: '오류' } : item
+              )
+            );
             alert('텍스트 처리 중 오류가 발생했습니다.');
           } finally {
             // 업로드 중 개수 감소
@@ -49,6 +76,12 @@ export const FileContent = () => {
         };
 
         reader.onerror = () => {
+          // 파일 상태를 오류로 업데이트
+          setAllFiles((prev) =>
+            prev.map((item) =>
+              item.name === file.name ? { ...item, status: '오류' } : item
+            )
+          );
           alert('파일을 읽을 수 없습니다.');
           // 업로드 중 개수 감소
           setUploadingCount((prev) => prev - 1);
@@ -76,6 +109,7 @@ export const FileContent = () => {
           accept='.txt'
           className='hidden'
           onChange={handleFileUpload}
+          multiple
         />
         <div className='w-full mt-4'>
           {allFiles.length === 0 ? (
@@ -89,10 +123,23 @@ export const FileContent = () => {
                 current={uploadedFiles.length}
               />
 
-              <ul className='pl-5 list-disc'>
-                {uploadedFiles.map((file, index) => (
-                  <li key={index} className='text-gray-700'>
-                    {file}
+              <ul className='pl-5'>
+                {allFiles.map((file, index) => (
+                  <li
+                    key={index}
+                    className='flex items-center justify-between text-gray-700'
+                  >
+                    <div className='flex items-center'>
+                      <span>{file.name}</span>
+                    </div>
+                    <div className='flex items-center'>
+                      <span
+                        className={`mr-2 w-3 h-3 rounded-full ${
+                          file.status === '완료' ? 'bg-blue-500' : 'bg-red-500'
+                        }`}
+                      ></span>
+                      <span>{file.status}</span>
+                    </div>
                   </li>
                 ))}
               </ul>
