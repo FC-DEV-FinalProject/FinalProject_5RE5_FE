@@ -26,6 +26,7 @@ module.exports = {
       },
       colors: {
         error: '#B3261E',
+        aipark_primary: '#3DDC85',
         green: {
           1: '#E2F9EA',
           2: '#B9F0CB',
