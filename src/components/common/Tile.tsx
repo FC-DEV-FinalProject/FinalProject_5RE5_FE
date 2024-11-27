@@ -14,8 +14,8 @@ const Tile = (props: ITileProps) => {
   return (
     <div
       className={
-        `${props.className ?? ''}` +
-        ' p-3 border w-[200px] h-[200px] rounded-lg hover:cursor-pointer hover:bg-accent hover:text-accent-foreground '
+        ' p-3 border h-[200px] rounded-lg hover:cursor-pointer hover:bg-accent hover:text-accent-foreground ' +
+        `${props.className ?? ''}`
       }
       onClick={props.onClick}
     >

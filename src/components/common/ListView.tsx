@@ -1,3 +1,4 @@
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -10,7 +11,9 @@ import {
 } from '@/components/ui/table';
 import { ROUTES } from '@/constants/route';
 import useChecked from '@/hooks/useChecked';
+import { useCheckedStore } from '@/stores/checkedStore';
 import { IProjectProps } from '@/types/project';
+import { convertDateFormat } from '@/utils/date';
 import { SquareArrowOutUpRightIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
@@ -37,6 +40,8 @@ const ListView = ({ option = 'list', data }: Omit<IListViewProps, 'navi'>) => {
 };
 
 const List = ({ data, navi }: IListViewProps) => {
+  const { addChecked, removeChecked, removeAll } = useCheckedStore();
+
   const [items, setItems] = useState<IProjectProps[]>(() => {
     const initialData = data || [];
     return initialData.map((item) => ({ ...item, checked: false }));
@@ -47,10 +52,10 @@ const List = ({ data, navi }: IListViewProps) => {
   const handleCheckboxChange = (id: number): void => {
     setItems(
       items.map((item) => {
-        if (item.projectId === id) {
+        if (item.projectSeq === id) {
           handleCheckedList.set(id);
         }
-        return item.projectId === id
+        return item.projectSeq === id
           ? { ...item, checked: !item.checked }
           : item;
       })
@@ -65,7 +70,7 @@ const List = ({ data, navi }: IListViewProps) => {
       }))
     );
     !masterChecked
-      ? handleCheckedList.addAll(items.map((item) => item.projectId))
+      ? handleCheckedList.addAll(items.map((item) => item.projectSeq))
       : handleCheckedList.removeAll();
   };
 
@@ -74,10 +79,12 @@ const List = ({ data, navi }: IListViewProps) => {
     setMasterChecked(allChecked);
   }, [items]);
 
-  const onTest = () => {
-    alert(`삭제요청 리스트: ${checkedList}`);
-    // 삭제요청 API 호출
-  };
+  useEffect(() => {
+    removeAll();
+    checkedList.map((projectSeq) => {
+      addChecked(projectSeq);
+    });
+  }, [checkedList]);
 
   return (
     <div>
@@ -87,31 +94,53 @@ const List = ({ data, navi }: IListViewProps) => {
             <TableHead className='w-10'>
               <Checkbox onClick={handleSelectAll} checked={masterChecked} />
             </TableHead>
-            <TableHead className='w-[50%]'>Name</TableHead>
-            <TableHead>Last modified</TableHead>
-            <TableHead>Created</TableHead>
+            <TableHead className='w-[50%]'>프로젝트 명</TableHead>
+            <TableHead>작업목록</TableHead>
+            <TableHead>수정일</TableHead>
+            <TableHead>생성일</TableHead>
             <TableHead>바로가기</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {items.map((item, idx) => {
             return (
-              <TableRow key={item.name + idx}>
+              <TableRow key={item.projectName + idx}>
                 <TableCell>
                   <Checkbox
                     onClick={() => {
-                      handleCheckboxChange(item.projectId);
+                      handleCheckboxChange(item.projectSeq);
                     }}
                     checked={item.checked}
                   />
                 </TableCell>
-                <TableCell className='font-medium'>{item.name}</TableCell>
-                <TableCell>{item.modDate}</TableCell>
-                <TableCell>{item.regDate}</TableCell>
+                <TableCell className='font-medium'>
+                  {item.projectName}
+                </TableCell>
+                <TableCell className='flex gap-1'>
+                  {item.tts ? <Badge variant={'outline'}>TTS</Badge> : <></>}
+                  {item.vc ? <Badge variant={'destructive'}>VC</Badge> : <></>}
+                  {item.concat ? (
+                    <Badge variant={'default'}>Concat</Badge>
+                  ) : (
+                    <></>
+                  )}
+                </TableCell>
+                <TableCell>
+                  {convertDateFormat(
+                    new Date(item.projectUpdateDate),
+                    'YYYY-MM-DD hh:mm:ss'
+                  )}
+                </TableCell>
+                <TableCell>
+                  {convertDateFormat(
+                    new Date(item.projectDate),
+                    'YYYY-MM-DD hh:mm:ss'
+                  )}
+                </TableCell>
                 <TableCell
                   className='hover:cursor-pointer'
                   onClick={() => {
-                    navi(ROUTES.PROJECT + ROUTES.TTS + `/${item.projectId}`);
+                    navi(ROUTES.PROJECT + ROUTES.TTS + `/${item.projectSeq}`);
                   }}
                 >
                   <SquareArrowOutUpRightIcon />
@@ -121,13 +150,6 @@ const List = ({ data, navi }: IListViewProps) => {
           })}
         </TableBody>
       </Table>
-      {checkedList.length > 0 ? (
-        <Button variant={'destructive'} onClick={onTest}>
-          삭제하기
-        </Button>
-      ) : (
-        <></>
-      )}
     </div>
   );
 };
@@ -138,17 +160,17 @@ const Tile = ({ data, navi }: IListViewProps) => {
   };
   return (
     <div>
-      <ul className='flex flex-wrap flex-1'>
+      <ul className='flex flex-wrap flex-1 gap-5'>
         {data ? (
           data.map((item, idx) => (
             <li
-              key={item.name + idx}
-              className='p-5 m-5 w-[30%] border hover:cursor-pointer hover:scale-95 duration-100 rounded-lg z-10'
+              key={item.projectName + idx}
+              className='p-5 w-[30%] border hover:cursor-pointer hover:scale-95 duration-100 rounded-lg z-10'
               onClick={() => {
-                navi(ROUTES.PROJECT + ROUTES.TTS + `/${item.projectId}`);
+                navi(ROUTES.PROJECT + ROUTES.TTS + `/${item.projectSeq}`);
               }}
             >
-              <Checkbox
+              {/* <Checkbox
                 className='relative z-0 hover:bg-neutral-100'
                 onClick={(
                   e: React.MouseEvent<HTMLInputElement, MouseEvent>
@@ -156,9 +178,9 @@ const Tile = ({ data, navi }: IListViewProps) => {
                   e.stopPropagation();
                   onTest(e);
                 }}
-              />
+              /> */}
               <div className='content-center h-40 text-center'>썸네일</div>
-              <div>{item.name}</div>
+              <div>{item.projectName}</div>
             </li>
           ))
         ) : (

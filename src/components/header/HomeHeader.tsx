@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const HomeHeader = () => {
   // 프로젝트 목록 상태 관리
@@ -19,25 +19,30 @@ const HomeHeader = () => {
 
   return (
     <div>
-      <header className='flex items-center gap-4 px-4 bg-gray-200 h-14'>
-        <nav>
-          <ul className='flex gap-4 '>
-            {projects.map((project) => (
-              <li key={project.id}>
-                <Link to={`#project${project.id}`} className=' hover:underline'>
-                  {project.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <button
-          onClick={handleAddProject}
-          className='px-2 py-1 rounded hover:bg-gray-400'
-        >
-          +
-        </button>
-      </header>
+      {(projects && projects.length > 0) ?? (
+        <header className='flex items-center gap-4 px-4 bg-gray-200 h-14'>
+          <nav>
+            <ul className='flex gap-4 '>
+              {projects.map((project) => (
+                <li key={project.id}>
+                  <Link
+                    to={`#project${project.id}`}
+                    className=' hover:underline'
+                  >
+                    {project.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <button
+            onClick={handleAddProject}
+            className='px-2 py-1 rounded hover:bg-gray-400'
+          >
+            +
+          </button>
+        </header>
+      )}
     </div>
   );
 };
