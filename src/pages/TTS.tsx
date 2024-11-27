@@ -37,7 +37,7 @@ const TTS: React.FC = () => {
   };
 
   return (
-    <div className='container p-4 mx-auto' ref={containerRef}>
+    <div className='container p-4 mx-auto overflow-auto' ref={containerRef}>
       <TTSHeader
         projectName={projectName}
         onProjectNameChange={handleProjectNameChange}
