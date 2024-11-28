@@ -10,14 +10,14 @@ const TTSSidebar = () => {
     <>
       <div className='flex gap-4 mb-4'>
         <Button
-          variant={activeTab === 'file' ? 'default' : 'outline'}
+          variant={activeTab === 'file' ? 'blue' : 'outline'}
           size='sm'
           onClick={() => setActiveTab('file')}
         >
           File
         </Button>
         <Button
-          variant={activeTab === 'edit' ? 'default' : 'outline'}
+          variant={activeTab === 'edit' ? 'blue' : 'outline'}
           size='sm'
           onClick={() => setActiveTab('edit')}
         >
