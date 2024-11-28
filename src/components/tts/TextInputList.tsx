@@ -86,8 +86,8 @@ export const TextInputList: React.FC<TextInputListProps> = ({
           <div className="mb-4">
             <div className="flex items-center justify-between">
               <div className="flex items-end mb-2 space-x-1">
-                <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen} >
-                  <PopoverTrigger asChild>
+                <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+                  <PopoverTrigger asChild className="min-w-[95px] h-[32px]">
                     <Button variant="outline">{selectedVoice || "성우 선택"}</Button>
                   </PopoverTrigger>
                   <PopoverContent className="p-0" align="start">

@@ -33,4 +33,20 @@ export const mockVoices = {
     { voiceSeq: 5, name: "정우성" },
     { voiceSeq: 6, name: "고소영" },
   ],
+  casual: [
+    { voiceSeq: 3, name: "John" },
+    { voiceSeq: 4, name: "Lizy" },
+  ],
+  formal: [
+    { voiceSeq: 5, name: "Noah" },
+    { voiceSeq: 6, name: "Elowen" },
+  ],
+  polite: [
+    { voiceSeq: 3, name: "みつき" },
+    { voiceSeq: 4, name: "あいり" },
+  ],
+  friendly: [
+    { voiceSeq: 5, name: "あんな" },
+    { voiceSeq: 6, name: "ななこ" },
+  ],
 };
