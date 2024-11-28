@@ -40,43 +40,33 @@ const MyProject = ({
 
   const doSortList = {
     projectDate: () => {
-      console.log(1);
-      viewData.sort(
+      const sortedData = [...viewData].sort(
         (a, b) =>
-          // new Date(a.projectDate).getTime() - new Date(b.projectDate).getTime()
-          a.projectSeq - b.projectSeq
+          new Date(a.projectDate).getTime() - new Date(b.projectDate).getTime()
       );
+      setViewData(sortedData);
     },
     projectUpdateDate: () => {
-      console.log(2);
-      setViewData(
-        viewData.sort(
-          (a, b) =>
-            // new Date(a.projectUpdateDate).getTime() -
-            // new Date(b.projectUpdateDate).getTime()
-            b.projectSeq - a.projectSeq
-        )
+      const sortedData = [...viewData].sort(
+        (a, b) =>
+          new Date(a.projectUpdateDate).getTime() -
+          new Date(b.projectUpdateDate).getTime()
       );
+      setViewData(sortedData);
     },
   };
 
   const orderList = (orderValue: string) => {
     if (orderValue === 'order-recent') {
       doSortList.projectUpdateDate();
-      setViewData(PROJECT_DATA);
     } else if (orderValue === 'order-register') {
       doSortList.projectDate();
-      setViewData(PROJECT_DATA2);
     }
   };
 
   useEffect(() => {
     orderList(orderValue);
   }, [orderValue]);
-
-  useEffect(() => {
-    console.log(viewData);
-  }, [viewData]);
 
   return (
     <div>

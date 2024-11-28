@@ -80,10 +80,12 @@ const List = ({ data, navi }: IListViewProps) => {
   }, [items]);
 
   useEffect(() => {
-    removeAll();
-    checkedList.map((projectSeq) => {
-      addChecked(projectSeq);
-    });
+    const currentChecked = new Set(checkedList);
+    // 한 번의 업데이트로 처리
+    useCheckedStore.setState((state) => ({
+      ...state,
+      checkedList: Array.from(currentChecked),
+    }));
   }, [checkedList]);
 
   return (

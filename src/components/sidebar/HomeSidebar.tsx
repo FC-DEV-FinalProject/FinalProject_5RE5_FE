@@ -138,9 +138,7 @@ export function HomeSidebar() {
                 <SidebarMenuItem key={item.projectName}>
                   <SidebarMenuButton asChild>
                     <Link
-                      to={
-                        ROUTES.PROJECT + ROUTES.TTS + `/ + ${item.projectSeq}`
-                      }
+                      to={`${ROUTES.PROJECT}${ROUTES.TTS}/${item.projectSeq}`}
                     >
                       <Files />
                       <span>{item.projectName}</span>

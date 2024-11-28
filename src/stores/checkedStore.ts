@@ -11,16 +11,26 @@ interface checkedState {
 export const useCheckedStore = create<checkedState>((set) => ({
   checkedList: [],
   addChecked: (projectSeq) =>
-    set((state) => ({ checkedList: [...state.checkedList, projectSeq] })),
+    set((state) => ({
+      checkedList: state.checkedList.includes(projectSeq)
+        ? state.checkedList
+        : [...state.checkedList, projectSeq],
+    })),
   removeChecked: (index) =>
     set((state) => ({
-      checkedList: state.checkedList.filter((_, i) => i !== index),
+      checkedList:
+        index >= 0 && index < state.checkedList.length
+          ? state.checkedList.filter((_, i) => i !== index)
+          : state.checkedList,
     })),
   updateChecked: (index, newProjectSeq) =>
     set((state) => ({
-      checkedList: state.checkedList.map((projectSeq, i) =>
-        i === index ? newProjectSeq : projectSeq
-      ),
+      checkedList:
+        index >= 0 && index < state.checkedList.length
+          ? state.checkedList.map((projectSeq, i) =>
+              i === index ? newProjectSeq : projectSeq
+            )
+          : state.checkedList,
     })),
   removeAll: () => set(() => ({ checkedList: [] })),
 }));
