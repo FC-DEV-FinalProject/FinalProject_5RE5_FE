@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Repeat2 } from "lucide-react";
 import { CustomCheckbox } from "@/components/common/CustomCheckbox";
-// import { RoundButton } from "../common/RoundButton";
 
 interface TTSControlsProps {
   state: TTSState;
