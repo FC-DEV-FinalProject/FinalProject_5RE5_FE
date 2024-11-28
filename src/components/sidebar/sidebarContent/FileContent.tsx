@@ -1,43 +1,99 @@
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useTextInputs } from '@/stores/textInputStore';
+import { CircularProgress } from '@/components/ui/CircularProgress';
+
+interface IFileStatus {
+  name: string;
+  status: '완료' | '오류'; // 완료 또는 오류 상태
+}
 
 export const FileContent = () => {
-  const { textInputs, addTextInputs } = useTextInputs();
+  const { addTextInputs } = useTextInputs();
+  const [allFiles, setAllFiles] = useState<IFileStatus[]>([]); // 전체 업로드 시도된 파일 리스트
+  const [uploadedFiles, setUploadedFiles] = useState<string[]>([]); // 업로드 완료된 파일 리스트
+  const [uploadingCount, setUploadingCount] = useState<number>(0); // 현재 업로드 중인 파일 개수
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        // 줄바꿈 포함하여 문장 나누기
-        try {
-          const text = reader.result as string;
-          const lines = text.split(/\n/); // 줄바꿈으로 나눔
-          const sentences = lines
-            .flatMap((line) => line.match(/[^.!?]+[.!?]?/g) || []) //문장이 없을경우 빈배열 반환
-            .filter((sentence) => sentence.trim()) //빈값제거
-            .map((sentence) => sentence.trim()); //공백제거
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const fileNames = Array.from(files).map((file) => ({
+        name: file.name,
+        status: '업로드 중',
+      }));
 
-          if (sentences.length > 30) {
-            alert(
-              `문장이 너무 많습니다. 최대 30개의 문장만 처리됩니다. (${sentences.length - 30}개의 문장은 무시됩니다.)`
+      // 전체 업로드 시도된 파일 추가
+      setAllFiles((prev) => [
+        ...prev,
+        ...fileNames.map((file) => ({
+          name: file.name,
+          status: '완료' as '완료', // status의 타입을 맞추기 위해 '완료'로 지정
+        })),
+      ]);
+      setUploadingCount((prev) => prev + fileNames.length); // 업로드 중 파일 개수 증가
+
+      Array.from(files).forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const text = reader.result as string;
+            const lines = text.split(/\n/); // 줄바꿈으로 나눔
+            const sentences = lines
+              .flatMap((line) => line.match(/[^.!?]+[.!?]?/g) || []) // 문장이 없을 경우 빈 배열 반환
+              .filter((sentence) => sentence.trim()) // 빈값 제거
+              .map((sentence) => sentence.trim()); // 공백 제거
+
+            if (sentences.length > 30) {
+              alert(
+                `문장이 너무 많습니다. 최대 30개의 문장만 처리됩니다. (${sentences.length - 30}개의 문장은 무시됩니다.)`
+              );
+            }
+
+            // 문장 추가
+            addTextInputs(sentences.slice(0, 30));
+
+            // 업로드 완료된 파일 상태 업데이트
+            setAllFiles((prev) =>
+              prev.map((item) =>
+                item.name === file.name ? { ...item, status: '완료' } : item
+              )
             );
+
+            // 업로드 완료된 파일 추가
+            setUploadedFiles((prev) => [...prev, file.name]);
+          } catch (error) {
+            // 파일 상태를 오류로 업데이트
+            setAllFiles((prev) =>
+              prev.map((item) =>
+                item.name === file.name ? { ...item, status: '오류' } : item
+              )
+            );
+            alert('텍스트 처리 중 오류가 발생했습니다.');
+          } finally {
+            // 업로드 중 개수 감소
+            setUploadingCount((prev) => prev - 1);
           }
+        };
 
-          // 최대 30개의 문장만 추가
-          addTextInputs(sentences.slice(0, 30));
-        } catch (error) {
-          alert('텍스트 처리 중 오류가 발생했습니다.');
-        }
-      };
-      reader.onerror = () => {
-        alert('파일을 읽을 수 없습니다.');
-      };
+        reader.onerror = () => {
+          // 파일 상태를 오류로 업데이트
+          setAllFiles((prev) =>
+            prev.map((item) =>
+              item.name === file.name ? { ...item, status: '오류' } : item
+            )
+          );
+          alert('파일을 읽을 수 없습니다.');
+          // 업로드 중 개수 감소
+          setUploadingCount((prev) => prev - 1);
+        };
 
-      reader.readAsText(file);
+        reader.readAsText(file);
+      });
+
       e.target.value = ''; // 파일 입력 초기화
     }
   };
+
   return (
     <div className='flex flex-col h-full'>
       <div className='flex-1 w-full'>
@@ -53,11 +109,47 @@ export const FileContent = () => {
           accept='.txt'
           className='hidden'
           onChange={handleFileUpload}
+          multiple
         />
+        <div className='w-full mt-4'>
+          {allFiles.length === 0 ? (
+            <p className='text-center text-gray-500'>
+              텍스트 파일을 추가해주세요.
+            </p>
+          ) : (
+            <div>
+              <CircularProgress
+                total={allFiles.length}
+                current={uploadedFiles.length}
+              />
+
+              <ul className='pl-5'>
+                {allFiles.map((file, index) => (
+                  <li
+                    key={index}
+                    className='flex items-center justify-between text-gray-700'
+                  >
+                    <div className='flex items-center'>
+                      <span>{file.name}</span>
+                    </div>
+                    <div className='flex items-center'>
+                      <span
+                        className={`mr-2 w-3 h-3 rounded-full ${
+                          file.status === '완료' ? 'bg-blue-500' : 'bg-red-500'
+                        }`}
+                      ></span>
+                      <span>{file.status}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className='flex items-center justify-between gap-1'>
-        <Button className='flex-1' variant='default'>
+        <Button className='flex-1' variant='green'>
           생성하기
         </Button>
       </div>

@@ -21,6 +21,7 @@ const buttonVariants = cva(
         link: 'text-primary underline-offset-4 hover:underline',
         active: 'text-sky-500 hover:bg-accent',
         green: 'bg-green-primary text-white shadow hover:bg-green-5',
+        blue: 'bg-blue-2',
         // sideActive:'text'
         aipark:
           'bg-aipark_primary hover:bg-aipark_primary/80 text-primary-foreground',
