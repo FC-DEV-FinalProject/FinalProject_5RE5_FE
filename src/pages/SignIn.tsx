@@ -3,10 +3,12 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
-import axios from 'axios';
+import useLogin from '@/hooks/apis/useLogin';
+import { LoaderCircle } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface ILoginFormInput {
-  id: string;
+  username: string;
   password: string;
 }
 
@@ -15,29 +17,23 @@ const SignIn = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset: resetForm,
   } = useForm<ILoginFormInput>();
-
-  async function login(userId: string, password: string) {
-    try {
-      const response = await axios.post(
-        '/api/member/login',
-        {
-          userId,
-          password,
-        },
-        {
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
-      console.log(response);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  const onSubmit: SubmitHandler<ILoginFormInput> = async (data) => {
-    login(data.id, data.password);
+  const { mutate, isPending, error, reset } = useLogin(resetForm);
+  const onSubmit: SubmitHandler<ILoginFormInput> = ({ username, password }) => {
+    mutate({ username, password });
   };
+  const [loginError, setLoginError] = useState(false);
+
+  useEffect(() => {
+    if (error?.statusCode === 401) {
+      setLoginError(true);
+    }
+    if (error?.statusCode === 500) {
+      alert('로그인에 실패했습니다.');
+    }
+    reset();
+  }, [error]);
 
   return (
     <div className='flex login-wrap min-w-[1280px] h-screen min-h-[600px] border-box'>
@@ -77,14 +73,16 @@ const SignIn = () => {
             <form className='' onSubmit={handleSubmit(onSubmit)}>
               <div className='flex flex-col gap-3'>
                 <Input
-                  {...register('id', {
+                  {...register('username', {
                     required: '아이디를 입력하세요.',
                   })}
                   placeholder='ID'
+                  onFocus={() => setLoginError(false)}
+                  autoComplete='off'
                 />
-                {errors.id && (
+                {errors.username && (
                   <p className='mt-[-7px] text-sm text-error'>
-                    {errors.id.message}
+                    {errors.username.message}
                   </p>
                 )}
 
@@ -95,6 +93,7 @@ const SignIn = () => {
                   placeholder='Password'
                   type='password'
                   autoComplete='new-password'
+                  onFocus={() => setLoginError(false)}
                 />
                 {errors.password && (
                   <p className='mt-[-7px] text-sm text-error'>
@@ -103,7 +102,7 @@ const SignIn = () => {
                 )}
               </div>
 
-              <div className='flex items-center gap-1 mt-3 mb-2'>
+              <div className='flex items-center gap-1 mt-3 mb-3'>
                 <Checkbox
                   id='keep-login'
                   aria-label='로그인 상태 유지'
@@ -121,13 +120,23 @@ const SignIn = () => {
                 </span>
               </div>
 
+              {loginError && (
+                <p className='mb-3 text-sm text-error'>
+                  아이디 또는 비밀번호를 확인해주세요.
+                </p>
+              )}
+
               <Button
                 type='submit'
                 variant='green'
                 className='w-full'
                 size='lg'
               >
-                로그인
+                {isPending ? (
+                  <LoaderCircle className='animate-spin' />
+                ) : (
+                  '로그인'
+                )}
               </Button>
             </form>
           </div>

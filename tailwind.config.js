@@ -17,7 +17,7 @@ module.exports = {
         },
       },
       animation: {
-        'text-slide': 'textSlide 4s infinite',
+        'text-slide': 'textSlide 6s infinite',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -25,8 +25,8 @@ module.exports = {
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
-        aipark_primary: '#3DDC85',
         error: '#B3261E',
+        aipark_primary: '#3DDC85',
         green: {
           1: '#E2F9EA',
           2: '#B9F0CB',
