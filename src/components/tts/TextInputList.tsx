@@ -1,7 +1,6 @@
 import { TTSState, Language, Style, Voice } from "@/types/tts";
 import { CustomCheckbox } from "@/components/common/CustomCheckbox";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Repeat2, Play, Download, MoveVertical } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -32,8 +31,8 @@ export const TextInputList: React.FC<TextInputListProps> = ({
   const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = useState<string | null>(null);
 
-  const [hoveredLanguage, setHoveredLanguage] = useState<string | null>(null);
-  const [hoveredStyle, setHoveredStyle] = useState<string | null>(null);
+  const [isLanguageSelected, setIsLanguageSelected] = useState(false);
+  const [isStyleSelected, setIsStyleSelected] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   // useEffect(() => {
@@ -61,12 +60,15 @@ export const TextInputList: React.FC<TextInputListProps> = ({
   useEffect(() => {
     if (selectedLanguage) {
       setStyles(mockStyles[selectedLanguage as keyof typeof mockStyles] || []);
+      setIsLanguageSelected(true);
+      setIsStyleSelected(false);
     }
   }, [selectedLanguage]);
 
   useEffect(() => {
     if (selectedStyle) {
       setVoices(mockVoices[selectedStyle as keyof typeof mockVoices] || []);
+      setIsStyleSelected(true);
     }
   }, [selectedStyle]);
 
@@ -75,6 +77,13 @@ export const TextInputList: React.FC<TextInputListProps> = ({
     setIsPopoverOpen(false);
   };
   
+  const handlePopoverOpen = () => {
+    setIsPopoverOpen(true);
+    setIsLanguageSelected(false);
+    setIsStyleSelected(false);
+    setSelectedStyle(null);
+    setSelectedVoice(null);
+  };
 
   return (
     <>
@@ -88,39 +97,43 @@ export const TextInputList: React.FC<TextInputListProps> = ({
               <div className="flex items-end mb-2 space-x-1">
                 <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
                   <PopoverTrigger asChild className="min-w-[95px] h-[32px]">
-                    <Button variant="outline">{selectedVoice || "성우 선택"}</Button>
+                    <Button variant="outline" onClick={handlePopoverOpen}>{selectedVoice || "성우 선택"}</Button>
                   </PopoverTrigger>
-                  <PopoverContent className="p-0" align="start">
+                  <PopoverContent className="p-0 min-w-[400px]" align="start">
                     <div className="flex">
-                      <div className="border-r">
+                      <div className="w-1/3 text-center border-r">
                         {languages.map(lang => (
                           <div
                             key={lang.languageCode}
-                            className="p-2 cursor-pointer hover:bg-gray-100"
-                            onMouseEnter={() => setHoveredLanguage(lang.languageCode)}
-                            onClick={() => setSelectedLanguage(lang.languageCode)}
+                            className="py-2 cursor-pointer hover:bg-gray-100"
+                            onClick={() => {
+                              setSelectedLanguage(lang.languageCode);
+                              setIsLanguageSelected(true);
+                            }}
                           >
                             {lang.languageName}
                           </div>
                         ))}
                       </div>
-                      {hoveredLanguage && mockStyles[hoveredLanguage as keyof typeof mockStyles] && (
-                        <div className="border-r">
-                          {mockStyles[hoveredLanguage as keyof typeof mockStyles].map(style => (
+                      {isLanguageSelected && (
+                        <div className="w-1/3 text-center border-r">
+                          {styles.map(style => (
                             <div
                               key={style.name}
                               className="p-2 cursor-pointer hover:bg-gray-100"
-                              onMouseEnter={() => setHoveredStyle(style.name)}
-                              onClick={() => setSelectedStyle(style.name)}
+                              onClick={() => {
+                                setSelectedStyle(style.name);
+                                setIsStyleSelected(true);
+                              }}
                             >
                               {style.mood}
                             </div>
                           ))}
                         </div>
                       )}
-                      {hoveredStyle && mockVoices[hoveredStyle as keyof typeof mockVoices] && (
-                        <div>
-                          {mockVoices[hoveredStyle as keyof typeof mockVoices].map(voice => (
+                      {isStyleSelected && (
+                        <div className="w-1/3 text-center">
+                          {voices.map(voice => (
                             <div
                               key={voice.voiceSeq}
                               className="p-2 cursor-pointer hover:bg-gray-100"
