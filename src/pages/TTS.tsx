@@ -57,20 +57,10 @@ const TTS: React.FC = () => {
         toggleSelection={toggleSelection}
         handleTextChange={handleTextChange}
         cancelEdit={cancelEdit}
+        addTextInput={addTextInput}
+        saveInput={saveInput}
       />
 
-      <div className='mt-4 text-center'>
-        {textInputs.some((input) => input.isEditing) ? (
-          <>
-            <Button onClick={saveInput}  variant="secondary"  className="w-24 mr-1 rounded-3xl" >
-              저장
-            </Button>
-            <Button onClick={cancelEdit} variant="secondary"  className="w-24 rounded-3xl">취소</Button>
-          </>
-        ) : (
-          <Button onClick={addTextInput} variant="outline"  className="rounded-3xl w-52">+ 텍스트 추가</Button>
-        )}
-      </div>
     </div>
   );
 };

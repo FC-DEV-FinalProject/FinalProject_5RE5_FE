@@ -12,13 +12,17 @@ interface TextInputListProps {
   toggleSelection: (id: number) => void;
   handleTextChange: (id: number, text: string) => void;
   cancelEdit: () => void;
+  addTextInput: () => void;
+  saveInput: () => void;
 }
 
 export const TextInputList: React.FC<TextInputListProps> = ({
   state,
   toggleSelection,
   handleTextChange,
-  cancelEdit
+  cancelEdit,
+  addTextInput,
+  saveInput
 }) => {
   // const [languages, setLanguages] = useState<Language[]>([]);
   const [languages, setLanguages] = useState(mockLanguages);
@@ -164,23 +168,40 @@ export const TextInputList: React.FC<TextInputListProps> = ({
               </div>
             </div>
             <div className="flex items-center mb-2 space-x-2">
-            <CustomCheckbox
-              id={`input-${input.id}`}
-              checked={input.isSelected}
-              onCheckedChange={() => toggleSelection(input.id)}
-            />
-            <Input 
-              value={input.text}
-              onChange={(e) => handleTextChange(input.id, e.target.value)}
-              placeholder="내용을 입력해주세요.(최대 2,000자)"
-              onFocus={() => {
-                if (input.text === '') {
-                  cancelEdit();
-                }
-              }}
-            />
+              <CustomCheckbox
+                id={`input-${input.id}`}
+                checked={input.isSelected}
+                onCheckedChange={() => toggleSelection(input.id)}
+              />
+              <Input 
+                value={input.text}
+                onChange={(e) => handleTextChange(input.id, e.target.value)}
+                placeholder="내용을 입력해주세요.(최대 2,000자)"
+                onFocus={() => {
+                  if (input.text === '') {
+                    cancelEdit();
+                  }
+                }}
+              />
+            </div>
+
+            <div className="mt-2 text-center">
+                {input.isEditing ? (
+                  <>
+                    <Button onClick={saveInput} variant="secondary" className="w-24 mr-1 rounded-3xl">
+                      저장
+                    </Button>
+                    <Button onClick={cancelEdit} variant="secondary" className="w-24 rounded-3xl">
+                      취소
+                    </Button>
+                  </>
+                ) : (
+                  <Button onClick={addTextInput} variant="outline" className="rounded-3xl w-52">
+                    + 텍스트 추가
+                  </Button>
+                )}
+              </div>
           </div>
-        </div>
         </div>
       ))}
     </>
