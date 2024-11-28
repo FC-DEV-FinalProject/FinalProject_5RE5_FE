@@ -135,48 +135,6 @@ export const TextInputList: React.FC<TextInputListProps> = ({
                   </PopoverContent>
                 </Popover>
                 
-                {/* <Select onValueChange={setSelectedLanguage}>
-                  <SelectTrigger className="w-[95px] border-none shadow-none ml-4">
-                    <SelectValue placeholder="성우 선택" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {languages.map(lang => (
-                      <SelectItem key={lang.languageCode} value={lang.languageCode}>
-                        {lang.languageName}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-
-                {selectedLanguage && (
-                  <Select onValueChange={setSelectedStyle}>
-                    <SelectTrigger className="w-[95px] border-none shadow-none ml-4">
-                      <SelectValue placeholder="스타일 선택" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {styles.map(style => (
-                        <SelectItem key={style.name} value={style.name}>
-                          {style.mood}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                )}
-                
-                {selectedStyle && (
-                  <Select onValueChange={setSelectedVoice}>
-                    <SelectTrigger className="w-[95px] border-none shadow-none ml-4">
-                      <SelectValue placeholder="목소리 선택" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {voices.map(voice => (
-                        <SelectItem key={voice.voiceSeq} value={voice.name}>
-                          {voice.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                )} */}
                 <Button variant="secondary" size="sm">효과 없음</Button>
                 <Button variant="secondary" size="sm" >음량</Button>
                 <Button variant="secondary" size="sm" >속도</Button>

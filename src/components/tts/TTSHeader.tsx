@@ -11,6 +11,7 @@ export const TTSHeader: React.FC<TTSHeaderProps> = ({
   projectName,
   onProjectNameChange
 }) => {
+  
   return (
     <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-1">
