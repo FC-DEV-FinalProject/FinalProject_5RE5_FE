@@ -94,7 +94,7 @@ export const TextInputList: React.FC<TextInputListProps> = ({
       {state.textInputs.map((input) => (
         <div 
           key={input.id} 
-          className="mb-2"
+          className="mb-4"
         >
           <div className="mb-4">
             <div className="flex items-center justify-between">

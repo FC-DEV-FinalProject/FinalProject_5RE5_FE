@@ -114,4 +114,5 @@ module.exports = {
     },
   },
   plugins: [require('tailwindcss-animate')],
+  mode: "jit",
 };
