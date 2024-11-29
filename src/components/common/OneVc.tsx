@@ -8,7 +8,6 @@ const OneVc = () => {
     <div className='pb-5'>
       <div id='iconDiv' className='flex justify-between mb-1'>
         <div id='leftIcons'>
-          {/* <Button size={'sm'} variant={'aipark'}> */}
           <Button size={'sm'}>
             재생성
             <RefreshCcwDotIcon />

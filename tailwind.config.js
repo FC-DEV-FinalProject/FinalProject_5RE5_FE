@@ -60,6 +60,7 @@ module.exports = {
           8: '#CB0137',
           primary: '#FD1E5A',
         },
+
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {

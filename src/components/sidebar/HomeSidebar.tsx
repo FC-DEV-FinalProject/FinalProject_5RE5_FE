@@ -1,4 +1,5 @@
-import { ChevronDown, Home, Search, Settings, Bell } from 'lucide-react';
+import { ChevronDown, Home, Bell, FolderOpen, Files } from 'lucide-react';
+import Logo from '@/assets/logo.png';
 
 import {
   Sidebar,
@@ -11,84 +12,108 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
+import DividingLine from '@/components/common/DividingLine';
+import { ROUTES } from '@/constants/route';
+import { PROJECT_DATA } from '@/mocks/projectData';
+import { useState } from 'react';
+import { IProjectProps } from '@/types/project';
+import { Button } from '@/components/ui/button';
+import { useAuthStore } from '@/stores/authStore';
+import NewProjectButton from '@/components/common/NewProjectButton';
 
 // Menu items.
-const items = [
+const Menus = [
   {
-    title: 'Home',
-    url: '/',
+    title: '홈',
+    url: ROUTES.HOME,
     icon: Home,
   },
   {
-    title: 'New Project',
-    url: 'project',
-    icon: Search,
-  },
-
-  {
-    title: 'My Project',
-    url: 'my-project',
-    icon: Settings,
+    title: '내 프로젝트',
+    url: ROUTES.MYPROJECT,
+    icon: FolderOpen,
   },
 ];
 
 const quickStartItem = [
   {
     title: 'Project1',
-    url: 'project1',
+    url: ROUTES.PROJECT + ROUTES.TTS + '/1',
+    icon: Files,
   },
 ];
 
 export function HomeSidebar() {
+  const navigate = useNavigate();
+  const { isAuthenticated, login, logout } = useAuthStore();
+
+  const items = PROJECT_DATA.slice(0, 3);
+  const [recents, setRecents] = useState<IProjectProps[]>(items);
+
   return (
     <Sidebar>
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem className='pt-3 pl-3 font-bold'>
-            <span>로고 자리</span>
+          <SidebarMenuItem
+            className='p-2 hover:cursor-pointer'
+            onClick={() => {
+              window.location.href = '/';
+            }}
+          >
+            <img src={Logo} />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
+      <DividingLine />
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem className='flex items-center justify-between'>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <SidebarMenuButton className='flex items-center w-auto'>
-                      OOO님
-                      <ChevronDown className='ml-1' />
-                    </SidebarMenuButton>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className='w-[--radix-popper-anchor-width]'>
-                    <DropdownMenuItem>
-                      <span>계정 정보</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <span>계정 설정</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <span>로그아웃</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                <Bell className='pl-1 cursor-pointer' />
+                {isAuthenticated ? (
+                  <>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <SidebarMenuButton className='flex items-center w-auto'>
+                          OOO님
+                          <ChevronDown className='ml-1' />
+                        </SidebarMenuButton>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className='w-[--radix-popper-anchor-width]'>
+                        <DropdownMenuItem>
+                          <span>계정 정보</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <span>계정 설정</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={logout}>
+                          <span>로그아웃</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    <Bell className='pl-1 cursor-pointer' />
+                  </>
+                ) : (
+                  <Link to={ROUTES.SIGNIN}>
+                    <Button variant={'green'}>로그인</Button>
+                  </Link>
+                )}
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        <DividingLine />
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {Menus.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link to={item.url}>
@@ -98,18 +123,25 @@ export function HomeSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              <SidebarMenuItem>
+                <NewProjectButton />
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        <DividingLine />
         <SidebarGroup>
-          <SidebarGroupLabel>Quick starts</SidebarGroupLabel>
+          <SidebarGroupLabel>최근 작업 프로젝트</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {quickStartItem.map((item) => (
-                <SidebarMenuItem key={item.title}>
+              {recents.map((item) => (
+                <SidebarMenuItem key={item.projectName}>
                   <SidebarMenuButton asChild>
-                    <Link to={item.url}>
-                      <span>{item.title}</span>
+                    <Link
+                      to={`${ROUTES.PROJECT}${ROUTES.TTS}/${item.projectSeq}`}
+                    >
+                      <Files />
+                      <span>{item.projectName}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

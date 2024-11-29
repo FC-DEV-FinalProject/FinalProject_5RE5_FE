@@ -1,40 +1,42 @@
+import DividingLine from '@/components/common/DividingLine';
 import ListView from '@/components/common/ListView';
-import { Button } from '@/components/ui/button';
-import { PROJECT_DATA } from '@/mock/project';
+import { PROJECT_DATA } from '@/mocks/projectData';
 import MyProject from '@/pages/MyProject';
+
+export type ProjectType = 'TTS' | 'VC' | 'Concat';
+export const PROJECT_TYPE: Record<string, ProjectType> = {
+  TTS: 'TTS',
+  VC: 'VC',
+  CONCAT: 'Concat',
+};
 
 const Home = () => {
   return (
     <div>
-      <div className='p-5 text-right'>
-        <Button
-          onClick={() => {
-            alert('새 프로젝트 생성');
-          }}
-        >
-          프로젝트 생성
-        </Button>
-      </div>
-      <div>
-        <h3 className='pl-5 font-bold'>Quick Starts</h3>
-        <ListView option={'tile'} data={PROJECT_DATA.slice(0, 3)} />
-      </div>
-      <div>
-        <h3 className='pl-5 font-bold'>My Project</h3>
-        <MyProject option={'list'} data={PROJECT_DATA.slice(0, 5)} />
-      </div>
-      <div className='flex others'>
-        <div className='w-[50%]'>
-          <h3 className='pl-5 font-bold'>캐릭터 추천</h3>
-          <div className='content-center h-40 p-5 m-5 text-center duration-100 border rounded-lg hover:cursor-pointer hover:scale-95'>
-            썸네일
-          </div>
+      <header className='flex items-center justify-between px-5 py-2'>
+        <div className='text-left'>
+          <span>Home</span>
         </div>
-        <div className='w-[50%]'>
-          <h3 className='pl-5 font-bold'>블로그</h3>
-          <div className='content-center h-40 p-5 m-5 text-center duration-100 border rounded-lg hover:cursor-pointer hover:scale-95'>
-            썸네일
+      </header>
+      <DividingLine />
+      <div id='recentDiv' className='m-5'>
+        <header className='flex items-center justify-between py-2'>
+          <div className='font-bold text-left'>
+            <span>최근 프로젝트</span>
           </div>
+        </header>
+        <div>
+          <ListView option={'tile'} data={PROJECT_DATA.slice(0, 3)} />
+        </div>
+      </div>
+      <div id='myProjectDiv' className='m-5'>
+        <header className='flex items-center justify-between py-2'>
+          <div className='font-bold text-left'>
+            <span>내 프로젝트</span>
+          </div>
+        </header>
+        <div>
+          <ListView option={'list'} data={PROJECT_DATA} />
         </div>
       </div>
     </div>

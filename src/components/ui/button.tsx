@@ -22,9 +22,6 @@ const buttonVariants = cva(
         active: 'text-sky-500 hover:bg-accent',
         green: 'bg-green-primary text-white shadow hover:bg-green-5',
         blue: 'bg-blue-2',
-        // sideActive:'text'
-        aipark:
-          'bg-aipark_primary hover:bg-aipark_primary/80 text-primary-foreground',
       },
       size: {
         default: 'h-9 px-4 py-2',
