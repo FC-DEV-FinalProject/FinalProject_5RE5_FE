@@ -1,18 +1,30 @@
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { useTextInputs } from '@/stores/textInputStore';
 import { CircularProgress } from '@/components/ui/CircularProgress';
+import { useTextInputs } from '@/stores/textInputStore';
 
 interface IFileStatus {
   name: string;
-  status: '완료' | '오류'; // 완료 또는 오류 상태
+  status: '완료' | '오류';
 }
 
-export const FileContent = () => {
+interface IFileContentProps {
+  allFiles: IFileStatus[];
+  setAllFiles: React.Dispatch<React.SetStateAction<IFileStatus[]>>;
+  uploadedFiles: string[];
+  setUploadedFiles: React.Dispatch<React.SetStateAction<string[]>>;
+  uploadingCount: number;
+  setUploadingCount: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export const FileContent: React.FC<IFileContentProps> = ({
+  allFiles,
+  setAllFiles,
+  uploadedFiles,
+  setUploadedFiles,
+  uploadingCount,
+  setUploadingCount,
+}) => {
   const { addTextInputs } = useTextInputs();
-  const [allFiles, setAllFiles] = useState<IFileStatus[]>([]); // 전체 업로드 시도된 파일 리스트
-  const [uploadedFiles, setUploadedFiles] = useState<string[]>([]); // 업로드 완료된 파일 리스트
-  const [uploadingCount, setUploadingCount] = useState<number>(0); // 현재 업로드 중인 파일 개수
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
