@@ -18,17 +18,14 @@ export const handlers = [
       return new Promise((resolve) => {
         setTimeout(() => {
           // 로그인 성공 조건 예시
-          if (username === 'test' && password === 'test1234') {
+          if (username === 'haruyam15' && password === 'haruyam15@') {
             resolve(
               HttpResponse.json(
                 {
-                  success: true,
-                  data: {
-                    name: '테스트',
-                    id: 'test',
-                    seq: 1,
-                    email: 'test@example.com',
-                  },
+                  name: '테스트',
+                  id: 'test',
+                  seq: 1,
+                  email: 'test@example.com',
                 },
                 {
                   status: 200,
