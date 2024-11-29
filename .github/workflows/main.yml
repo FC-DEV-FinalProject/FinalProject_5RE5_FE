@@ -29,7 +29,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ap-northeast-2 # 예: us-east-1
           SOURCE_DIR: ./dist # 빌드된 정적 파일 경로
-
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL}}
       - name: Invalidate CloudFront cache
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
         env:
