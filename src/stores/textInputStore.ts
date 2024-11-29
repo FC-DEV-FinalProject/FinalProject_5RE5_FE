@@ -18,6 +18,7 @@ export const useTextInputs = create<TTSStore>((set) => ({
   ],
   isAllSelected: false, // 초기값 설정
   editingId: null, // 초기값 설정
+
   addTextInput: () =>
     set((state) => {
       const newId =
@@ -32,6 +33,7 @@ export const useTextInputs = create<TTSStore>((set) => ({
         ],
       };
     }),
+
   addTextInputs: (texts) =>
     set((state) => ({
       ...state,
@@ -45,14 +47,16 @@ export const useTextInputs = create<TTSStore>((set) => ({
         })),
       ],
     })),
+
   handleTextChange: (id, newText) =>
     set((state) => ({
       ...state,
       textInputs: state.textInputs.map((input) =>
-        input.id === id ? { ...input, text: newText } : input
+        input.id === id ? { ...input, text: newText, isEditing: true } : input
       ),
       editingId: state.editingId === null ? id : state.editingId,
     })),
+
   toggleSelection: (id) =>
     set((state) => ({
       ...state,
@@ -60,6 +64,7 @@ export const useTextInputs = create<TTSStore>((set) => ({
         input.id === id ? { ...input, isSelected: !input.isSelected } : input
       ),
     })),
+
   toggleAllSelection: () =>
     set((state) => {
       const newIsAllSelected = !state.isAllSelected;
@@ -72,22 +77,28 @@ export const useTextInputs = create<TTSStore>((set) => ({
         })),
       };
     }),
+
   deleteSelectedInputs: () =>
     set((state) => ({
       ...state,
       textInputs: state.textInputs.filter((input) => !input.isSelected),
       isAllSelected: false,
     })),
+
   saveInput: () =>
     set((state) => ({
       ...state,
+      textInputs: state.textInputs.map((input) =>
+        input.id === state.editingId ? { ...input, isEditing: false } : input
+      ),
       editingId: null,
     })),
+
   cancelEdit: () =>
     set((state) => ({
       ...state,
       textInputs: state.textInputs.map((input) =>
-        input.id === state.editingId ? { ...input, text: '' } : input
+        input.id === state.editingId ? { ...input, text: '', isEditing: false } : input
       ),
       editingId: null,
     })),

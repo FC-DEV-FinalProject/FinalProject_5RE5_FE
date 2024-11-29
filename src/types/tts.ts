@@ -10,3 +10,19 @@ export interface TTSState {
   isAllSelected: boolean;
   editingId: number | null;
 }
+
+export interface Language {
+  languageCode: string;
+  languageName: string;
+}
+
+
+export interface Style {
+  name: string;
+  mood: string;
+}
+
+export interface Voice {
+  voiceSeq: string;
+  name: string;
+}
