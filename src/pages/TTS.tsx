@@ -7,6 +7,7 @@ import { TTSControls } from '@/components/tts/TTSControls';
 import { TextInputList } from '@/components/tts/TextInputList';
 import { Button } from '@/components/ui/button';
 import { useTextInputs } from '@/stores/textInputStore';
+import { ttsSave } from '@/apis/ttsSave';
 
 const TTS: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
@@ -37,10 +38,14 @@ const TTS: React.FC = () => {
   };
 
   return (
-    <div className='container p-4 h-[calc(100vh-170px)] w-screen overflow-y-auto' ref={containerRef}>
+    <div
+      className='container p-4 h-[calc(100vh-170px)] w-screen overflow-y-auto'
+      ref={containerRef}
+    >
       <TTSHeader
         projectName={projectName}
         onProjectNameChange={handleProjectNameChange}
+        ttsSave={ttsSave}
       />
 
       <TTSControls
@@ -60,7 +65,6 @@ const TTS: React.FC = () => {
         addTextInput={addTextInput}
         saveInput={saveInput}
       />
-
     </div>
   );
 };
