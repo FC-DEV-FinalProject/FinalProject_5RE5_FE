@@ -2,12 +2,16 @@ import { useState } from 'react';
 import { DropdownSelector } from '@/components/ui/dropDownSelector';
 import { SliderControl } from '@/components/ui/sliderControl';
 import { Button } from '@/components/ui/button';
+import { VoiceSelectionPopover } from '@/components/common/VoiceSelectPopover';
 
 const EditContent = () => {
   const [selectedFavorite, setSelectedFavorite] = useState('성우 이름');
   const [selectedVoice, setSelectedVoice] = useState('성우 이름');
   const [isPreviewLoading, setIsPreviewLoading] = useState(false);
   const [isApplyLoading, setIsApplyLoading] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
+  const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
+  const [selectedVoices, setSelectedVoices] = useState<string | null>(null);
 
   // 속도 값을 블럭으로 표현
   const speedValues = [0.25, 0.5, 1, 2, 4];
@@ -65,18 +69,20 @@ const EditContent = () => {
       {/* 컨텐츠 영역 */}
       <div className='flex flex-col flex-1 gap-4'>
         {/* 즐겨찾기 Dropdown */}
-        <DropdownSelector
+        {/* <DropdownSelector
           label='즐겨찾기'
           value={selectedFavorite}
           onChange={setSelectedFavorite}
           options={['Wimon', '원준', 'James']}
-        />
+        /> */}
         {/* 보이스 옵션 Dropdown */}
-        <DropdownSelector
-          label='보이스 옵션'
-          value={selectedVoice}
-          onChange={setSelectedVoice}
-          options={['Wimon', '원준', 'James']}
+        <VoiceSelectionPopover
+          selectedLanguage={selectedLanguage}
+          setSelectedLanguage={setSelectedLanguage}
+          selectedStyle={selectedStyle}
+          setSelectedStyle={setSelectedStyle}
+          selectedVoice={selectedVoices}
+          setSelectedVoice={setSelectedVoices}
         />
 
         {/* 속도 블럭 선택 */}

@@ -6,6 +6,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { mockLanguages, mockStyles, mockVoices } from '@/mock/speaker';
+import { ChevronDown } from 'lucide-react';
 
 interface VoiceSelectionPopoverProps {
   selectedLanguage: string | null;
@@ -62,8 +63,15 @@ export const VoiceSelectionPopover: React.FC<VoiceSelectionPopoverProps> = ({
   return (
     <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
       <PopoverTrigger asChild className='min-w-[95px] h-[32px]'>
-        <Button variant='outline' onClick={handlePopoverOpen}>
-          {selectedVoice || '성우 선택'}
+        <Button
+          variant='outline'
+          onClick={handlePopoverOpen}
+          className='relative flex items-center justify-center w-full'
+        >
+          <span className='absolute transform -translate-x-1/2 left-1/2'>
+            {selectedVoice || '성우 선택'}
+          </span>
+          <ChevronDown className='absolute w-4 h-4 right-2' />
         </Button>
       </PopoverTrigger>
       <PopoverContent className='p-0 min-w-[400px]' align='start'>
