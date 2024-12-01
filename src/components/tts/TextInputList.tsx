@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Repeat2, Play, Download, MoveVertical } from 'lucide-react';
 import { useState } from 'react';
-import { VoiceSelectionPopover } from '@/components/common/VoiceSelectPopover';
+import { useAudioSettingsStore } from '@/stores/useAudioSettingsStore';
 
 interface TextInputListProps {
   state: TTSState;
@@ -23,9 +23,7 @@ export const TextInputList: React.FC<TextInputListProps> = ({
   addTextInput,
   saveInput,
 }) => {
-  const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
-  const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
-  const [selectedVoice, setSelectedVoice] = useState<string | null>(null);
+  const { selectedVoices, sliders } = useAudioSettingsStore();
 
   return (
     <>
@@ -34,27 +32,17 @@ export const TextInputList: React.FC<TextInputListProps> = ({
           <div className='mb-4'>
             <div className='flex items-center justify-between'>
               <div className='flex items-end mb-2 space-x-1'>
-                <VoiceSelectionPopover
-                  selectedLanguage={selectedLanguage}
-                  setSelectedLanguage={setSelectedLanguage}
-                  selectedStyle={selectedStyle}
-                  setSelectedStyle={setSelectedStyle}
-                  selectedVoice={selectedVoice}
-                  setSelectedVoice={setSelectedVoice}
-                />
-
+                <Button variant='secondary' size='sm'>
+                  {selectedVoices ? selectedVoices : '성우'}
+                </Button>
                 <Button variant='secondary' size='sm'>
                   효과 없음
                 </Button>
-                <Button variant='secondary' size='sm'>
-                  음량
-                </Button>
-                <Button variant='secondary' size='sm'>
-                  속도
-                </Button>
-                <Button variant='secondary' size='sm'>
-                  높이
-                </Button>
+                {sliders.map((slider) => (
+                  <Button key={slider.id} variant='secondary' size='sm'>
+                    {slider.label}: {slider.value}
+                  </Button>
+                ))}
                 <Button variant='ghost' size='sm'>
                   초기화
                 </Button>

@@ -3,35 +3,31 @@ import { DropdownSelector } from '@/components/ui/dropDownSelector';
 import { SliderControl } from '@/components/ui/sliderControl';
 import { Button } from '@/components/ui/button';
 import { VoiceSelectionPopover } from '@/components/common/VoiceSelectPopover';
+import { useAudioSettingsStore } from '@/stores/useAudioSettingsStore';
 
 const EditContent = () => {
-  const [selectedFavorite, setSelectedFavorite] = useState('성우 이름');
-  const [selectedVoice, setSelectedVoice] = useState('성우 이름');
   const [isPreviewLoading, setIsPreviewLoading] = useState(false);
   const [isApplyLoading, setIsApplyLoading] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
   const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
-  const [selectedVoices, setSelectedVoices] = useState<string | null>(null);
 
-  // 속도 값을 블럭으로 표현
   const speedValues = [0.25, 0.5, 1, 2, 4];
-  const [selectedSpeed, setSelectedSpeed] = useState(1); // 기본값 1
+  const {
+    selectedSpeed,
+    setSelectedSpeed,
+    sliders,
+    setSliders,
+    selectedVoices,
+    setSelectedVoices,
+  } = useAudioSettingsStore();
 
   const handleSpeedClick = (value: number) => {
     setSelectedSpeed(value);
   };
 
-  const [sliders, setSliders] = useState([
-    { id: 'pitch', value: 0.0, label: '음높이', min: -20.0, max: 20.0 },
-    { id: 'volume', value: 0.0, label: '음량', min: -10.0, max: 10.0 },
-  ]);
-
   const handleSliderChange = (id: string, value: number) => {
-    setSliders((prev) =>
-      prev.map((slider) => (slider.id === id ? { ...slider, value } : slider))
-    );
+    setSliders(id, value);
   };
-
   const handlePreview = async () => {
     try {
       setIsPreviewLoading(true);

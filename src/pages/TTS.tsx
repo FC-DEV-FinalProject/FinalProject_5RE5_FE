@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { useParams } from 'react-router-dom';
-
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { TTSHeader } from '@/components/tts/TTSHeader';
 import { TTSControls } from '@/components/tts/TTSControls';
@@ -37,7 +36,10 @@ const TTS: React.FC = () => {
   };
 
   return (
-    <div className='container p-4 h-[calc(100vh-170px)] w-screen overflow-y-auto' ref={containerRef}>
+    <div
+      className='container p-4 h-[calc(100vh-170px)] w-screen overflow-y-auto'
+      ref={containerRef}
+    >
       <TTSHeader
         projectName={projectName}
         onProjectNameChange={handleProjectNameChange}
@@ -60,7 +62,6 @@ const TTS: React.FC = () => {
         addTextInput={addTextInput}
         saveInput={saveInput}
       />
-
     </div>
   );
 };
