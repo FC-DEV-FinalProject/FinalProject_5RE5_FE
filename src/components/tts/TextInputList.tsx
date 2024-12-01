@@ -23,7 +23,7 @@ export const TextInputList: React.FC<TextInputListProps> = ({
   addTextInput,
   saveInput,
 }) => {
-  const { selectedVoices, sliders } = useAudioSettingsStore();
+  const { selectedSpeed, selectedVoices, sliders } = useAudioSettingsStore();
 
   return (
     <>
@@ -43,6 +43,9 @@ export const TextInputList: React.FC<TextInputListProps> = ({
                     {slider.label}: {slider.value}
                   </Button>
                 ))}
+                <Button variant='secondary' size='sm'>
+                  속도:{selectedSpeed}
+                </Button>
                 <Button variant='ghost' size='sm'>
                   초기화
                 </Button>

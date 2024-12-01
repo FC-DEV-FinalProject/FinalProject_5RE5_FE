@@ -6,6 +6,14 @@ import { VoiceSelectionPopover } from '@/components/common/VoiceSelectPopover';
 import { useAudioSettingsStore } from '@/stores/useAudioSettingsStore';
 
 const EditContent = () => {
+  //로컬 상태
+  const [localSpeed, setLocalSpeed] = useState(1);
+  const [localSliders, setLocalSliders] = useState([
+    { id: 'pitch', value: 0.0, min: -20.0, max: 20.0, label: '음높이' },
+    { id: 'volume', value: 0.0, min: -10.0, max: 10.0, label: '음량' },
+  ]);
+  const [localVoices, setLocalVoices] = useState<string | null>(null);
+
   const [isPreviewLoading, setIsPreviewLoading] = useState(false);
   const [isApplyLoading, setIsApplyLoading] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
@@ -22,15 +30,24 @@ const EditContent = () => {
   } = useAudioSettingsStore();
 
   const handleSpeedClick = (value: number) => {
-    setSelectedSpeed(value);
+    setLocalSpeed(value);
+  };
+
+  const handleVoiceChange = (voice: string | null) => {
+    setLocalVoices(voice);
   };
 
   const handleSliderChange = (id: string, value: number) => {
-    setSliders(id, value);
+    setLocalSliders((prev) =>
+      prev.map((slider) => (slider.id === id ? { ...slider, value } : slider))
+    );
   };
+
   const handlePreview = async () => {
     try {
       setIsPreviewLoading(true);
+      setSelectedSpeed(localSpeed);
+      setSelectedVoices(localVoices);
       console.log(
         '미리 듣기: 속도 값 -',
         selectedSpeed,
@@ -48,6 +65,11 @@ const EditContent = () => {
   const handleAllApply = async () => {
     try {
       setIsApplyLoading(true);
+      setSelectedSpeed(localSpeed);
+      setSelectedVoices(localVoices);
+      localSliders.forEach((slider) => {
+        setSliders(slider.id, slider.value);
+      });
       console.log(
         '전체 적용: 속도 값 -',
         selectedSpeed,
@@ -67,6 +89,11 @@ const EditContent = () => {
   const handleApply = async () => {
     try {
       setIsApplyLoading(true);
+      setSelectedSpeed(localSpeed);
+      setSelectedVoices(localVoices);
+      localSliders.forEach((slider) => {
+        setSliders(slider.id, slider.value);
+      });
       console.log(
         '개별 적용: 속도 값 -',
         selectedSpeed,
@@ -99,8 +126,8 @@ const EditContent = () => {
           setSelectedLanguage={setSelectedLanguage}
           selectedStyle={selectedStyle}
           setSelectedStyle={setSelectedStyle}
-          selectedVoice={selectedVoices}
-          setSelectedVoice={setSelectedVoices}
+          selectedVoice={localVoices}
+          setSelectedVoice={handleVoiceChange}
         />
 
         {/* 속도 블럭 선택 */}
@@ -112,7 +139,7 @@ const EditContent = () => {
                 key={value}
                 onClick={() => handleSpeedClick(value)}
                 className={`flex-1 py-2 rounded ${
-                  selectedSpeed === value
+                  localSpeed === value
                     ? 'border border-gray-300 bg-blue-2 text-gray-700'
                     : 'border border-gray-300 bg-gray-100 text-gray-500 opacity-50 '
                 }`}
@@ -124,7 +151,7 @@ const EditContent = () => {
         </div>
 
         {/* 음높이 및 음량 슬라이더 */}
-        {sliders.map((slider) => (
+        {localSliders.map((slider) => (
           <SliderControl
             key={slider.id}
             label={slider.label}
