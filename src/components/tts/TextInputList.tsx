@@ -12,7 +12,7 @@ interface TextInputListProps {
   toggleSelection: (id: number) => void;
   handleTextChange: (id: number, text: string) => void;
   cancelEdit: () => void;
-  addTextInput: () => void;
+  addTextInput: (hoveredId: number) => void;
   saveInput: () => void;
 }
 
@@ -206,7 +206,7 @@ export const TextInputList: React.FC<TextInputListProps> = ({
                       </Button>
                     </>
                   ) : (
-                    <Button onClick={addTextInput} variant="outline" className="rounded-3xl w-52">
+                    <Button onClick={() => addTextInput(input.id)} variant="outline" className="rounded-3xl w-52">
                       + 텍스트 추가
                     </Button>
                   )}

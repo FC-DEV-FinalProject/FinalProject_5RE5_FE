@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { TTSState } from '@/types/tts';
 
 interface TTSStore extends TTSState {
-  addTextInput: () => void;
+  addTextInput: (hoveredId: number) => void;
   addTextInputs: (texts: string[]) => void;
   handleTextChange: (id: number, newText: string) => void;
   toggleSelection: (id: number) => void;
@@ -19,19 +19,31 @@ export const useTextInputs = create<TTSStore>((set) => ({
   isAllSelected: false, // 초기값 설정
   editingId: null, // 초기값 설정
 
-  addTextInput: () =>
+  addTextInput: (hoveredId: number) =>
     set((state) => {
       const newId =
         state.textInputs.length > 0
           ? Math.max(...state.textInputs.map((input) => input.id)) + 1
           : 1;
-      return {
-        ...state,
-        textInputs: [
-          ...state.textInputs,
-          { id: newId, text: '', isSelected: false, isEditing: false },
-        ],
-      };
+      const currentIndex = state.textInputs.findIndex((input) => input.id === hoveredId);
+      if (currentIndex === -1) {
+        return {
+          ...state,
+          textInputs: [
+            ...state.textInputs,
+            { id: newId, text: '', isSelected: false, isEditing: false },
+          ],
+        };
+      } else {
+          return {
+            ...state,
+            textInputs: [
+              ...state.textInputs.slice(0, currentIndex + 1),
+              { id: newId, text: '', isSelected: false, isEditing: false },
+              ...state.textInputs.slice(currentIndex + 1),
+            ],
+          };
+      }
     }),
 
   addTextInputs: (texts) =>
