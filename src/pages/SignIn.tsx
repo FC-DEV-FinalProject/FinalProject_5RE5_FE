@@ -7,7 +7,7 @@ import useLogin from '@/hooks/apis/useLogin';
 import { LoaderCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { validateLoginForm } from '@/lib/utils';
-import TextSlide from '@/components/login/textSlide';
+import TextSlide from '@/components/login/TextSlide';
 
 interface ILoginForm {
   username: string;
@@ -30,7 +30,6 @@ const SignIn = () => {
     reset: resetError,
     setrememberChecked,
   } = useLogin(resetForm);
-  const [loginError, setLoginError] = useState(false);
 
   const onSubmit: SubmitHandler<ILoginForm> = ({
     username,
@@ -45,6 +44,17 @@ const SignIn = () => {
       setLoginError(true);
     }
   };
+  const [loginError, setLoginError] = useState(false);
+
+  useEffect(() => {
+    if (error?.statusCode === 401) {
+      setLoginError(true);
+    }
+    if (error?.statusCode === 500) {
+      alert('로그인에 실패했습니다.');
+    }
+    resetError();
+  }, [error]);
 
   useEffect(() => {
     if (error) {

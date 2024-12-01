@@ -37,7 +37,7 @@ const TTS: React.FC = () => {
   };
 
   return (
-    <div className='container p-4 mx-auto' ref={containerRef}>
+    <div className='container p-4 h-[calc(100vh-170px)] w-screen overflow-y-auto' ref={containerRef}>
       <TTSHeader
         projectName={projectName}
         onProjectNameChange={handleProjectNameChange}
@@ -57,20 +57,10 @@ const TTS: React.FC = () => {
         toggleSelection={toggleSelection}
         handleTextChange={handleTextChange}
         cancelEdit={cancelEdit}
+        addTextInput={addTextInput}
+        saveInput={saveInput}
       />
 
-      <div className='mt-4 text-center'>
-        {textInputs.some((input) => input.isEditing) ? (
-          <>
-            <Button onClick={saveInput} className='mr-1'>
-              저장
-            </Button>
-            <Button onClick={cancelEdit}>취소</Button>
-          </>
-        ) : (
-          <Button onClick={addTextInput}>+ 텍스트 추가</Button>
-        )}
-      </div>
     </div>
   );
 };

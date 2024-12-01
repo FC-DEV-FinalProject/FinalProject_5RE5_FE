@@ -1,7 +1,11 @@
 export interface IProjectProps {
   checked: boolean;
-  projectId: number;
-  name: string;
-  modDate: string;
-  regDate: string;
+  projectSeq: number;
+  projectName: string;
+  projectUpdateDate: string;
+  projectDate: string;
+  tts: boolean;
+  vc: boolean;
+  concat: boolean;
+  projectActivate: 'Y' | 'N';
 }

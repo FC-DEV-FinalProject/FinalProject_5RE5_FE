@@ -43,7 +43,7 @@ const ProjectLayout = () => {
       SidebarComponent = <ConcatSidebar />;
       break;
     default:
-      ContentComponent = <div>잘못된 경로입니다.</div>;
+      ContentComponent = <div>프로젝트 생성하세요!</div>;
   }
 
   return (
@@ -106,7 +106,7 @@ const ProjectLayout = () => {
         </main>
 
         {/* 우측 사이드바 */}
-        <aside className='p-4 bg-gray-200 w-[280px] flex flex-col'>
+        <aside className='p-4  w-[280px] flex flex-col border-l'>
           {SidebarComponent}
         </aside>
       </div>
