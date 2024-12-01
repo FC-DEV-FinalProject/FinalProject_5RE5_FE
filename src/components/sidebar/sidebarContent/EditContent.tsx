@@ -48,17 +48,39 @@ const EditContent = () => {
     }
   };
 
-  const handleApply = async () => {
+  //전체 적용
+  const handleAllApply = async () => {
     try {
       setIsApplyLoading(true);
       console.log(
         '전체 적용: 속도 값 -',
         selectedSpeed,
         ', 음높이 및 음량 값 -',
-        sliders
+        sliders,
+        '전체 적용 스타일 :',
+        selectedVoices
       );
     } catch (error) {
       console.error('전체 적용 실패:', error);
+    } finally {
+      setIsApplyLoading(false);
+    }
+  };
+
+  //개별 적용
+  const handleApply = async () => {
+    try {
+      setIsApplyLoading(true);
+      console.log(
+        '개별 적용: 속도 값 -',
+        selectedSpeed,
+        ', 음높이 및 음량 값 -',
+        sliders,
+        '개별 적용 스타일 :',
+        selectedVoices
+      );
+    } catch (error) {
+      console.error('개별 적용 실패:', error);
     } finally {
       setIsApplyLoading(false);
     }
@@ -130,6 +152,14 @@ const EditContent = () => {
         <Button
           className='w-full text-white bg-black'
           onClick={handleApply}
+          disabled={isApplyLoading}
+        >
+          개별 적용하기
+        </Button>
+
+        <Button
+          className='w-full text-white bg-black'
+          onClick={handleAllApply}
           disabled={isApplyLoading}
         >
           {isApplyLoading ? '처리중...' : '전체 적용하기'}
