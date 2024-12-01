@@ -4,6 +4,7 @@ import { SliderControl } from '@/components/ui/sliderControl';
 import { Button } from '@/components/ui/button';
 import { VoiceSelectionPopover } from '@/components/common/VoiceSelectPopover';
 import { useAudioSettingsStore } from '@/stores/useAudioSettingsStore';
+import { useTextInputs } from '@/stores/textInputStore';
 
 const EditContent = () => {
   //로컬 상태
@@ -89,18 +90,55 @@ const EditContent = () => {
   const handleApply = async () => {
     try {
       setIsApplyLoading(true);
+
+      // 1. zustand AudioSettings의 상태를 업데이트
       setSelectedSpeed(localSpeed);
       setSelectedVoices(localVoices);
       localSliders.forEach((slider) => {
         setSliders(slider.id, slider.value);
       });
+
+      // 2. 체크된 텍스트 입력 항목들을 가져옴
+      const selectedInputs = useTextInputs
+        .getState()
+        .textInputs.filter((input) => input.isSelected);
+
+      if (selectedInputs.length === 0) {
+        alert('적용할 항목이 없습니다. 적어도 하나의 항목을 선택하세요.');
+        setIsApplyLoading(false);
+        return;
+      }
+
+      // 3. 선택된 텍스트 항목에 설정을 적용
+      useTextInputs.setState((state) => ({
+        textInputs: state.textInputs.map((input) => {
+          if (input.isSelected) {
+            return {
+              ...input,
+              speed: localSpeed,
+              pitch:
+                localSliders.find((slider) => slider.id === 'pitch')?.value ||
+                0,
+              volume:
+                localSliders.find((slider) => slider.id === 'volume')?.value ||
+                0,
+              voice: localVoices,
+            };
+          }
+          return input;
+        }),
+      }));
+
+      // 4. 설정 적용 후 로그
       console.log(
-        '개별 적용: 속도 값 -',
-        selectedSpeed,
+        '개별 적용 완료: 속도 값 -',
+        localSpeed,
         ', 음높이 및 음량 값 -',
-        sliders,
-        '개별 적용 스타일 :',
-        selectedVoices
+        localSliders,
+        ', 적용된 텍스트 항목 수 -',
+        selectedInputs.length,
+        ', 보이스 -',
+        localVoices
       );
     } catch (error) {
       console.error('개별 적용 실패:', error);

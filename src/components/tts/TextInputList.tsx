@@ -1,50 +1,53 @@
-import { TTSState } from '@/types/tts';
 import { CustomCheckbox } from '@/components/common/CustomCheckbox';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Repeat2, Play, Download, MoveVertical } from 'lucide-react';
-import { useState } from 'react';
-import { useAudioSettingsStore } from '@/stores/useAudioSettingsStore';
+import { TextInput } from '@/types/tts';
 
 interface TextInputListProps {
-  state: TTSState;
+  textInputs: TextInput[];
   toggleSelection: (id: number) => void;
-  handleTextChange: (id: number, text: string) => void;
+  handleTextChange: (id: number, newText: string) => void;
   cancelEdit: () => void;
   addTextInput: () => void;
   saveInput: () => void;
+  isAllSelected: boolean;
+  editingId: number | null;
 }
 
 export const TextInputList: React.FC<TextInputListProps> = ({
-  state,
+  textInputs,
   toggleSelection,
   handleTextChange,
   cancelEdit,
   addTextInput,
   saveInput,
 }) => {
-  const { selectedSpeed, selectedVoices, sliders } = useAudioSettingsStore();
-
   return (
     <>
-      {state.textInputs.map((input) => (
+      {textInputs.map((input) => (
         <div key={input.id} className='mb-4'>
           <div className='mb-4'>
             <div className='flex items-center justify-between'>
               <div className='flex items-end mb-2 space-x-1'>
                 <Button variant='secondary' size='sm'>
-                  {selectedVoices ? selectedVoices : '성우'}
+                  {input.voice ? input.voice : '성우'}
                 </Button>
                 <Button variant='secondary' size='sm'>
                   효과 없음
                 </Button>
-                {sliders.map((slider) => (
-                  <Button key={slider.id} variant='secondary' size='sm'>
-                    {slider.label}: {slider.value}
-                  </Button>
-                ))}
-                <Button variant='secondary' size='sm'>
-                  속도:{selectedSpeed}
+                <Button key={`${input.id}-pitch`} variant='secondary' size='sm'>
+                  음높이: {input.pitch ?? 0}
+                </Button>
+                <Button
+                  key={`${input.id}-volume`}
+                  variant='secondary'
+                  size='sm'
+                >
+                  음량: {input.volume ?? 0}
+                </Button>
+                <Button key={`${input.id}-speed`} variant='secondary' size='sm'>
+                  속도: {input.speed ?? 1}
                 </Button>
                 <Button variant='ghost' size='sm'>
                   초기화

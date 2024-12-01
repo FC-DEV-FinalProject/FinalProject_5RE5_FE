@@ -10,14 +10,33 @@ interface TTSStore extends TTSState {
   deleteSelectedInputs: () => void;
   saveInput: () => void;
   cancelEdit: () => void;
+  updateInputSettings: (
+    id: number,
+    newSettings: Partial<{
+      speed: number;
+      pitch: number;
+      volume: number;
+      voice: string;
+    }>
+  ) => void;
+  resetInputSettings: (id: number) => void;
 }
 
 export const useTextInputs = create<TTSStore>((set) => ({
   textInputs: [
-    { id: 1, text: '', isSelected: false, isEditing: false }, // 초기값 설정
+    {
+      id: 1,
+      text: '',
+      isSelected: false,
+      isEditing: false,
+      speed: 1,
+      pitch: 0,
+      volume: 0,
+      voice: '',
+    },
   ],
-  isAllSelected: false, // 초기값 설정
-  editingId: null, // 초기값 설정
+  isAllSelected: false,
+  editingId: null,
 
   addTextInput: () =>
     set((state) => {
@@ -29,7 +48,16 @@ export const useTextInputs = create<TTSStore>((set) => ({
         ...state,
         textInputs: [
           ...state.textInputs,
-          { id: newId, text: '', isSelected: false, isEditing: false },
+          {
+            id: newId,
+            text: '',
+            isSelected: false,
+            isEditing: false,
+            speed: 1,
+            pitch: 0,
+            volume: 0,
+            voice: '',
+          },
         ],
       };
     }),
@@ -44,6 +72,10 @@ export const useTextInputs = create<TTSStore>((set) => ({
           text: text.trim(),
           isSelected: false,
           isEditing: false,
+          speed: 1,
+          pitch: 0,
+          volume: 0,
+          voice: '',
         })),
       ],
     })),
@@ -98,8 +130,30 @@ export const useTextInputs = create<TTSStore>((set) => ({
     set((state) => ({
       ...state,
       textInputs: state.textInputs.map((input) =>
-        input.id === state.editingId ? { ...input, text: '', isEditing: false } : input
+        input.id === state.editingId
+          ? { ...input, text: '', isEditing: false }
+          : input
       ),
       editingId: null,
+    })),
+
+  // 새로운 설정값을 업데이트하는 함수
+  updateInputSettings: (id, newSettings) =>
+    set((state) => ({
+      ...state,
+      textInputs: state.textInputs.map((input) =>
+        input.id === id ? { ...input, ...newSettings } : input
+      ),
+    })),
+
+  // 개별 항목 설정 초기화 함수
+  resetInputSettings: (id) =>
+    set((state) => ({
+      ...state,
+      textInputs: state.textInputs.map((input) =>
+        input.id === id
+          ? { ...input, speed: 1, pitch: 0, volume: 0, voice: '' }
+          : input
+      ),
     })),
 }));
