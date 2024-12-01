@@ -39,6 +39,8 @@ export const TextInputList: React.FC<TextInputListProps> = ({
   const [isStyleSelected, setIsStyleSelected] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
+  const [inputHoverStates, setInputHoverStates] = useState<Record<number, boolean>>({});
+
   // useEffect(() => {
   //   fetch('/api/language')
   //     .then(response => response.json())
@@ -89,6 +91,10 @@ export const TextInputList: React.FC<TextInputListProps> = ({
     setSelectedVoice(null);
   };
 
+  const handleInputHover = (id: number, isHovered: boolean) => {
+    setInputHoverStates(prevState => ({ ...prevState, [id]: isHovered }));
+  };
+
   return (
     <>
       {state.textInputs.map((input) => (
@@ -96,7 +102,11 @@ export const TextInputList: React.FC<TextInputListProps> = ({
           key={input.id} 
           className="mb-4"
         >
-          <div className="mb-4">
+          <div 
+            className="mb-4 min-h-[120px]"
+            onMouseEnter={() => handleInputHover(input.id, true)}
+            onMouseLeave={() => handleInputHover(input.id, false)}
+          >
             <div className="flex items-center justify-between">
               <div className="flex items-end mb-2 space-x-1">
                 <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
@@ -184,23 +194,24 @@ export const TextInputList: React.FC<TextInputListProps> = ({
                 }}
               />
             </div>
-
-            <div className="mt-2 text-center">
-                {input.isEditing ? (
-                  <>
-                    <Button onClick={saveInput} variant="secondary" className="w-24 mr-1 rounded-3xl">
-                      저장
+            {inputHoverStates[input.id] && (
+              <div className="mt-2 text-center">
+                  {input.isEditing ? (
+                    <>
+                      <Button onClick={saveInput} variant="secondary" className="w-24 mr-1 rounded-3xl">
+                        저장
+                      </Button>
+                      <Button onClick={cancelEdit} variant="secondary" className="w-24 rounded-3xl">
+                        취소
+                      </Button>
+                    </>
+                  ) : (
+                    <Button onClick={addTextInput} variant="outline" className="rounded-3xl w-52">
+                      + 텍스트 추가
                     </Button>
-                    <Button onClick={cancelEdit} variant="secondary" className="w-24 rounded-3xl">
-                      취소
-                    </Button>
-                  </>
-                ) : (
-                  <Button onClick={addTextInput} variant="outline" className="rounded-3xl w-52">
-                    + 텍스트 추가
-                  </Button>
-                )}
+                  )}
               </div>
+            )}
           </div>
         </div>
       ))}

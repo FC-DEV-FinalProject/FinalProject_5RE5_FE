@@ -5,7 +5,6 @@ import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { TTSHeader } from '@/components/tts/TTSHeader';
 import { TTSControls } from '@/components/tts/TTSControls';
 import { TextInputList } from '@/components/tts/TextInputList';
-import { Button } from '@/components/ui/button';
 import { useTextInputs } from '@/stores/textInputStore';
 
 const TTS: React.FC = () => {
