@@ -195,20 +195,26 @@ export const TextInputList: React.FC<TextInputListProps> = ({
               />
             </div>
             {inputHoverStates[input.id] && (
-              <div className="mt-2 text-center">
+              <div className="flex items-center justify-center mt-2">
                   {input.isEditing ? (
                     <>
+                      <div className="w-6/12 h-[1px] bg-slate-200"></div>
                       <Button onClick={saveInput} variant="secondary" className="w-24 mr-1 rounded-3xl">
                         저장
                       </Button>
                       <Button onClick={cancelEdit} variant="secondary" className="w-24 rounded-3xl">
                         취소
                       </Button>
+                      <div className="w-6/12 h-[1px] bg-slate-200"></div>
                     </>
                   ) : (
-                    <Button onClick={() => addTextInput(input.id)} variant="outline" className="rounded-3xl w-52">
-                      + 텍스트 추가
-                    </Button>
+                    <>
+                      <div className="w-6/12 h-[1px] bg-slate-200"></div>
+                      <Button onClick={() => addTextInput(input.id)} variant="outline" className="rounded-3xl w-52">
+                        + 텍스트 추가
+                      </Button>
+                      <div className="w-6/12 h-[1px] bg-slate-200"></div>
+                    </>
                   )}
               </div>
             )}
