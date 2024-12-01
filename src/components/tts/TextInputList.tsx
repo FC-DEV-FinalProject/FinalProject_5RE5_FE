@@ -167,14 +167,13 @@ export const TextInputList: React.FC<TextInputListProps> = ({
                 <Button variant="secondary" size="sm" >속도</Button>
                 <Button variant="secondary" size="sm" >높이</Button>
                 <Button variant="ghost" size="sm" >초기화</Button>
-                <Button variant="outline" className="text-green-400 border-green-400" size="sm">
-                  <Repeat2 />재생성
+                <Button variant="outline" className="text-green-400 border-green-400 hover:bg-green-400 hover:text-white" size="sm">
+                  <Repeat2 />TTS 생성
                 </Button>
               </div>
-              <div className="flex space-x-1">
+              <div className="flex mr-1 space-x-1">
                 <Play size={16} fill="#333" />
                 <Download size={16} />
-                <MoveVertical size={16} />
               </div>
             </div>
             <div className="flex items-center mb-2 space-x-2">
