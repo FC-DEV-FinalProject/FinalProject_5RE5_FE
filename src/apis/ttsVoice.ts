@@ -7,6 +7,13 @@ interface Language {
   regionName: string;
 }
 
+interface Style {
+  name: string;
+  mood: string;
+  contents: string;
+  desc: string;
+}
+
 interface LanguageResponse {
   status: number;
   response: {
@@ -24,7 +31,7 @@ export const ttsLanguage = async (): Promise<Language[]> => {
   }
 };
 
-export const ttsStyle = async () => {
+export const ttsStyle = async (): Promise<Style[]> => {
   try {
     const response = await apiClient.get('/style');
     return response.data.response.styleList;
