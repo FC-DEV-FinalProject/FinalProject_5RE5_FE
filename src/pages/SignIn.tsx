@@ -53,16 +53,6 @@ const SignIn = () => {
   const [loginError, setLoginError] = useState(false);
 
   useEffect(() => {
-    if (error?.statusCode === 401) {
-      setLoginError(true);
-    }
-    if (error?.statusCode === 500) {
-      alert('로그인에 실패했습니다.');
-    }
-    resetError();
-  }, [error]);
-
-  useEffect(() => {
     if (error) {
       if (error.statusCode === 401) {
         setLoginError(true);
