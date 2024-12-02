@@ -1,11 +1,13 @@
+import { TTSControls } from '@/components/tts/TTSControls';
+import { TTSHeader } from '@/components/tts/TTSHeader';
+import { TextInputList } from '@/components/tts/TextInputList';
+<<<<<<< HEAD
+=======
+import { useOutsideClick } from '@/hooks/useOutsideClick';
+>>>>>>> 4f13907ab161b5b85f86bef8adeeb105c3c2b94f
+import { useTextInputs } from '@/stores/textInputStore';
 import React, { useRef } from 'react';
 import { useParams } from 'react-router-dom';
-
-import { useOutsideClick } from '@/hooks/useOutsideClick';
-import { TTSHeader } from '@/components/tts/TTSHeader';
-import { TTSControls } from '@/components/tts/TTSControls';
-import { TextInputList } from '@/components/tts/TextInputList';
-import { useTextInputs } from '@/stores/textInputStore';
 
 const TTS: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
@@ -52,14 +54,15 @@ const TTS: React.FC = () => {
       />
 
       <TextInputList
-        state={{ textInputs, isAllSelected, editingId }}
+        textInputs={textInputs}
+        isAllSelected={isAllSelected}
+        editingId={editingId}
         toggleSelection={toggleSelection}
         handleTextChange={handleTextChange}
         cancelEdit={cancelEdit}
         addTextInput={addTextInput}
         saveInput={saveInput}
       />
-
     </div>
   );
 };
