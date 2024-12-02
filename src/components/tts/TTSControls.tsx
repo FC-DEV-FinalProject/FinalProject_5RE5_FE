@@ -8,17 +8,21 @@ interface TTSControlsProps {
   state: TTSState;
   toggleAllSelection: () => void;
   deleteSelectedInputs: () => void;
-  addTextInput: () => void;
+  addTextInput: (hoveredId: number) => void;
   saveInput: () => void;
   cancelEdit: () => void;
+  selectedCount: number;
+  totalCount: number;
 }
 
 export const TTSControls: React.FC<TTSControlsProps> = ({
   state,
   toggleAllSelection,
   deleteSelectedInputs,
+  selectedCount,
+  totalCount,
 }) => {
-  const anySelected = state.textInputs.some(input => input.isSelected);
+  const anySelected = selectedCount > 0;
 
   return (
     <>
@@ -30,7 +34,9 @@ export const TTSControls: React.FC<TTSControlsProps> = ({
               checked={state.isAllSelected}
               onCheckedChange={toggleAllSelection}
             />
-            <label htmlFor="select-all">전체 선택</label>
+            <label htmlFor="select-all">
+              {anySelected ? `${selectedCount}/${totalCount} 선택` : '전체 선택'}
+            </label>
           </div>
           <Button 
             onClick={deleteSelectedInputs} 

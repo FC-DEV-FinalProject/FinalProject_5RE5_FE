@@ -34,9 +34,11 @@ const TTS: React.FC = () => {
     setProjectName(e.target.value);
   };
 
+  const selectedCount = textInputs.filter((input) => input.isSelected).length;
+
   return (
-    <div
-      className='container p-4 h-[calc(100vh-170px)] w-screen overflow-y-auto'
+    <div 
+      className='container p-4 h-[calc(100vh-170px)] w-full overflow-y-auto' 
       ref={containerRef}
     >
       <TTSHeader
@@ -51,6 +53,8 @@ const TTS: React.FC = () => {
         addTextInput={addTextInput}
         saveInput={saveInput}
         cancelEdit={cancelEdit}
+        selectedCount={selectedCount}
+        totalCount={textInputs.length}
       />
 
       <TextInputList
@@ -62,6 +66,7 @@ const TTS: React.FC = () => {
         cancelEdit={cancelEdit}
         addTextInput={addTextInput}
         saveInput={saveInput}
+        onSelectionChange={(selectedCount, totalCount) => {}}
       />
     </div>
   );

@@ -1,8 +1,22 @@
 import { create } from 'zustand';
 import { TTSState } from '@/types/tts';
 
-interface TTSStore extends TTSState {
-  addTextInput: () => void;
+interface ExtendedTTSState extends TTSState {
+  textInputs: {
+    id: number;
+    text: string;
+    isSelected: boolean;
+    isEditing: boolean;
+    speed: number;
+    pitch: number;
+    volume: number;
+    voice: string;
+  }[];
+  isAllSelected: boolean;
+  editingId: number | null;
+}
+interface TTSStore extends ExtendedTTSState {
+  addTextInput: (hoveredId: number) => void;
   addTextInputs: (texts: string[]) => void;
   handleTextChange: (id: number, newText: string) => void;
   toggleSelection: (id: number) => void;
@@ -38,32 +52,51 @@ export const useTextInputs = create<TTSStore>((set) => ({
   isAllSelected: false,
   editingId: null,
 
-  addTextInput: () =>
-    set((state) => {
+  addTextInput: (hoveredId: number) =>
+    set((state: ExtendedTTSState) => {
       const newId =
         state.textInputs.length > 0
           ? Math.max(...state.textInputs.map((input) => input.id)) + 1
           : 1;
-      return {
-        ...state,
-        textInputs: [
-          ...state.textInputs,
-          {
-            id: newId,
-            text: '',
-            isSelected: false,
-            isEditing: false,
-            speed: 1,
-            pitch: 0,
-            volume: 0,
-            voice: '',
-          },
-        ],
-      };
+      const currentIndex = state.textInputs.findIndex((input) => input.id === hoveredId);
+      if (currentIndex === -1) {
+        return {
+          ...state,
+          textInputs: [
+            ...state.textInputs,
+            { id: newId, 
+              text: '', 
+              isSelected: false, 
+              isEditing: false, 
+              speed: 1,
+              pitch: 0,
+              volume: 0,
+              voice: '', 
+            },
+          ],
+        };
+      } else {
+          return {
+            ...state,
+            textInputs: [
+              ...state.textInputs.slice(0, currentIndex + 1),
+              { id: newId, 
+                text: '', 
+                isSelected: false, 
+                isEditing: false, 
+                speed: 1,
+                pitch: 0,
+                volume: 0,
+                voice: '', 
+              },
+              ...state.textInputs.slice(currentIndex + 1),
+            ],
+          };
+      }
     }),
 
   addTextInputs: (texts) =>
-    set((state) => ({
+    set((state: ExtendedTTSState) => ({
       ...state,
       textInputs: [
         ...state.textInputs,
@@ -81,7 +114,7 @@ export const useTextInputs = create<TTSStore>((set) => ({
     })),
 
   handleTextChange: (id, newText) =>
-    set((state) => ({
+    set((state: ExtendedTTSState) => ({
       ...state,
       textInputs: state.textInputs.map((input) =>
         input.id === id ? { ...input, text: newText, isEditing: true } : input
@@ -90,7 +123,7 @@ export const useTextInputs = create<TTSStore>((set) => ({
     })),
 
   toggleSelection: (id) =>
-    set((state) => ({
+    set((state: ExtendedTTSState) => ({
       ...state,
       textInputs: state.textInputs.map((input) =>
         input.id === id ? { ...input, isSelected: !input.isSelected } : input
@@ -98,7 +131,7 @@ export const useTextInputs = create<TTSStore>((set) => ({
     })),
 
   toggleAllSelection: () =>
-    set((state) => {
+    set((state: ExtendedTTSState) => {
       const newIsAllSelected = !state.isAllSelected;
       return {
         ...state,
@@ -111,14 +144,14 @@ export const useTextInputs = create<TTSStore>((set) => ({
     }),
 
   deleteSelectedInputs: () =>
-    set((state) => ({
+    set((state: ExtendedTTSState) => ({
       ...state,
       textInputs: state.textInputs.filter((input) => !input.isSelected),
       isAllSelected: false,
     })),
 
   saveInput: () =>
-    set((state) => ({
+    set((state: ExtendedTTSState) => ({
       ...state,
       textInputs: state.textInputs.map((input) =>
         input.id === state.editingId ? { ...input, isEditing: false } : input
@@ -127,7 +160,7 @@ export const useTextInputs = create<TTSStore>((set) => ({
     })),
 
   cancelEdit: () =>
-    set((state) => ({
+    set((state: ExtendedTTSState) => ({
       ...state,
       textInputs: state.textInputs.map((input) =>
         input.id === state.editingId
@@ -139,7 +172,7 @@ export const useTextInputs = create<TTSStore>((set) => ({
 
   // 새로운 설정값을 업데이트하는 함수
   updateInputSettings: (id, newSettings) =>
-    set((state) => ({
+    set((state: ExtendedTTSState) => ({
       ...state,
       textInputs: state.textInputs.map((input) =>
         input.id === id ? { ...input, ...newSettings } : input
@@ -148,7 +181,7 @@ export const useTextInputs = create<TTSStore>((set) => ({
 
   // 개별 항목 설정 초기화 함수
   resetInputSettings: (id) =>
-    set((state) => ({
+    set((state: ExtendedTTSState) => ({
       ...state,
       textInputs: state.textInputs.map((input) =>
         input.id === id

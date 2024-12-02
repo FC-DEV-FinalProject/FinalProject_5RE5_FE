@@ -19,33 +19,53 @@ export const useTextInputs = () => {
     editingId: null,
   });
 
-  const addTextInput = () => {
+  const addTextInput = (hoveredId: number) => {
     const newId =
       state.textInputs.length > 0
         ? Math.max(...state.textInputs.map((input) => input.id)) + 1
         : 1;
 
-    setState((prev) => ({
-      ...prev,
-      textInputs: [
-        ...state.textInputs,
-        {
-          id: newId,
-          text: '',
-          isSelected: false,
-          isEditing: false,
-          speed: 1,
-          pitch: 0,
-          volume: 0,
-          voice: '',
-        },
-      ],
-    }));
+    const currentIndex = state.textInputs.findIndex((input) => input.id === hoveredId);
+    if (currentIndex === -1) {
+      setState((prev) => ({
+        ...prev,
+        textInputs: [
+          ...prev.textInputs,
+          { 
+            id: newId, 
+            text: '', 
+            isSelected: false, 
+            isEditing: false, 
+            speed: 1,
+            pitch: 0,
+            volume: 0,
+            voice: ''
+          },
+        ],
+      }));
+    } else {
+      setState((prev) => ({
+        ...prev,
+        textInputs: [
+          ...prev.textInputs.slice(0, currentIndex + 1),
+          {
+            id: newId,
+            text: '',
+            isSelected: false,
+            isEditing: false,
+            speed: 1,
+            pitch: 0,
+            volume: 0,
+            voice: '',
+          },
+          ...prev.textInputs.slice(currentIndex + 1),
+        ],
+      }));
+    }
   };
 
   const addTextInputs = (texts: string[]) => {
-    setState((prev) => {
-      const updatedState = {
+    setState((prev) => ({
         ...prev,
         textInputs: [
           ...state.textInputs,
@@ -57,15 +77,13 @@ export const useTextInputs = () => {
             speed: 1,
             pitch: 0,
             volume: 0,
-            voice: '',
+            voice: ''
           })),
         ],
-      };
-      return updatedState;
-    });
+    }));
   };
   const handleTextChange = (id: number, newText: string) => {
-    if (newText.length > 1000) return;
+    if (newText.length > 2000) return;
     if (!/^[가-힣a-zA-Z0-9\s.,!?]*$/.test(newText)) return;
 
     setState((prev) => ({
@@ -111,6 +129,10 @@ export const useTextInputs = () => {
   const saveInput = () => {
     setState((prev) => ({
       ...prev,
+      textInputs: prev.textInputs.map((input) =>
+        input.id === prev.editingId ? { ...input, isEditing: false } : input
+      // editingId: null,
+      ),
       editingId: null,
     }));
   };
@@ -119,7 +141,9 @@ export const useTextInputs = () => {
     setState((prev) => ({
       ...prev,
       textInputs: prev.textInputs.map((input) =>
-        input.id === prev.editingId ? { ...input, text: '' } : input
+        input.id === prev.editingId 
+          ? { ...input, text: '', isEditing: false } 
+          : input
       ),
       editingId: null,
     }));
