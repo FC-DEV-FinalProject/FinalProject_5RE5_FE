@@ -1,12 +1,10 @@
+import { TTSControls } from '@/components/tts/TTSControls';
+import { TTSHeader } from '@/components/tts/TTSHeader';
+import { TextInputList } from '@/components/tts/TextInputList';
+import { useOutsideClick } from '@/hooks/useOutsideClick';
+import { useTextInputs } from '@/stores/textInputStore';
 import React, { useRef } from 'react';
 import { useParams } from 'react-router-dom';
-
-import { useOutsideClick } from '@/hooks/useOutsideClick';
-import { TTSHeader } from '@/components/tts/TTSHeader';
-import { TTSControls } from '@/components/tts/TTSControls';
-import { TextInputList } from '@/components/tts/TextInputList';
-import { Button } from '@/components/ui/button';
-import { useTextInputs } from '@/stores/textInputStore';
 
 const TTS: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
@@ -36,8 +34,13 @@ const TTS: React.FC = () => {
     setProjectName(e.target.value);
   };
 
+  const selectedCount = textInputs.filter((input) => input.isSelected).length;
+
   return (
-    <div className='container p-4 h-[calc(100vh-170px)] w-screen overflow-y-auto' ref={containerRef}>
+    <div 
+      className='container p-4 h-[calc(100vh-170px)] w-full overflow-y-auto' 
+      ref={containerRef}
+    >
       <TTSHeader
         projectName={projectName}
         onProjectNameChange={handleProjectNameChange}
@@ -50,17 +53,21 @@ const TTS: React.FC = () => {
         addTextInput={addTextInput}
         saveInput={saveInput}
         cancelEdit={cancelEdit}
+        selectedCount={selectedCount}
+        totalCount={textInputs.length}
       />
 
       <TextInputList
-        state={{ textInputs, isAllSelected, editingId }}
+        textInputs={textInputs}
+        isAllSelected={isAllSelected}
+        editingId={editingId}
         toggleSelection={toggleSelection}
         handleTextChange={handleTextChange}
         cancelEdit={cancelEdit}
         addTextInput={addTextInput}
         saveInput={saveInput}
+        onSelectionChange={(selectedCount, totalCount) => {}}
       />
-
     </div>
   );
 };
