@@ -1,13 +1,22 @@
 import ConcatSidebar from '@/components/sidebar/ConcatSidebar';
 import TTSSidebar from '@/components/sidebar/TTSSidebar';
 import VCSidebar from '@/components/sidebar/VCSidebar';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import {
+  BookAIcon,
+  ChevronDown,
+  ChevronUp,
+  CombineIcon,
+  MicIcon,
+} from 'lucide-react';
 import { useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { Link, useParams } from 'react-router-dom';
 import TTS from '@/pages/TTS';
 import VC from '@/pages/VC';
 import Concat from '@/pages/Concat';
+import Logo from '@/assets/logo.png';
+import { ROUTES } from '@/constants/route';
+import { Button } from '@/components/ui/button';
 
 const ProjectLayout = () => {
   // Footer 상태 관리 (열림/닫힘 여부)
@@ -50,7 +59,14 @@ const ProjectLayout = () => {
     <div className='flex flex-col h-screen'>
       {/* 헤더 */}
       <header className='flex items-center gap-4 px-4 text-white bg-gray-800 h-14'>
-        <h1 className='text-lg font-bold'>로고</h1>
+        <div
+          className='text-lg font-bold hover:cursor-pointer'
+          onClick={() => {
+            window.location.href = ROUTES.HOME;
+          }}
+        >
+          <img src={Logo} />
+        </div>
         <nav>
           <ul className='flex gap-4'>
             <li>
@@ -74,27 +90,33 @@ const ProjectLayout = () => {
 
       <div className='flex flex-1'>
         {/* 좌측 사이드바 */}
-        <aside className='p-4 bg-gray-200 w-[90px]'>
+        <aside className='p-2 bg-gray-200 w-[90px]'>
           <ul>
-            <li className='mb-8'>
-              <Link
-                to={`/project/tts/${projectId}`}
-                className='hover:underline'
-              >
-                TTS
+            <li className='mb-4'>
+              <Link to={`${ROUTES.PROJECT}${ROUTES.TTS}/${projectId}`}>
+                <div className='flex flex-col p-2 hover:bg-accent hover:font-bold hover:text-accent-foreground rounded-2xl'>
+                  <BookAIcon className='text-center w-[100%] my-2' size={24} />
+                  <p className='text-xs text-center'>TTS</p>
+                </div>
               </Link>
             </li>
-            <li className='mb-8'>
-              <Link to={`/project/vc/${projectId}`} className='hover:underline'>
-                VC
+            <li className='mb-4'>
+              <Link to={`${ROUTES.PROJECT}${ROUTES.VC}/${projectId}`}>
+                <div className='flex flex-col p-2 hover:bg-accent hover:font-bold hover:text-accent-foreground rounded-2xl'>
+                  <MicIcon className='text-center w-[100%] my-2' size={24} />
+                  <p className='text-xs text-center '>VC</p>
+                </div>
               </Link>
             </li>
-            <li>
-              <Link
-                to={`/project/concat/${projectId}`}
-                className='hover:underline'
-              >
-                Concat
+            <li className='mb-4'>
+              <Link to={`${ROUTES.PROJECT}${ROUTES.CONCAT}/${projectId}`}>
+                <div className='flex flex-col p-2 hover:bg-accent hover:font-bold hover:text-accent-foreground rounded-2xl'>
+                  <CombineIcon
+                    className='text-center w-[100%] my-2'
+                    size={24}
+                  />
+                  <p className='text-xs text-center'>CONCAT</p>
+                </div>
               </Link>
             </li>
           </ul>

@@ -1,6 +1,5 @@
 import { ChevronDown, Home, Bell, FolderOpen, Files } from 'lucide-react';
 import Logo from '@/assets/logo.png';
-
 import {
   Sidebar,
   SidebarContent,
@@ -64,7 +63,7 @@ export function HomeSidebar() {
           <SidebarMenuItem
             className='p-2 hover:cursor-pointer'
             onClick={() => {
-              window.location.href = '/';
+              window.location.href = ROUTES.HOME;
             }}
           >
             <img src={Logo} />

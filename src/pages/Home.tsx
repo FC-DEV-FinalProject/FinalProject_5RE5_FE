@@ -1,7 +1,6 @@
 import DividingLine from '@/components/common/DividingLine';
 import ListView from '@/components/common/ListView';
 import { PROJECT_DATA } from '@/mocks/projectData';
-import MyProject from '@/pages/MyProject';
 
 export type ProjectType = 'TTS' | 'VC' | 'Concat';
 export const PROJECT_TYPE: Record<string, ProjectType> = {

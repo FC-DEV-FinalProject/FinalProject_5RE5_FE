@@ -8,10 +8,14 @@ export const login = async ({
   password,
 }: IUseLoginProps): Promise<IUserData> => {
   try {
-    const response = await apiClient.post<IUserData>('/member/login', {
-      username,
-      password,
-    });
+    const response = await apiClient.post<IUserData>(
+      '/member/login',
+      {
+        username,
+        password,
+      },
+      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+    );
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
