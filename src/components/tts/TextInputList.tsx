@@ -2,7 +2,7 @@ import { TTSState, Language, Style, Voice } from "@/types/tts";
 import { CustomCheckbox } from "@/components/common/CustomCheckbox";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Repeat2, Play, Download, MoveVertical } from "lucide-react";
+import { Repeat2, Play, Download } from "lucide-react";
 import { useEffect, useState } from "react";
 import { mockLanguages, mockStyles, mockVoices } from "@/mock/speaker"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -40,6 +40,7 @@ export const TextInputList: React.FC<TextInputListProps> = ({
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   const [inputHoverStates, setInputHoverStates] = useState<Record<number, boolean>>({});
+  const [inputEditingStates, setInputEditingStates] = useState<Record<number, boolean>>({});
 
   // useEffect(() => {
   //   fetch('/api/language')
@@ -94,7 +95,11 @@ export const TextInputList: React.FC<TextInputListProps> = ({
   const handleInputHover = (id: number, isHovered: boolean) => {
     setInputHoverStates(prevState => ({ ...prevState, [id]: isHovered }));
   };
-
+  
+  const handleInputFocus = (id: number, isFocused: boolean) => {
+    setInputEditingStates(prevState => ({ ...prevState, [id]: isFocused }));
+  };
+  
   return (
     <>
       {state.textInputs.map((input) => (
@@ -187,34 +192,33 @@ export const TextInputList: React.FC<TextInputListProps> = ({
                 onChange={(e) => handleTextChange(input.id, e.target.value)}
                 placeholder="내용을 입력해주세요.(최대 2,000자)"
                 onFocus={() => {
+                  handleInputFocus(input.id, true);
                   if (input.text === '') {
                     cancelEdit();
                   }
                 }}
+                onBlur={() => handleInputFocus(input.id, false)}
               />
+              {input.isEditing && (
+                <div className="flex space-x-1">
+                  <Button onClick={saveInput} variant="secondary" className="w-24 mr-1 rounded-3xl">
+                    저장
+                  </Button>
+                  <Button onClick={cancelEdit} variant="secondary" className="w-24 rounded-3xl">
+                    취소
+                  </Button>
+                </div>
+              )}
             </div>
-            {inputHoverStates[input.id] && (
+            {inputHoverStates[input.id] && !inputEditingStates[input.id] &&(
               <div className="flex items-center justify-center mt-2">
-                  {input.isEditing ? (
-                    <>
-                      <div className="w-6/12 h-[1px] bg-slate-200"></div>
-                      <Button onClick={saveInput} variant="secondary" className="w-24 mr-1 rounded-3xl">
-                        저장
-                      </Button>
-                      <Button onClick={cancelEdit} variant="secondary" className="w-24 rounded-3xl">
-                        취소
-                      </Button>
-                      <div className="w-6/12 h-[1px] bg-slate-200"></div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="w-6/12 h-[1px] bg-slate-200"></div>
-                      <Button onClick={() => addTextInput(input.id)} variant="outline" className="rounded-3xl w-52">
-                        + 텍스트 추가
-                      </Button>
-                      <div className="w-6/12 h-[1px] bg-slate-200"></div>
-                    </>
-                  )}
+                <>
+                  <div className="w-6/12 h-[1px] bg-slate-200"></div>
+                  <Button onClick={() => addTextInput(input.id)} variant="outline" className="rounded-3xl w-52">
+                    + 텍스트 추가
+                  </Button>
+                  <div className="w-6/12 h-[1px] bg-slate-200"></div>
+                </>
               </div>
             )}
           </div>
