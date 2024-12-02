@@ -181,7 +181,7 @@ export const TextInputList: React.FC<TextInputListProps> = ({
                 <Download size={16} />
               </div>
             </div>
-            <div className="flex items-center mb-2 space-x-2">
+            <div className="relative flex items-center mb-2 space-x-2">
               <CustomCheckbox
                 id={`input-${input.id}`}
                 checked={input.isSelected}
@@ -200,11 +200,11 @@ export const TextInputList: React.FC<TextInputListProps> = ({
                 onBlur={() => handleInputFocus(input.id, false)}
               />
               {input.isEditing && (
-                <div className="flex space-x-1">
-                  <Button onClick={saveInput} variant="secondary" className="w-24 mr-1 rounded-3xl">
+                <div className="absolute flex space-x-1 transform -translate-y-1/2 top-1/2 right-2">
+                  <Button onClick={saveInput} size="xs" variant="secondary" className="rounded-3xl">
                     저장
                   </Button>
-                  <Button onClick={cancelEdit} variant="secondary" className="w-24 rounded-3xl">
+                  <Button onClick={cancelEdit} size="xs" variant="secondary" className="rounded-3xl">
                     취소
                   </Button>
                 </div>
