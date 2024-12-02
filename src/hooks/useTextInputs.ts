@@ -3,7 +3,18 @@ import { TextInput, TTSState } from '@/types/tts';
 
 export const useTextInputs = () => {
   const [state, setState] = useState<TTSState>({
-    textInputs: [{ id: 0, text: '', isSelected: false, isEditing: false }],
+    textInputs: [
+      {
+        id: 1,
+        text: '',
+        isSelected: false,
+        isEditing: false,
+        speed: 1,
+        pitch: 0,
+        volume: 0,
+        voice: '',
+      },
+    ],
     isAllSelected: false,
     editingId: null,
   });
@@ -17,8 +28,17 @@ export const useTextInputs = () => {
     setState((prev) => ({
       ...prev,
       textInputs: [
-        ...prev.textInputs,
-        { id: newId, text: '', isSelected: false, isEditing: false },
+        ...state.textInputs,
+        {
+          id: newId,
+          text: '',
+          isSelected: false,
+          isEditing: false,
+          speed: 1,
+          pitch: 0,
+          volume: 0,
+          voice: '',
+        },
       ],
     }));
   };
@@ -28,12 +48,16 @@ export const useTextInputs = () => {
       const updatedState = {
         ...prev,
         textInputs: [
-          ...prev.textInputs,
+          ...state.textInputs,
           ...texts.map((text, index) => ({
-            id: prev.textInputs.length + index + 1,
+            id: state.textInputs.length + index + 1,
             text: text.trim(),
             isSelected: false,
             isEditing: false,
+            speed: 1,
+            pitch: 0,
+            volume: 0,
+            voice: '',
           })),
         ],
       };
