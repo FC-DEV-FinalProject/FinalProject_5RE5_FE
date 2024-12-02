@@ -10,6 +10,11 @@ declare module '@/components/ui/label' {
   >;
 }
 
-// declare module '@/components/ui/checkbox' {
-//   export const Checkbox: React.ComponentType<React.InputHTMLAttributes<HTMLInputElement>>;
-// }
+interface ExtComponentPropsWithoutRef
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  onCheckedChange?: (checked: boolean) => void;
+}
+
+declare module '@/components/ui/checkbox' {
+  export const Checkbox: React.ComponentType<ExtComponentPropsWithoutRef>;
+}

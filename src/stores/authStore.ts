@@ -1,31 +1,89 @@
 import { IUserData } from '@/types/login';
 import { create } from 'zustand';
+import { persist, StorageValue } from 'zustand/middleware';
 
 interface AuthState {
-  userInfo: IUserData | null;
-  isAuthenticated: boolean;
+  isLogin: boolean;
+  userData: IUserData | null;
+  login: (data: IUserData, keepLogin: boolean) => void;
   logout: () => void;
-  setUserAndLogin: (userInfo: IUserData | null) => void;
-  setRememberMe: (newState: boolean) => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  userInfo: null,
-  isAuthenticated: false,
-  setUserAndLogin: (userInfo) => {
-    set({ userInfo, isAuthenticated: true });
-  },
-  logout: () => {
-    set({ isAuthenticated: false });
-    document.cookie = `isLogin=; path=/; max-age=0; Secure; SameSite=Strict`;
-  },
-  setRememberMe: (newState) => {
-    if (newState) {
-      document.cookie = `isLogin=true; path=/; max-age=${60 * 60 * 24}; Secure; SameSite=Strict`;
-    } else {
-      if (document.cookie.includes('isLogin')) {
-        document.cookie = `isLogin=; path=/; max-age=0; Secure; SameSite=Strict`;
-      }
+type AuthPersistState = Omit<AuthState, 'login' | 'logout'>;
+
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      userData: null,
+      isLogin: false,
+      login: (data, keepLogin) => {
+        set({
+          userData: data,
+          isLogin: true,
+        });
+        if (keepLogin) {
+          localStorage.setItem('keepLogin', 'true');
+        } else {
+          localStorage.removeItem('keepLogin');
+        }
+      },
+      logout: () => {
+        set({
+          userData: null,
+          isLogin: false,
+        });
+        localStorage.removeItem('keepLogin');
+      },
+    }),
+    {
+      name: 'auth-storage',
+      partialize: (state) => ({
+        userData: state.userData,
+        isLogin: state.isLogin,
+      }),
+      storage: {
+        getItem: (
+          name: string
+        ):
+          | StorageValue<AuthPersistState>
+          | Promise<StorageValue<AuthPersistState> | null>
+          | null => {
+          const keepLogin = localStorage.getItem('keepLogin') === 'true';
+          const storedData = keepLogin
+            ? localStorage.getItem(name)
+            : sessionStorage.getItem(name);
+
+          if (storedData) {
+            try {
+              return JSON.parse(storedData) as StorageValue<AuthPersistState>;
+            } catch (error) {
+              console.error('Failed to parse storage data:', error);
+              return null;
+            }
+          }
+          return null;
+        },
+        setItem: (
+          name: string,
+          value: StorageValue<AuthPersistState>
+        ): void => {
+          const keepLogin = localStorage.getItem('keepLogin') === 'true';
+          const data = JSON.stringify(value);
+          if (keepLogin) {
+            localStorage.setItem(name, data);
+            sessionStorage.removeItem(name);
+          } else {
+            sessionStorage.setItem(name, data);
+            localStorage.removeItem(name);
+          }
+        },
+        removeItem: (name: string): void => {
+          localStorage.removeItem(name);
+          sessionStorage.removeItem(name);
+        },
+      },
     }
-  },
-}));
+  )
+);
+
+export default useAuthStore;

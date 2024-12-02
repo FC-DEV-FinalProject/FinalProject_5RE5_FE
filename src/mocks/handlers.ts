@@ -49,4 +49,12 @@ export const handlers = [
       });
     }
   ),
+
+  http.post(`${import.meta.env.VITE_API_BASE_URL}/member/logout`, async () => {
+    console.log('MSW 핸들러가 요청을 가로챘습니다:');
+
+    return new Promise((resolve) => {
+      resolve(HttpResponse.json({ message: 'Logout successful' }));
+    });
+  }),
 ];

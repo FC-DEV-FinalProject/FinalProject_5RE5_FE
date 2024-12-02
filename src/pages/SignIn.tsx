@@ -6,8 +6,9 @@ import { Checkbox } from '@/components/ui/checkbox';
 import useLogin from '@/hooks/apis/useLogin';
 import { LoaderCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { validateLoginForm } from '@/lib/utils';
 import TextSlide from '@/components/login/TextSlide';
+import { validateLoginForm } from '@/utils/auth';
+import Logo from '@/assets/logo.png';
 
 interface ILoginForm {
   username: string;
@@ -36,14 +37,19 @@ const SignIn = () => {
     password,
     keepLogin,
   }) => {
-    // setrememberChecked(checked);
-    console.log(keepLogin);
+    setrememberChecked(keepLogin);
     if (validateLoginForm({ username, password })) {
       mutate({ username, password });
     } else {
       setLoginError(true);
     }
   };
+
+  const [keepLogin, setKeepLogin] = useState(false);
+  const handleKeepLoginChange = (value: boolean) => {
+    setKeepLogin(value);
+  };
+
   const [loginError, setLoginError] = useState(false);
 
   useEffect(() => {
@@ -68,13 +74,17 @@ const SignIn = () => {
     }
   }, [error]);
 
+  useEffect(() => {
+    localStorage.setItem('keepLogin', JSON.stringify(keepLogin));
+  }, [keepLogin]);
+
   return (
     <div className='flex login-wrap min-w-[1280px] h-screen min-h-[600px] border-box'>
       <div className='w-[53%] bg-blue-2 relative flex justify-end'>
         <div className='w-full max-w-[800px] border-box pt-8 pl-10'>
           <h1 className='w-[108px] h-[23px]'>
             <Link to='/'>
-              <img src='./src/assets/logo.png' alt='' />
+              <img src={Logo} alt='' />
             </Link>
           </h1>
           <TextSlide />
@@ -93,7 +103,6 @@ const SignIn = () => {
                   })}
                   placeholder='ID'
                   onFocus={() => setLoginError(false)}
-                  autoComplete='off'
                   disabled={isPending}
                 />
                 {errors.username && (
@@ -128,10 +137,14 @@ const SignIn = () => {
                     <Checkbox
                       id='keep-login'
                       checked={field.value}
-                      onCheckedChange={field.onChange}
+                      onCheckedChange={(value) => {
+                        field.onChange(value);
+                        handleKeepLoginChange(value);
+                      }}
                       aria-label='로그인 상태 유지'
                       aria-describedby='keep-login-description'
                       className='data-[state=checked]:bg-green-6 data-[state=checked]:border-green-6 border-gray-300'
+                      disabled={isPending}
                     />
                   )}
                 />
