@@ -8,17 +8,21 @@ interface TTSControlsProps {
   state: TTSState;
   toggleAllSelection: () => void;
   deleteSelectedInputs: () => void;
-  addTextInput: () => void;
+  addTextInput: (hoveredId: number) => void;
   saveInput: () => void;
   cancelEdit: () => void;
+  selectedCount: number;
+  totalCount: number;
 }
 
 export const TTSControls: React.FC<TTSControlsProps> = ({
   state,
   toggleAllSelection,
   deleteSelectedInputs,
+  selectedCount,
+  totalCount,
 }) => {
-  const anySelected = state.textInputs.some(input => input.isSelected);
+  const anySelected = selectedCount > 0;
 
   return (
     <>
@@ -30,40 +34,18 @@ export const TTSControls: React.FC<TTSControlsProps> = ({
               checked={state.isAllSelected}
               onCheckedChange={toggleAllSelection}
             />
-            <label htmlFor="select-all">전체 선택</label>
+            <label htmlFor="select-all">
+              {anySelected ? `${selectedCount}/${totalCount} 선택` : '전체 선택'}
+            </label>
           </div>
-          <Button
-            onClick={deleteSelectedInputs}
-            disabled={!anySelected}
-            variant="destructive"
+          <Button 
+            onClick={deleteSelectedInputs} 
+            disabled={!anySelected} 
+            variant="outline" 
+            className="w-24 rounded-3xl"
           >
             선택 삭제
           </Button>
-        </div>
-
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex">
-            <Select>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="성우이름" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="option1">성우 1</SelectItem>
-                <SelectItem value="option2">성우 2</SelectItem>
-                <SelectItem value="option3">성우 3</SelectItem>
-              </SelectContent>
-            </Select>
-            <Button variant="secondary" className="ml-2">효과 라디오</Button>
-          </div>
-          <div className="flex justify-between">
-            <Button variant="secondary" className="mr-1">음량</Button>
-            <Button variant="secondary" className="mr-1">속도</Button>
-            <Button variant="secondary" className="mr-1">높이</Button>
-            <Button variant="secondary" className="mr-1">초기화</Button>
-            <Button>
-              <Repeat2 />재생성
-            </Button>
-          </div>
         </div>
       </div>
     </>
