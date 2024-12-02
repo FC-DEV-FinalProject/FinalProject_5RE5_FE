@@ -34,6 +34,8 @@ const TTS: React.FC = () => {
     setProjectName(e.target.value);
   };
 
+  const selectedCount = textInputs.filter((input) => input.isSelected).length;
+
   return (
     <div 
       className='container p-4 h-[calc(100vh-170px)] w-full overflow-y-auto' 
@@ -51,6 +53,8 @@ const TTS: React.FC = () => {
         addTextInput={addTextInput}
         saveInput={saveInput}
         cancelEdit={cancelEdit}
+        selectedCount={selectedCount}
+        totalCount={textInputs.length}
       />
 
       <TextInputList
@@ -62,6 +66,9 @@ const TTS: React.FC = () => {
         cancelEdit={cancelEdit}
         addTextInput={addTextInput}
         saveInput={saveInput}
+        onSelectionChange={(selectedCount, totalCount) => {
+          // 이 함수는 현재 사용되지 않지만, 필요에 따라 구현할 수 있습니다.
+        }}
       />
     </div>
   );

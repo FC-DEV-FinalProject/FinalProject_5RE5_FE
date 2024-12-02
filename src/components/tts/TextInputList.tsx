@@ -14,6 +14,7 @@ interface TextInputListProps {
   saveInput: () => void;
   isAllSelected: boolean;
   editingId: number | null;
+  onSelectionChange: (selectedCount: number, totalCount: number) => void;
 }
 
 export const TextInputList: React.FC<TextInputListProps> = ({
@@ -23,6 +24,9 @@ export const TextInputList: React.FC<TextInputListProps> = ({
   cancelEdit,
   addTextInput,
   saveInput,
+  isAllSelected,
+  editingId,
+  onSelectionChange,
 }) => {
   const [inputHoverStates, setInputHoverStates] = useState<Record<number, boolean>>({});
   const [inputEditingStates, setInputEditingStates] = useState<Record<number, boolean>>({});
@@ -34,6 +38,13 @@ export const TextInputList: React.FC<TextInputListProps> = ({
   const handleInputFocus = (id: number, isFocused: boolean) => {
     setInputEditingStates(prevState => ({ ...prevState, [id]: isFocused }));
   };
+
+  const handleToggleSelection = (id: number) => {
+    toggleSelection(id);
+    const selectedCount = textInputs.filter(input => input.isSelected).length;
+    onSelectionChange(selectedCount, textInputs.length);
+  };
+  
   return (
     <>
       {textInputs.map((input) => (
@@ -85,7 +96,7 @@ export const TextInputList: React.FC<TextInputListProps> = ({
               <CustomCheckbox
                 id={`input-${input.id}`}
                 checked={input.isSelected}
-                onCheckedChange={() => toggleSelection(input.id)}
+                onCheckedChange={() => handleToggleSelection(input.id)}
               />
               <Input
                 value={input.text}
