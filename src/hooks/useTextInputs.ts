@@ -66,7 +66,6 @@ export const useTextInputs = () => {
 
   const addTextInputs = (texts: string[]) => {
     setState((prev) => ({
-      // const updatedState = {
         ...prev,
         textInputs: [
           ...state.textInputs,
@@ -81,8 +80,6 @@ export const useTextInputs = () => {
             voice: ''
           })),
         ],
-      // };
-      // return updatedState;
     }));
   };
   const handleTextChange = (id: number, newText: string) => {

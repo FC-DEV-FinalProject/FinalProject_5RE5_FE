@@ -66,9 +66,7 @@ const TTS: React.FC = () => {
         cancelEdit={cancelEdit}
         addTextInput={addTextInput}
         saveInput={saveInput}
-        onSelectionChange={(selectedCount, totalCount) => {
-          // 이 함수는 현재 사용되지 않지만, 필요에 따라 구현할 수 있습니다.
-        }}
+        onSelectionChange={(selectedCount, totalCount) => {}}
       />
     </div>
   );
