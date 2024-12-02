@@ -2,7 +2,7 @@ import { useState } from "react";
 import { CustomCheckbox } from '@/components/common/CustomCheckbox';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Repeat2, Play, Download, MoveVertical } from 'lucide-react';
+import { Repeat2, Play, Download } from 'lucide-react';
 import { TextInput } from '@/types/tts';
 
 interface TextInputListProps {
@@ -38,7 +38,11 @@ export const TextInputList: React.FC<TextInputListProps> = ({
     <>
       {textInputs.map((input) => (
         <div key={input.id} className='mb-4'>
-          <div className='mb-4'>
+          <div 
+            className='mb-4 min-h-[120px]'
+            onMouseEnter={() => handleInputHover(input.id, true)}
+            onMouseLeave={() => handleInputHover(input.id, false)}
+          >
             <div className='flex items-center justify-between'>
               <div className='flex items-end mb-2 space-x-1'>
                 <Button variant='secondary' size='sm'>
@@ -65,11 +69,11 @@ export const TextInputList: React.FC<TextInputListProps> = ({
                 </Button>
                 <Button
                   variant='outline'
-                  className='text-green-400 border-green-400'
+                  className='text-green-400 border-green-400 hover:bg-green-400 hover:text-white'
                   size='sm'
                 >
                   <Repeat2 />
-                  재생성
+                  TTS 생성
                 </Button>
               </div>
               <div className='flex space-x-1'>

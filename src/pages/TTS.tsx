@@ -1,10 +1,7 @@
 import { TTSControls } from '@/components/tts/TTSControls';
 import { TTSHeader } from '@/components/tts/TTSHeader';
 import { TextInputList } from '@/components/tts/TextInputList';
-<<<<<<< HEAD
-=======
 import { useOutsideClick } from '@/hooks/useOutsideClick';
->>>>>>> 4f13907ab161b5b85f86bef8adeeb105c3c2b94f
 import { useTextInputs } from '@/stores/textInputStore';
 import React, { useRef } from 'react';
 import { useParams } from 'react-router-dom';
@@ -38,7 +35,10 @@ const TTS: React.FC = () => {
   };
 
   return (
-    <div className='container p-4 h-[calc(100vh-170px)] w-full overflow-y-auto' ref={containerRef}>
+    <div 
+      className='container p-4 h-[calc(100vh-170px)] w-full overflow-y-auto' 
+      ref={containerRef}
+    >
       <TTSHeader
         projectName={projectName}
         onProjectNameChange={handleProjectNameChange}
