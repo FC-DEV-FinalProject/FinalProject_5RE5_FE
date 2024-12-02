@@ -3,6 +3,10 @@ export interface TextInput {
   text: string;
   isSelected: boolean;
   isEditing: boolean;
+  speed: number;
+  pitch: number;
+  volume: number;
+  voice: string | null;
 }
 
 export interface TTSState {
@@ -15,7 +19,6 @@ export interface Language {
   languageCode: string;
   languageName: string;
 }
-
 
 export interface Style {
   name: string;
