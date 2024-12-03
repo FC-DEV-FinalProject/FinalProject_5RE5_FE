@@ -1,32 +1,67 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSignUpForm } from '@/hooks/useSignUpForm';
 import { FormField } from '@/components/signup/FormField';
 import { AddressSearch } from '@/components/signup/AddressSearch';
 import { TermsSection } from '@/components/signup/TermSection';
+import { SignUpError } from '@/utils/auth';
+import { ISignUpRequest } from "@/types/login";
+import { signUpRequest } from "@/apis/NewAuth";
 
 const SignUp: React.FC = () => {
+  const navigate = useNavigate();
   const { 
     formData,
     errors,
     terms,
     isOpen,
     setIsOpen,
+    emailVerified,
     handleInputChange,
     validateForm,
-    handleTermChange
+    handleTermChange,
+    handleEmailVerification,
+    verifyEmailCode
   } = useSignUpForm();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
     if (validateForm()) {
-      console.log('유효함.제출중');
-    } else {
-      console.log('에러남 ㅅㄱ');
+      try {
+        const requestData: ISignUpRequest = {
+          id: formData.userId,
+          email: formData.email,
+          password: formData.password,
+          name: formData.name,
+          normAddr: formData.address,
+          locaAddr: formData.address,
+          detailAddr: formData.detailAddress,
+          passAddr: formData.detailAddress,
+          termCode: '', // API에서 처리
+          chkValid: '', // API에서 처리
+          userRegDate: new Date().toISOString(),
+          memberTermCheckOrNotRequests: terms.map((term) => ({
+            termCondCode: term.code,
+            agreed: term.agreed ? 'Y' : 'N',
+            valid: term.valid,
+          })),
+        };
+
+        const response = await signUpRequest(requestData);
+        alert('회원가입이 성공적으로 완료되었습니다.');
+        navigate('/signin');
+      } catch (error) {
+        if (error instanceof SignUpError) {
+          alert(`회원가입 실패: ${error.message}`);
+        } else {
+          alert('예기치 못한 오류가 발생했습니다.');
+        }
+      }
     }
-  }
+  };
 
   return (
     <div className="container h-full p-6 mx-auto">
@@ -54,13 +89,20 @@ const SignUp: React.FC = () => {
               value={formData.email}
               onChange={(e) => handleInputChange('email', e.target.value)}
               placeholder="이메일을 입력하세요"
+              disabled={emailVerified}
             />
-            <Button type="button">이메일 인증</Button>
+            <Button 
+              type="button"
+              onClick={handleEmailVerification}
+              disabled={emailVerified}
+            >
+              인증번호 발송
+            </Button>
           </div>
           {errors.email && <p className="text-red-500">{errors.email}</p>}
         </div>
 
-        <FormField
+        {/* <FormField
           label="이메일 인증번호"
           id="emailVerification"
           type="text"
@@ -68,7 +110,28 @@ const SignUp: React.FC = () => {
           onChange={(value) => handleInputChange('emailVerification', value)}
           error={errors.emailVerification}
           placeholder="인증번호를 입력하세요"
-        />
+        /> */}
+        <div className="space-y-2">
+          <Label htmlFor="emailVerification">인증번호</Label>
+          <div className="flex space-x-2">
+            <Input
+              type="text"
+              id="emailVerification"
+              value={formData.emailVerification}
+              onChange={(e) => handleInputChange('emailVerification', e.target.value)}
+              placeholder="인증번호를 입력하세요"
+              disabled={emailVerified}
+            />
+            <Button 
+              type="button" 
+              onClick={verifyEmailCode}
+              disabled={emailVerified}
+            >
+              인증 확인
+            </Button>
+          </div>
+          {errors.emailVerification && <p className="text-red-500">{errors.emailVerification}</p>}
+        </div>
 
         <FormField
           label="비밀번호"
