@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DropdownSelector } from '@/components/ui/dropDownSelector';
 import { SliderControl } from '@/components/ui/sliderControl';
 import { Button } from '@/components/ui/button';
 import { VoiceSelectionPopover } from '@/components/common/VoiceSelectPopover';
 import { useAudioSettingsStore } from '@/stores/useAudioSettingsStore';
 import { useTextInputs } from '@/stores/textInputStore';
+import { ttsStyle } from '@/apis/ttsVoice';
 
 const EditContent = () => {
   //로컬 상태
@@ -29,6 +30,18 @@ const EditContent = () => {
     selectedVoices,
     setSelectedVoices,
   } = useAudioSettingsStore();
+
+  // useEffect(() => {
+  //   const fetchLanguages = async () => {
+  //     try {
+  //       const languageData = await ttsStyle();
+  //       console.log(languageData);
+  //     } catch (error) {
+  //       console.error('언어 데이터를 불러오는 데 실패했습니다:', error);
+  //     }
+  //   };
+  //   fetchLanguages();
+  // }, []);
 
   const handleSpeedClick = (value: number) => {
     setLocalSpeed(value);
