@@ -3,7 +3,8 @@ export interface IFormValues {
   text: string[];
 }
 
-export interface IConcatItem {
+export interface IConcatdata {
   id: string;
   text: string;
+  dndId: string;
 }

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import Line from '@/components/concat/Line';
 import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 const ConcatSidebar = () => {
   const [activeTab, setActiveTab] = useState<'file' | 'edit'>('file');
@@ -32,31 +33,37 @@ const ConcatSidebar = () => {
               <Button className='w-full' size='sm'>
                 오디오 파일 추가
               </Button>
-              <ul className='mt-3 text-sm'>
-                <li>test.wav</li>
-                <li>asdfdf.wav</li>
-                <li>test.wav</li>
-                <li>asdfdf.wav</li>
-                <li>test.wav</li>
-                <li>asdfdf.wav</li>
-                <li>asdfdf.wav</li>
-              </ul>
+              <ScrollArea className='h-24 my-2'>
+                <ul className='px-2'>
+                  <li>test.wav</li>
+                  <li>asdfdf.wav</li>
+                  <li>test.wav</li>
+                  <li>asdfdf.wav</li>
+                  <li>test.wav</li>
+                  <li>asdfdf.wav</li>
+                  <li>asdfdf.wav</li>
+                  <li>test.wav</li>
+                </ul>
+                <ScrollBar forceMount orientation='vertical' />
+              </ScrollArea>
             </div>
 
-            <Line />
-
+            <Separator className='my-3' />
             <div>
               <p className='mb-4 text-md'>텍스트</p>
               <Button className='w-full' size='sm'>
                 텍스트 파일 추가
               </Button>
-              <ul className='mt-3 text-sm'>
-                <li>asdfsd.txt</li>
-                <li>asdfs.txt</li>
-              </ul>
+              <ScrollArea className='h-24 my-2'>
+                <ul className='px-2'>
+                  <li>test.txt</li>
+                  <li>asdfdf.txt</li>
+                </ul>
+                <ScrollBar forceMount orientation='vertical' />
+              </ScrollArea>
             </div>
 
-            <Line />
+            <Separator className='my-3' />
 
             <div>
               <p className='mb-4 text-md'>배경 오디오</p>
