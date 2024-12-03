@@ -4,21 +4,6 @@ module.exports = {
   content: ['./index.html', './src/**/*.{ts,tsx,js,jsx}'],
   theme: {
     extend: {
-      keyframes: {
-        textSlide: {
-          '10%': { transform: 'translateY(-102%)' },
-          '25%': { transform: 'translateY(-100%)' },
-          '35%': { transform: 'translateY(-202%)' },
-          '50%': { transform: 'translateY(-200%)' },
-          '60%': { transform: 'translateY(-302%)' },
-          '75%': { transform: 'translateY(-300%)' },
-          '85%': { transform: 'translateY(-402%)' },
-          '100%': { transform: 'translateY(-400%)' },
-        },
-      },
-      animation: {
-        'text-slide': 'textSlide 6s infinite',
-      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
@@ -115,5 +100,5 @@ module.exports = {
     },
   },
   plugins: [require('tailwindcss-animate')],
-  mode: "jit",
+  mode: 'jit',
 };

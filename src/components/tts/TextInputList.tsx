@@ -56,23 +56,24 @@ export const TextInputList: React.FC<TextInputListProps> = ({
           >
             <div className='flex items-center justify-between'>
               <div className='flex items-end mb-2 space-x-1'>
-                <Button variant='secondary' size='sm'>
+                <Button variant='secondary' size='sm' className={`${input.voice ? 'bg-blue-100 font-bold' : ''}`} >
                   {input.voice ? input.voice : '성우'}
                 </Button>
                 <Button variant='secondary' size='sm'>
                   효과 없음
                 </Button>
-                <Button key={`${input.id}-pitch`} variant='secondary' size='sm'>
+                <Button key={`${input.id}-pitch`} variant='secondary' size='sm' className={`${input.pitch ? 'bg-blue-100 font-bold' : ''}`}>
                   음높이: {input.pitch ?? 0}
                 </Button>
                 <Button
                   key={`${input.id}-volume`}
                   variant='secondary'
                   size='sm'
+                  className={`${input.volume ? 'bg-blue-100 font-bold' : ''}`}
                 >
                   음량: {input.volume ?? 0}
                 </Button>
-                <Button key={`${input.id}-speed`} variant='secondary' size='sm'>
+                <Button key={`${input.id}-speed`} variant='secondary' size='sm' className={`${input.speed !== 1 ? 'bg-blue-100 font-bold' : ''}`}>
                   속도: {input.speed ?? 1}
                 </Button>
                 <Button variant='ghost' size='sm'>
