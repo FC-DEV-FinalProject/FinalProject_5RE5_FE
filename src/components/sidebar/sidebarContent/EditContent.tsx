@@ -13,7 +13,7 @@ const EditContent = () => {
     { id: 'pitch', value: 0.0, min: -20.0, max: 20.0, label: '음높이' },
     { id: 'volume', value: 0.0, min: -10.0, max: 10.0, label: '음량' },
   ]);
-  const [localVoices, setLocalVoices] = useState<string | null>(null);
+  const [localVoices, setLocalVoices] = useState<string | null>('');
 
   const [isPreviewLoading, setIsPreviewLoading] = useState(false);
   const [isApplyLoading, setIsApplyLoading] = useState(false);
@@ -122,7 +122,7 @@ const EditContent = () => {
               volume:
                 localSliders.find((slider) => slider.id === 'volume')?.value ||
                 0,
-              voice: localVoices,
+              voice: localVoices ?? '',
             };
           }
           return input;
