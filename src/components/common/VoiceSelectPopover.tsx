@@ -37,7 +37,7 @@ interface VoiceSelectionPopoverProps {
   selectedStyle: string | null;
   setSelectedStyle: (style: string) => void;
   selectedVoice: string | null;
-  setSelectedVoice: (voice: string) => void;
+  setSelectedVoice: (voice: string, voiceSeq: number) => void;
 }
 
 const getDefaultMood = (styleName: string): string => {
@@ -128,8 +128,8 @@ export const VoiceSelectionPopover: React.FC<VoiceSelectionPopoverProps> = ({
     }
   }, [selectedLanguage, selectedStyle]);
 
-  const handleVoiceSelect = (voiceName: string) => {
-    setSelectedVoice(voiceName);
+  const handleVoiceSelect = (voiceName: string, voiceSeq: number) => {
+    setSelectedVoice(voiceName, voiceSeq);
     setIsPopoverOpen(false);
   };
 
@@ -138,7 +138,7 @@ export const VoiceSelectionPopover: React.FC<VoiceSelectionPopoverProps> = ({
     setIsLanguageSelected(false);
     setIsStyleSelected(false);
     setSelectedStyle('');
-    setSelectedVoice('');
+    setSelectedVoice('', 0); // 빈 문자열과 0을 기본 값으로 전달합니다.
   };
 
   return (
@@ -193,7 +193,7 @@ export const VoiceSelectionPopover: React.FC<VoiceSelectionPopoverProps> = ({
                 <div
                   key={voice.voiceSeq}
                   className='p-2 cursor-pointer hover:bg-gray-100'
-                  onClick={() => handleVoiceSelect(voice.name)}
+                  onClick={() => handleVoiceSelect(voice.name, voice.voiceSeq)}
                 >
                   {voice.name}
                 </div>

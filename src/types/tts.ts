@@ -7,6 +7,7 @@ export interface TextInput {
   pitch: number;
   volume: number;
   voice: string | null;
+  voiceSeq: number;
 }
 
 export interface TTSState {

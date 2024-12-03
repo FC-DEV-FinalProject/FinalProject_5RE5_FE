@@ -11,6 +11,7 @@ interface ExtendedTTSState extends TTSState {
     pitch: number;
     volume: number;
     voice: string;
+    voiceSeq: number;
   }[];
   isAllSelected: boolean;
   editingId: number | null;
@@ -31,6 +32,7 @@ interface TTSStore extends ExtendedTTSState {
       pitch: number;
       volume: number;
       voice: string;
+      voiceSeq: number;
     }>
   ) => void;
   resetInputSettings: (id: number) => void;
@@ -47,6 +49,7 @@ export const useTextInputs = create<TTSStore>((set) => ({
       pitch: 0,
       volume: 0,
       voice: '',
+      voiceSeq: 0,
     },
   ],
   isAllSelected: false,
@@ -58,40 +61,46 @@ export const useTextInputs = create<TTSStore>((set) => ({
         state.textInputs.length > 0
           ? Math.max(...state.textInputs.map((input) => input.id)) + 1
           : 1;
-      const currentIndex = state.textInputs.findIndex((input) => input.id === hoveredId);
+      const currentIndex = state.textInputs.findIndex(
+        (input) => input.id === hoveredId
+      );
       if (currentIndex === -1) {
         return {
           ...state,
           textInputs: [
             ...state.textInputs,
-            { id: newId, 
-              text: '', 
-              isSelected: false, 
-              isEditing: false, 
+            {
+              id: newId,
+              text: '',
+              isSelected: false,
+              isEditing: false,
               speed: 1,
               pitch: 0,
               volume: 0,
-              voice: '', 
+              voice: '',
+              voiceSeq: 0,
             },
           ],
         };
       } else {
-          return {
-            ...state,
-            textInputs: [
-              ...state.textInputs.slice(0, currentIndex + 1),
-              { id: newId, 
-                text: '', 
-                isSelected: false, 
-                isEditing: false, 
-                speed: 1,
-                pitch: 0,
-                volume: 0,
-                voice: '', 
-              },
-              ...state.textInputs.slice(currentIndex + 1),
-            ],
-          };
+        return {
+          ...state,
+          textInputs: [
+            ...state.textInputs.slice(0, currentIndex + 1),
+            {
+              id: newId,
+              text: '',
+              isSelected: false,
+              isEditing: false,
+              speed: 1,
+              pitch: 0,
+              volume: 0,
+              voice: '',
+              voiceSeq: 0,
+            },
+            ...state.textInputs.slice(currentIndex + 1),
+          ],
+        };
       }
     }),
 
@@ -109,6 +118,7 @@ export const useTextInputs = create<TTSStore>((set) => ({
           pitch: 0,
           volume: 0,
           voice: '',
+          voiceSeq: 0,
         })),
       ],
     })),

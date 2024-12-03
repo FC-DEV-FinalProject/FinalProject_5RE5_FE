@@ -15,6 +15,7 @@ const EditContent = () => {
     { id: 'volume', value: 0.0, min: -10.0, max: 10.0, label: '음량' },
   ]);
   const [localVoices, setLocalVoices] = useState<string | null>('');
+  const [localVoiceSeq, setLocalVoiceSeq] = useState<number | null>(null);
 
   const [isPreviewLoading, setIsPreviewLoading] = useState(false);
   const [isApplyLoading, setIsApplyLoading] = useState(false);
@@ -31,24 +32,13 @@ const EditContent = () => {
     setSelectedVoices,
   } = useAudioSettingsStore();
 
-  // useEffect(() => {
-  //   const fetchLanguages = async () => {
-  //     try {
-  //       const languageData = await ttsStyle();
-  //       console.log(languageData);
-  //     } catch (error) {
-  //       console.error('언어 데이터를 불러오는 데 실패했습니다:', error);
-  //     }
-  //   };
-  //   fetchLanguages();
-  // }, []);
-
   const handleSpeedClick = (value: number) => {
     setLocalSpeed(value);
   };
 
-  const handleVoiceChange = (voice: string | null) => {
+  const handleVoiceChange = (voice: string | null, voiceSeq: number | null) => {
     setLocalVoices(voice);
+    setLocalVoiceSeq(voiceSeq);
   };
 
   const handleSliderChange = (id: string, value: number) => {
@@ -136,6 +126,7 @@ const EditContent = () => {
                 localSliders.find((slider) => slider.id === 'volume')?.value ||
                 0,
               voice: localVoices ?? '',
+              voiceSeq: localVoiceSeq ?? 0,
             };
           }
           return input;
@@ -151,7 +142,9 @@ const EditContent = () => {
         ', 적용된 텍스트 항목 수 -',
         selectedInputs.length,
         ', 보이스 -',
-        localVoices
+        localVoices,
+        ', 보이스 시퀀스 -',
+        localVoiceSeq
       );
     } catch (error) {
       console.error('개별 적용 실패:', error);
@@ -178,7 +171,9 @@ const EditContent = () => {
           selectedStyle={selectedStyle}
           setSelectedStyle={setSelectedStyle}
           selectedVoice={localVoices}
-          setSelectedVoice={handleVoiceChange}
+          setSelectedVoice={(voice, voiceSeq) =>
+            handleVoiceChange(voice, voiceSeq)
+          }
         />
 
         {/* 속도 블럭 선택 */}
