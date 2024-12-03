@@ -1,14 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Pencil } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
-interface IProjectDataProps {
-  projectSeq?: number;
-  projectDate?: string;
-  projectUpdateDate?: string;
-}
-interface TTSHeaderProps extends IProjectDataProps {
+interface TTSHeaderProps {
   projectName: string;
   onProjectNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -20,25 +15,35 @@ export const TTSHeader: React.FC<TTSHeaderProps> = ({
   projectDate,
   projectUpdateDate,
 }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [isEditable, setisEditable] = useState(false);
+
+  const handleEditClick = () => {
+    setisEditable(true);
+    const inputRef = document.getElementById('project-name-input');
+    if (inputRef) {
+      (inputRef as HTMLInputElement).focus();
+    }
+  };
+
+  const handleInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    if (!isEditable) {
+      e.preventDefault;
+    }
+  };
 
   return (
-    <div className='flex items-center justify-between flex-auto mb-4'>
-      <div className='flex items-center flex-1 space-x-1'>
+    <div className='flex items-center justify-between mb-4'>
+      <div className='flex items-center space-x-1'>
         <Input
+          id='project-name-input'
           value={projectName}
           onChange={onProjectNameChange}
           maxLength={50}
-          title={projectName}
-          ref={inputRef}
-          className='w-1/2 text-4xl border-none shadow-none'
+          className="text-4xl ${isEditable ? ' border-gray-100' : 'border-none shadow-none'} border-none shadow-none outline-none"
+          readOnly={!isEditable}
+          onClick={handleInputClick}
         />
-        <Pencil
-          className='cursor-pointer hover:'
-          onClick={() => {
-            inputRef.current?.focus();
-          }}
-        />
+        <Pencil onClick={handleEditClick} className='cursor-pointer' />
       </div>
       <div className='flex items-center space-x-4'>
         <span className='text-gray-500'>

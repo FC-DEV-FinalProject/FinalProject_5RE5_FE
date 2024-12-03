@@ -1,23 +1,36 @@
 import { useMutation } from '@tanstack/react-query';
-import { login } from '@/apis/auth';
+import { loginRequest } from '@/apis/auth';
 import {
   ExtendedAxiosErrorForLogin,
-  IUseLoginProps,
+  ILoginProps,
   IUserData,
 } from '@/types/login';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '@/stores/authStore';
 
 const useLogin = (resetForm: () => void) => {
-  return useMutation<IUserData, ExtendedAxiosErrorForLogin, IUseLoginProps>({
-    mutationFn: login,
+  const navigate = useNavigate();
+  const [rememberChecked, setrememberChecked] = useState(false);
+  const authStore = useAuthStore();
+  const mutation = useMutation<
+    IUserData,
+    ExtendedAxiosErrorForLogin,
+    ILoginProps
+  >({
+    mutationFn: loginRequest,
     onSuccess: (data: IUserData) => {
-      console.log('로그인 성공:', data);
-      //setUser
+      authStore.login(data, rememberChecked);
+      navigate('/');
     },
-    onError: (error: ExtendedAxiosErrorForLogin) => {},
-    onSettled: (data) => {
+    onSettled: () => {
       resetForm();
     },
   });
+  return {
+    ...mutation,
+    setrememberChecked,
+  };
 };
 
 export default useLogin;

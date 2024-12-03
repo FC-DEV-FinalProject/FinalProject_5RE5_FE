@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DropdownSelector } from '@/components/ui/dropDownSelector';
 import { SliderControl } from '@/components/ui/sliderControl';
 import { Button } from '@/components/ui/button';
 import { VoiceSelectionPopover } from '@/components/common/VoiceSelectPopover';
 import { useAudioSettingsStore } from '@/stores/useAudioSettingsStore';
 import { useTextInputs } from '@/stores/textInputStore';
+import { ttsStyle } from '@/apis/ttsVoice';
 
 const EditContent = () => {
   //로컬 상태
@@ -13,7 +14,7 @@ const EditContent = () => {
     { id: 'pitch', value: 0.0, min: -20.0, max: 20.0, label: '음높이' },
     { id: 'volume', value: 0.0, min: -10.0, max: 10.0, label: '음량' },
   ]);
-  const [localVoices, setLocalVoices] = useState<string | null>(null);
+  const [localVoices, setLocalVoices] = useState<string | null>('');
 
   const [isPreviewLoading, setIsPreviewLoading] = useState(false);
   const [isApplyLoading, setIsApplyLoading] = useState(false);
@@ -29,6 +30,18 @@ const EditContent = () => {
     selectedVoices,
     setSelectedVoices,
   } = useAudioSettingsStore();
+
+  // useEffect(() => {
+  //   const fetchLanguages = async () => {
+  //     try {
+  //       const languageData = await ttsStyle();
+  //       console.log(languageData);
+  //     } catch (error) {
+  //       console.error('언어 데이터를 불러오는 데 실패했습니다:', error);
+  //     }
+  //   };
+  //   fetchLanguages();
+  // }, []);
 
   const handleSpeedClick = (value: number) => {
     setLocalSpeed(value);
@@ -122,7 +135,7 @@ const EditContent = () => {
               volume:
                 localSliders.find((slider) => slider.id === 'volume')?.value ||
                 0,
-              voice: localVoices,
+              voice: localVoices ?? '',
             };
           }
           return input;
