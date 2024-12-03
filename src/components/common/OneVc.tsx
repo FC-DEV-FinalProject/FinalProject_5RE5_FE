@@ -1,14 +1,19 @@
+import { CustomCheckbox } from '@/components/common/CustomCheckbox';
 import EditableLabel from '@/components/common/EditableLabel';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
 import { IVcDataProps } from '@/pages/VC';
+import { downloadFile } from '@/utils/file';
+import { formatTime } from '@/utils/time';
 import {
   DownloadIcon,
   PauseIcon,
+  Pencil,
   PlayIcon,
   RefreshCcwDotIcon,
 } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type TStatus = 'play' | 'pause' | 'stop';
 interface IOneVcProps {
@@ -18,7 +23,14 @@ interface IOneVcProps {
 const OneVc = ({ vcData }: IOneVcProps) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [audioStatus, setAudioStatus] = useState<TStatus>('stop');
-  const handleButton = {
+  const [vcText, setVcText] = useState<string>(
+    vcData.vcText || vcData.vcSrcFile.name
+  );
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [currentPlayTime, setCurrentPlayTime] = useState<string>('00:00');
+  const [duration, setDuration] = useState<string>('00:00');
+
+  const handler = {
     onPlay: () => {
       audioRef.current?.play();
       setAudioStatus('play');
@@ -34,37 +46,53 @@ const OneVc = ({ vcData }: IOneVcProps) => {
         alert('파일 다운로드에 실패했습니다. 다시 시도해주세요.');
       }
     },
+    onTypeText: (e: React.ChangeEvent<HTMLInputElement>) => {
+      setVcText(e.target.value);
+    },
   };
 
-  const downloadFile = async (url: string, filename: string) => {
-    const response = await fetch(url);
-    const blob = await response.blob();
-    const link = document.createElement('a');
-    link.href = window.URL.createObjectURL(blob);
-    link.download = filename;
-    link.click();
-    URL.revokeObjectURL(link.href);
-  };
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const setAudioData = () => {
+      setDuration(formatTime(audio.duration));
+    };
+
+    const setAudioTime = () => {
+      setCurrentPlayTime(formatTime(audio.currentTime));
+    };
+
+    audio.addEventListener('loadedmetadata', setAudioData);
+    audio.addEventListener('timeupdate', setAudioTime);
+
+    return () => {
+      audio.removeEventListener('loadedmetadata', setAudioData);
+      audio.removeEventListener('timeupdate', setAudioTime);
+    };
+  }, []);
 
   return (
     <div className='pb-5'>
       <div id='iconDiv' className='flex justify-between mb-1'>
         <div id='leftIcons'>
-          <Button size={'sm'}>
+          <Button
+            variant='outline'
+            className='text-green-400 border-green-400 hover:bg-green-400 hover:text-white'
+            size='sm'
+          >
             재생성
             <RefreshCcwDotIcon />
           </Button>
         </div>
         <div id='rightIcons' className='flex'>
           <audio src={vcData.vcSrcFile.fileUrl} ref={audioRef} />
+          <span className='content-center px-1 text-sm'>{`${currentPlayTime} / ${duration}`}</span>
           <Button
             variant={'ghost'}
             size={'sm'}
-            onClick={
-              audioStatus === 'play'
-                ? handleButton.onPause
-                : handleButton.onPlay
-            }
+            onClick={audioStatus === 'play' ? handler.onPause : handler.onPlay}
+            title={audioStatus === 'play' ? '일시정지' : '재생'}
           >
             {audioStatus === 'play' ? (
               <PauseIcon fill='black' />
@@ -75,18 +103,32 @@ const OneVc = ({ vcData }: IOneVcProps) => {
           <Button
             variant={'ghost'}
             size={'sm'}
-            onClick={handleButton.onDownload}
+            onClick={handler.onDownload}
+            title='파일 다운로드'
           >
             <DownloadIcon />
           </Button>
         </div>
       </div>
       <div id='mainDiv' className='flex items-center'>
-        <Checkbox className='mr-2' />
-        <EditableLabel
-          initialValue={vcData.vcText || vcData.vcSrcFile.name}
-          onSave={() => {}}
-        />
+        <>
+          <Checkbox className='mr-2' />
+          <Input
+            value={vcText}
+            onChange={handler.onTypeText}
+            maxLength={50}
+            title={vcText}
+            ref={inputRef}
+            className='w-1/2 text-4xl border-none shadow-none'
+          />
+          <Pencil
+            className='mx-2 cursor-pointer'
+            onClick={() => {
+              inputRef.current?.focus();
+            }}
+            size={16}
+          />
+        </>
       </div>
     </div>
   );
