@@ -1,4 +1,4 @@
-import DividingLine from '@/components/common/DividingLine';
+import DivideLine from '@/components/common/DividingLine';
 import ListView from '@/components/common/ListView';
 import { PROJECT_DATA } from '@/mocks/projectData';
 import MyProject from '@/pages/MyProject';
@@ -18,7 +18,7 @@ const Home = () => {
           <span>Home</span>
         </div>
       </header>
-      <DividingLine />
+      <DivideLine />
       <div id='recentDiv' className='m-5'>
         <header className='flex items-center justify-between py-2'>
           <div className='font-bold text-left'>

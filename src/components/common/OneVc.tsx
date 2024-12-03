@@ -27,6 +27,23 @@ const OneVc = ({ vcData }: IOneVcProps) => {
       audioRef.current?.pause();
       setAudioStatus('pause');
     },
+    onDownload: async () => {
+      try {
+        downloadFile(vcData.vcSrcFile.fileUrl, vcData.vcSrcFile.name);
+      } catch (err) {
+        alert('파일 다운로드에 실패했습니다. 다시 시도해주세요.');
+      }
+    },
+  };
+
+  const downloadFile = async (url: string, filename: string) => {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(link.href);
   };
 
   return (
@@ -55,7 +72,11 @@ const OneVc = ({ vcData }: IOneVcProps) => {
               <PlayIcon fill='black' />
             )}
           </Button>
-          <Button variant={'ghost'} size={'sm'}>
+          <Button
+            variant={'ghost'}
+            size={'sm'}
+            onClick={handleButton.onDownload}
+          >
             <DownloadIcon />
           </Button>
         </div>

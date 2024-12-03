@@ -8,14 +8,16 @@ interface IProjectDataProps {
   projectDate?: string;
   projectUpdateDate?: string;
 }
-interface TTSHeaderProps extends IProjectDataProps {
+interface VcHeaderProps extends IProjectDataProps {
   projectName: string;
   onProjectNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  downloadAll: () => void;
 }
 
-export const TTSHeader: React.FC<TTSHeaderProps> = ({
+export const VcHeader: React.FC<VcHeaderProps> = ({
   projectName,
   onProjectNameChange,
+  downloadAll,
   projectSeq,
   projectDate,
   projectUpdateDate,
@@ -55,6 +57,7 @@ export const TTSHeader: React.FC<TTSHeaderProps> = ({
           <Button
             type='button'
             variant='green'
+            onClick={downloadAll}
             className='w-[130px] rounded-3xl'
           >
             전체 다운로드

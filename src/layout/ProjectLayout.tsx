@@ -17,6 +17,7 @@ import Concat from '@/pages/Concat';
 import Logo from '@/assets/logo.png';
 import { ROUTES } from '@/constants/route';
 import { Button } from '@/components/ui/button';
+import ProjectIconMenu from '@/components/sidebar/ProjectIconMenu';
 
 const ProjectLayout = () => {
   // Footer 상태 관리 (열림/닫힘 여부)
@@ -92,32 +93,26 @@ const ProjectLayout = () => {
         {/* 좌측 사이드바 */}
         <aside className='p-2 bg-gray-200 w-[90px]'>
           <ul>
-            <li className='mb-4'>
-              <Link to={`${ROUTES.PROJECT}${ROUTES.TTS}/${projectId}`}>
-                <div className='flex flex-col p-2 hover:bg-accent hover:font-bold hover:text-accent-foreground rounded-2xl'>
-                  <BookAIcon className='text-center w-[100%] my-2' size={24} />
-                  <p className='text-xs text-center'>TTS</p>
-                </div>
-              </Link>
+            <li className='mb-2'>
+              <ProjectIconMenu
+                linkTo={`${ROUTES.PROJECT}${ROUTES.TTS}/${projectId}`}
+                name='TTS'
+                icon={BookAIcon}
+              />
             </li>
-            <li className='mb-4'>
-              <Link to={`${ROUTES.PROJECT}${ROUTES.VC}/${projectId}`}>
-                <div className='flex flex-col p-2 hover:bg-accent hover:font-bold hover:text-accent-foreground rounded-2xl'>
-                  <MicIcon className='text-center w-[100%] my-2' size={24} />
-                  <p className='text-xs text-center '>VC</p>
-                </div>
-              </Link>
+            <li className='mb-2'>
+              <ProjectIconMenu
+                linkTo={`${ROUTES.PROJECT}${ROUTES.VC}/${projectId}`}
+                name='VC'
+                icon={MicIcon}
+              />
             </li>
-            <li className='mb-4'>
-              <Link to={`${ROUTES.PROJECT}${ROUTES.CONCAT}/${projectId}`}>
-                <div className='flex flex-col p-2 hover:bg-accent hover:font-bold hover:text-accent-foreground rounded-2xl'>
-                  <CombineIcon
-                    className='text-center w-[100%] my-2'
-                    size={24}
-                  />
-                  <p className='text-xs text-center'>CONCAT</p>
-                </div>
-              </Link>
+            <li className='mb-2'>
+              <ProjectIconMenu
+                linkTo={`${ROUTES.PROJECT}${ROUTES.CONCAT}/${projectId}`}
+                name='CONCAT'
+                icon={CombineIcon}
+              />
             </li>
           </ul>
         </aside>

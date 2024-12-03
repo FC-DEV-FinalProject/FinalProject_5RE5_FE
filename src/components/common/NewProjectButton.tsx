@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/dialog';
 import { PROJECT_TYPE, ProjectType } from '@/pages/Home';
 import { BookAIcon, CombineIcon, FilePlusIcon, MicIcon } from 'lucide-react';
-import React from 'react';
 
 const NewProjectButton = () => {
   const handleClick = {

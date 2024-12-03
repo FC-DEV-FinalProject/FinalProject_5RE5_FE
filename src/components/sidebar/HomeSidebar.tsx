@@ -18,7 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import DividingLine from '@/components/common/DividingLine';
+import DivideLine from '@/components/common/DividingLine';
 import { ROUTES } from '@/constants/route';
 import { PROJECT_DATA } from '@/mocks/projectData';
 import { useState } from 'react';
@@ -70,7 +70,7 @@ export function HomeSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <DividingLine />
+      <DivideLine />
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
@@ -108,7 +108,7 @@ export function HomeSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <DividingLine />
+        <DivideLine />
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -128,7 +128,7 @@ export function HomeSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <DividingLine />
+        <DivideLine />
         <SidebarGroup>
           <SidebarGroupLabel>최근 작업 프로젝트</SidebarGroupLabel>
           <SidebarGroupContent>

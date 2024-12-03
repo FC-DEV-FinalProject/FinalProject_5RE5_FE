@@ -1,7 +1,4 @@
-import ListView, {
-  IListViewProps,
-  ViewOptionType,
-} from '@/components/common/ListView';
+import ListView, { IListViewProps } from '@/components/common/ListView';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -10,12 +7,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { PROJECT_DATA, PROJECT_DATA2 } from '@/mocks/projectData';
+import { PROJECT_DATA2 } from '@/mocks/projectData';
 import { useCheckedStore } from '@/stores/checkedStore';
 import { useEffect, useState } from 'react';
-import dayjs from 'dayjs';
 import { IProjectProps } from '@/types/project';
-import DividingLine from '@/components/common/DividingLine';
+import DivideLine from '@/components/common/DividingLine';
 
 const MyProject = ({
   option = 'list',
@@ -77,7 +73,7 @@ const MyProject = ({
           </div>
         </header>
       </div>
-      <DividingLine />
+      <DivideLine />
       <div className='w-[100%] m-5'>
         <div className='flex justify-between'>
           <div className='selectDiv'>

@@ -18,9 +18,9 @@ export const MOCK_VC_DATA: IVcDataProps[] = [
     vcSrcFile: {
       seq: 6,
       rowOrder: 2,
-      name: 'bensound-nohipnohop.mp3',
+      name: 'mario.mp3',
       fileUrl:
-        'https://5re5park-s3-audiofile.s3.ap-northeast-2.amazonaws.com/vc/src/5ee0eb3e-c8c5-4034-9cf8-6b42f8a71b71_bensound-nohipnohop.mp3',
+        'https://5re5park-s3-audiofile.s3.ap-northeast-2.amazonaws.com/vc/src/245b790f-d7a7-4a55-b50d-22e46bb22da3_mario.mp3',
     },
     vcResultFile: null,
     vcText: null,
