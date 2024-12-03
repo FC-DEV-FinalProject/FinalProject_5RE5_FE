@@ -25,8 +25,9 @@ import { PROJECT_DATA } from '@/mocks/projectData';
 import { useState } from 'react';
 import { IProjectProps } from '@/types/project';
 import { Button } from '@/components/ui/button';
-import { useAuthStore } from '@/stores/authStore';
 import NewProjectButton from '@/components/common/NewProjectButton';
+import useLogout from '@/hooks/apis/useLogout';
+import { useAuthStore } from '@/stores/authStore';
 
 // Menu items.
 const Menus = [
@@ -51,8 +52,15 @@ const quickStartItem = [
 ];
 
 export function HomeSidebar() {
-  const navigate = useNavigate();
-  const { isAuthenticated, login, logout } = useAuthStore();
+  const userData = useAuthStore((state) => state.userData);
+  const isLogin = useAuthStore((state) => state.isLogin);
+  const { mutate, error, reset } = useLogout();
+
+  if (error) {
+    console.error(error);
+    alert('로그아웃에 실패했습니다.');
+    reset();
+  }
 
   const items = PROJECT_DATA.slice(0, 3);
   const [recents, setRecents] = useState<IProjectProps[]>(items);
@@ -77,12 +85,12 @@ export function HomeSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem className='flex items-center justify-between'>
-                {isAuthenticated ? (
+                {isLogin ? (
                   <>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <SidebarMenuButton className='flex items-center w-auto'>
-                          OOO님
+                          {userData?.name}
                           <ChevronDown className='ml-1' />
                         </SidebarMenuButton>
                       </DropdownMenuTrigger>
@@ -93,7 +101,7 @@ export function HomeSidebar() {
                         <DropdownMenuItem>
                           <span>계정 설정</span>
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={logout}>
+                        <DropdownMenuItem onClick={() => mutate()}>
                           <span>로그아웃</span>
                         </DropdownMenuItem>
                       </DropdownMenuContent>

@@ -16,8 +16,6 @@ import ErrorBoundary from '@/components/errorPageComponent/errorBoundary';
 import NotFound from '@/components/errorPageComponent/notFound';
 import PublicRoute from '@/routes/PublicRoute';
 
-const isAuthenticated = true; // 실제 로그인 상태를 가져오는 로직으로 대체
-
 export const router = createBrowserRouter([
   // 홈 레이아웃
   {
@@ -30,7 +28,7 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        element: <ProtectedRoute isAuthenticated={isAuthenticated} />, // 보호된 경로
+        element: <ProtectedRoute />, // 보호된 경로
         children: [
           { path: 'my-project', element: <MyProject /> }, // my-project는 HomeLayout 사용
         ],
@@ -42,7 +40,7 @@ export const router = createBrowserRouter([
     element: <Layout />, // 레이아웃 없는 화면
     children: [
       {
-        element: <PublicRoute isAuthenticated={isAuthenticated} />,
+        element: <PublicRoute />,
         children: [
           { path: 'signin', element: <SignIn /> },
           { path: 'signup', element: <SignUp /> },
@@ -53,7 +51,7 @@ export const router = createBrowserRouter([
   },
   // PrivateRoute (프로젝트 레이아웃)
   {
-    element: <ProtectedRoute isAuthenticated={isAuthenticated} />,
+    element: <ProtectedRoute />,
     children: [
       {
         path: 'profile',

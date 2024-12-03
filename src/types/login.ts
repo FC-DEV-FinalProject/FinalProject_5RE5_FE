@@ -7,7 +7,7 @@ export interface IUserData {
   email: string;
 }
 
-export interface IUseLoginProps {
+export interface ILoginProps {
   username: string;
   password: string;
 }
