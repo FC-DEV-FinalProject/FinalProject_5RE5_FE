@@ -12,12 +12,14 @@ interface VcHeaderProps extends IProjectDataProps {
   projectName: string;
   onProjectNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   downloadAll: () => void;
+  saveProject: () => void;
 }
 
 export const VcHeader: React.FC<VcHeaderProps> = ({
   projectName,
   onProjectNameChange,
   downloadAll,
+  saveProject,
   projectSeq,
   projectDate,
   projectUpdateDate,
@@ -27,13 +29,13 @@ export const VcHeader: React.FC<VcHeaderProps> = ({
   return (
     <div className='flex items-center justify-between flex-auto mb-4'>
       <div className='flex items-center flex-1 space-x-1'>
-        <Input
+        <input
           value={projectName}
           onChange={onProjectNameChange}
           maxLength={50}
           title={projectName}
           ref={inputRef}
-          className='w-1/2 text-4xl border-none shadow-none'
+          className='w-1/2 text-xl border-none shadow-none'
         />
         <Pencil
           className='cursor-pointer hover:'
@@ -50,6 +52,7 @@ export const VcHeader: React.FC<VcHeaderProps> = ({
           <Button
             type='submit'
             variant='green'
+            onClick={saveProject}
             className='w-[130px] mr-1 rounded-3xl'
           >
             저장

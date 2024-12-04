@@ -1,3 +1,5 @@
+import { saveProject } from '@/apis/project';
+import { getVcList } from '@/apis/vc';
 import DivideLine from '@/components/common/DividingLine';
 import EditableLabel from '@/components/common/EditableLabel';
 import OneVc from '@/components/common/OneVc';
@@ -8,9 +10,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { VcHeader } from '@/components/vc/VcHeader';
 import { MOCK_VC_DATA } from '@/mocks/vcData';
 import { useTextInputs } from '@/stores/textInputStore';
+import { convertDateFormat } from '@/utils/date';
 import { downloadZip } from '@/utils/file';
 import { DownloadIcon, SaveIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 export interface IVcDataProps {
@@ -28,16 +31,26 @@ export interface IVcFileProps {
 }
 
 const VC = () => {
-  const [vcData, setVcData] = useState<IVcDataProps[]>([
-    ...(MOCK_VC_DATA || []),
-  ]);
+  // const [vcData, setVcData] = useState<IVcDataProps[]>([
+  //   ...(MOCK_VC_DATA || []),
+  // ]);
+  const [vcData, setVcData] = useState<IVcDataProps[]>([]);
 
   const { projectId } = useParams<{ projectId: string }>();
+  console.log(projectId);
   const [projectName, setProjectName] = useState<string>('새 프로젝트');
 
   const handler = {
     onSave: () => {
       alert('save: ' + projectName);
+      // 1. 프로젝트 저장
+      saveProject({
+        projectSeq: Number(projectId),
+        projectName,
+      });
+      // 2. srg파일 저장
+
+      // 3. trg파일 저장
     },
     onDownloadZip: async () => {
       downloadZip(
@@ -50,6 +63,15 @@ const VC = () => {
     },
   };
 
+  useEffect(() => {
+    (async () => {
+      console.log('수정필요');
+      const a = await getVcList({
+        projectSeq: Number(projectId),
+      });
+    })();
+  }, []);
+
   return (
     <div>
       <div className='container p-4 h-[calc(100vh-170px)] w-full overflow-y-auto'>
@@ -59,6 +81,7 @@ const VC = () => {
             projectName={projectName}
             onProjectNameChange={handler.onTypeProjectName}
             downloadAll={handler.onDownloadZip}
+            saveProject={handler.onSave}
           />
         </div>
         <div id='mainDiv'>

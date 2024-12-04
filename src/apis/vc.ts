@@ -5,62 +5,80 @@
  * 3. trg 저장
  */
 
+import { apiRequest } from '@/apis/apiClient';
+
+const APIURL_VC = {
+  GET_VC_LIST: (projectSeq: number) => `/vc/${projectSeq}`,
+  // GET_VC_LIST: (projectSeq: number) => `/project/${projectSeq}/tts`,
+  // GET_VC_LIST: (projectSeq: number) => `/project`,
+};
+
 interface IVCProps<T = {}> {
   projectSeq: number;
-  memberSeq: number;
   fileData?: T;
 }
+
+export interface IVcDataResponse {}
 
 /**
  * 프로젝트 vc 전체 행 조회
  */
-const getVCList = ({ projectSeq, memberSeq }: IVCProps) => {};
+export const getVcList = async ({ projectSeq }: IVCProps) => {
+  try {
+    const response = await apiRequest.get<IVcDataResponse>(
+      APIURL_VC.GET_VC_LIST(projectSeq)
+    );
+
+    if (response.code !== 200)
+      throw new Error(`${response.code}, ${response.message}`);
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 /**
  * 원본파일 1개 저장
  */
-const saveSrcFile = ({
+export const saveSrcFile = ({
   projectSeq,
-  memberSeq,
   fileData,
 }: IVCProps<{ fileData: File }>) => {};
 
 /**
  * 원본파일 n개 저장
  */
-const saveSrcFiles = ({
+export const saveSrcFiles = ({
   projectSeq,
-  memberSeq,
   fileData,
 }: IVCProps<{ fileData: File[] }>) => {};
 
 /**
  * 보이스파일 1개 저장
  */
-const saveTrgFile = ({
+export const saveTrgFile = ({
   projectSeq,
-  memberSeq,
   fileData,
 }: IVCProps<{ fileData: File }>) => {};
 
 /**
  * 보이스파일 n개 저장
  */
-const saveTrgFiles = ({
+export const saveTrgFiles = ({
   projectSeq,
-  memberSeq,
   fileData,
 }: IVCProps<{ fileData: File[] }>) => {};
 
 /**
  * vc 정보 생성
  */
-const createVc = () => {};
+export const createVc = () => {};
 
 /**
  * vc 정보 수정
  */
-const modifyVc = () => {};
+export const modifyVc = () => {};
 
 /**
  * vc 정보 삭제

@@ -1,7 +1,9 @@
+import { getProjectList } from '@/apis/project';
 import DivideLine from '@/components/common/DividingLine';
 import ListView from '@/components/common/ListView';
 import { PROJECT_DATA } from '@/mocks/projectData';
 import MyProject from '@/pages/MyProject';
+import { useEffect } from 'react';
 
 export type ProjectType = 'TTS' | 'VC' | 'Concat';
 export const PROJECT_TYPE: Record<string, ProjectType> = {
@@ -11,6 +13,18 @@ export const PROJECT_TYPE: Record<string, ProjectType> = {
 };
 
 const Home = () => {
+  const a = async () => {
+    const bb = await getProjectList();
+    console.log(bb);
+  };
+
+  useEffect(() => {
+    (async () => {
+      const a = await getProjectList();
+      console.log(a);
+    })();
+  }, []);
+
   return (
     <div>
       <header className='flex items-center justify-between px-5 py-2'>

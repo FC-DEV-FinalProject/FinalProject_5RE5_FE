@@ -1,3 +1,4 @@
+import { createProject } from '@/apis/project';
 import Tile from '@/components/common/Tile';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,8 +13,10 @@ import { BookAIcon, CombineIcon, FilePlusIcon, MicIcon } from 'lucide-react';
 
 const NewProjectButton = () => {
   const handleClick = {
-    createNewProject: (type: ProjectType) => {
+    createNewProject: async (type: ProjectType) => {
       alert(`${type} 프로젝트 생성`);
+      const response = await createProject();
+      console.log(response);
     },
   };
   return (

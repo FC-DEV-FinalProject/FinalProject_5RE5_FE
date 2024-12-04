@@ -113,13 +113,13 @@ const OneVc = ({ vcData }: IOneVcProps) => {
       <div id='mainDiv' className='flex items-center'>
         <>
           <Checkbox className='mr-2' />
-          <Input
+          <input
             value={vcText}
             onChange={handler.onTypeText}
             maxLength={50}
             title={vcText}
             ref={inputRef}
-            className='w-1/2 text-4xl border-none shadow-none'
+            className='w-1/2 p-2 text-sm border-none shadow-none'
           />
           <Pencil
             className='mx-2 cursor-pointer'

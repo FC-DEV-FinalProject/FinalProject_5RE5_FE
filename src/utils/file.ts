@@ -13,10 +13,16 @@ export const downloadFile = async (url: string, filename: string) => {
   URL.revokeObjectURL(link.href);
 };
 
+/**
+ *
+ * @param fileDataList 다운로드 파일 리스트
+ * @param zipname 압축파일 명
+ */
 export const downloadZip = async (
   fileDataList: IVcFileProps[],
   zipname: string
 ) => {
+  if (fileDataList.length === 0) return;
   const zip = new JSZip();
   const fetchPromises = fileDataList.map((fileData, index) => {
     return new Promise<void>((resolve, reject) => {

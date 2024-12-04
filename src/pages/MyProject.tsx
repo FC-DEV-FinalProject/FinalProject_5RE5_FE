@@ -12,6 +12,8 @@ import { useCheckedStore } from '@/stores/checkedStore';
 import { useEffect, useState } from 'react';
 import { IProjectProps } from '@/types/project';
 import DivideLine from '@/components/common/DividingLine';
+import { apiRequest } from '@/apis/apiClient';
+import { removeProject } from '@/apis/project';
 
 const MyProject = ({
   option = 'list',
@@ -31,6 +33,10 @@ const MyProject = ({
     remove: () => {
       // api 호출
       alert(`${checkedList} 삭제요청`);
+      checkedList.map((item) => {
+        const a = removeProject(item);
+        console.log(a);
+      });
     },
   };
 
