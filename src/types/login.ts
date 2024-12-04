@@ -25,7 +25,7 @@ export interface ISignUpRequest {
   chkValid: string; // 약관 전체 동의 여부 (Y/N)
   userRegDate: string;
   memberTermCheckOrNotRequests: {
-    termCondCode: number;
+    termCondCode: string;
     agreed: 'Y' | 'N';
     valid: boolean;
   }[];

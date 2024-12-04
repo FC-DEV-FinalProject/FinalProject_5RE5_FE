@@ -1,12 +1,12 @@
 export interface Term {
-  code: number;
-  termCode: string;
+  code: string;
   termName: string;
   shortCont: string;
   longCont: string;
   chkTerm: boolean;
   agreed: boolean;
   valid: boolean;
+  termCode: string; 
 }
 
 export interface FormData {

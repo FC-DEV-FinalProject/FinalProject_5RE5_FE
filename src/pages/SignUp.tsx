@@ -9,6 +9,9 @@ import { TermsSection } from '@/components/signup/TermSection';
 import { SignUpError } from '@/utils/auth';
 import { ISignUpRequest } from "@/types/login";
 import { signUpRequest } from "@/apis/NewAuth";
+import { sendEmailVerificationCode, checkEmailVerificationCode } from '@/apis/terms';
+// import { useEffect, useState } from "react";
+
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
@@ -19,17 +22,41 @@ const SignUp: React.FC = () => {
     isOpen,
     setIsOpen,
     emailVerified,
+    setEmailVerified,
     handleInputChange,
     validateForm,
     handleTermChange,
     handleEmailVerification,
-    verifyEmailCode
-  } = useSignUpForm();
+    verifyEmailCode,
+  } = useSignUpForm();;
+
+  // const handleEmailVerification = async () => {
+  //   try {
+  //     await sendEmailVerificationCode(formData.email);
+  //     alert(`인증번호가 발송되었습니다. 이메일을 확인해주세요.`);
+  //   } catch (error) {
+  //     alert('이메일 인증번호 발송 실패');
+  //   }
+  // };
+
+  // const verifyEmailCode = async () => {
+  //   try {
+  //     const isValid = await checkEmailVerificationCode(formData.email, formData.emailVerification);
+  //     if (isValid) {
+  //       setEmailVerified(true);
+  //       alert('이메일 인증 성공');
+  //     } else {
+  //       alert('이메일 인증 실패. 인증번호를 다시 확인해주세요.');
+  //     }
+  //   } catch (error) {
+  //     alert('이메일 인증 실패');
+  //   }
+  // };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
-    if (validateForm()) {
+    if (validateForm() && emailVerified) {
       try {
         const requestData: ISignUpRequest = {
           id: formData.userId,
@@ -60,6 +87,8 @@ const SignUp: React.FC = () => {
           alert('예기치 못한 오류가 발생했습니다.');
         }
       }
+    } else {
+      alert('이메일 인증을 완료해주세요.')
     }
   };
 
@@ -192,7 +221,7 @@ const SignUp: React.FC = () => {
         />
 
         <TermsSection
-          terms={terms}
+          terms={terms || []}
           error={errors.terms}
           onChange={handleTermChange}
         />

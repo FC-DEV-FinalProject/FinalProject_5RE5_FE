@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { FormData, FormErrors, Term } from '@/types/signup.ts';
 import { VALIDATION_PATTERNS } from '@/constants/validation.ts';
 import { ERROR_MESSAGES } from '@/constants/errorMsg.ts';
-import { fetchTerms, sendEmailVerificationCode, checkEmailVerificationCode } from '@/apis/terms';
+import { sendEmailVerificationCode, checkEmailVerificationCode, fetchTerms } from '@/apis/terms';
 
 const initialFormData: FormData = {
   userId: '',
@@ -22,33 +22,6 @@ export const useSignUpForm = () => {
   const [terms, setTerms] = useState<Term[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
-
-  // useEffect(() => {
-  //   fetchTerms();
-  // }, []);
-
-  useEffect(() => {
-    const loadTerms = async () => {
-      try {
-        const fetchedTerms = await fetchTerms();
-        setTerms(fetchedTerms);
-      } catch (error) {
-        console.error('약관 불러오기 실패:', error);
-      }
-    };
-    loadTerms();
-  }, []);
-
-  // const fetchTerms = async () => {
-  //   try {
-  //     const response = await fetch('/api/user/register');
-  //     if (!response.ok) throw new Error('Failed to fetch terms');
-  //     const data = await response.json();
-  //     setTerms(data.response.userTerms);
-  //   } catch (error) {
-  //     console.error('Error fetching terms:', error);
-  //   }
-  // };
 
   const handleInputChange = (name: keyof FormData, value: string) => {
     let processedValue = value;
@@ -147,19 +120,6 @@ export const useSignUpForm = () => {
     }
   };
 
-  // const handleTermChange = (termCode: string, checked: boolean) => {
-  //   if (termCode === 'all') {
-  //     // 전체 동의
-  //     const updatedTerms = terms.map(term => ({ ...term, agreed: checked }));
-  //     setTerms(updatedTerms);
-  //   } else {
-  //     // 개별 약관 동의 로직
-  //     const updatedTerms = terms.map((term) =>
-  //       term.termCode === termCode ? { ...term, agreed: checked } : term
-  //     );
-  //     setTerms(updatedTerms);
-  //   }
-  // };
   const handleTermChange = (termCode: string, checked: boolean) => {
     const updatedTerms = terms.map(term => 
       term.termCode === termCode 
@@ -169,6 +129,34 @@ export const useSignUpForm = () => {
     setTerms(updatedTerms);
   };
 
+  useEffect(() => {
+    const loadTerms = async () => {
+      try {
+        const response = await fetchTerms('TERMS002');
+        const termsData = response.memberTermConditionResponses?.memberTermConditionResponses;
+        if (termsData) {
+          setTerms(termsData.map(term => ({
+            code: term.condCode,
+            termName: term.shortCont,
+            shortCont: term.shortCont,
+            longCont: term.longCont,
+            chkTerm: term.chkUse === 'Y',
+            agreed: false,
+            valid: true,
+            termCode: term.condCode,
+          } as Term)));
+        } else {
+          console.error('약관 데이터가 없습니다.');
+          setTerms([]);
+        }
+      } catch (error) {
+        console.error('약관 불러오기 실패:', error)
+      }
+    }
+    loadTerms();
+  }, [])
+  
+
   return {
     formData,
     errors,
@@ -176,6 +164,7 @@ export const useSignUpForm = () => {
     isOpen,
     setIsOpen,
     emailVerified,
+    setEmailVerified,
     handleInputChange,
     validateForm,
     handleTermChange,
