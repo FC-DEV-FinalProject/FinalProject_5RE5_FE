@@ -6,14 +6,6 @@ export class LoginError extends Error {
     this.statusCode = statusCode;
   }
 }
-export class SignUpError extends Error {
-  statusCode: number;
-  constructor(message: string, statusCode: number) {
-    super(message);
-    this.name = 'SignUpError';
-    this.statusCode = statusCode;
-  }
-}
 
 export const validateLoginForm = ({
   username,
@@ -42,3 +34,12 @@ export const validateLoginForm = ({
 
   return true;
 };
+
+export class SignUpError extends Error {
+  statusCode: number;
+  constructor(message: string, statusCode: number) {
+    super(message);
+    this.name = 'SignUpError';
+    this.statusCode = statusCode;
+  }
+}

@@ -32,7 +32,7 @@ const TermsSection: React.FC<Props> = ({
   return (
     <div>
       <h3>약관 동의</h3>
-      <div className="mb-[30px] mt-[8px]">
+      <div className="mb-[20px] mt-[8px]">
         <CustomCheckbox
           id="select-all"
           checked={allAgreed}
@@ -46,8 +46,8 @@ const TermsSection: React.FC<Props> = ({
             <span className='font-bold text-green-600'>{term.chkTerm ? '[필수]' : '[선택]'} </span>
             {term.termName} 
           </h4>
-          <p>{term.shortCont}</p>
-          <p className='text-gray-400'>{term.longCont}</p>
+          {/* <p>{term.shortCont}</p> */}
+          <p className='text-gray-400 my-[5px]'>{term.longCont}</p>
           <CustomCheckbox
             id={term.termCode}
             checked={term.agreed}

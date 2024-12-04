@@ -9,7 +9,6 @@ import TermsSection from "@/components/signup/TermsSection";
 import { SignUpError } from '@/utils/auth';
 import { ISignUpRequest } from "@/types/login";
 import { signUpRequest } from "@/apis/NewAuth";
-import Logo from '@/assets/logo.png';
 
 
 const SignUp: React.FC = () => {
@@ -21,7 +20,7 @@ const SignUp: React.FC = () => {
     isOpen,
     setIsOpen,
     emailVerified,
-    setEmailVerified,
+    // setEmailVerified,
     handleInputChange,
     validateForm,
     handleTermChange,
@@ -58,8 +57,6 @@ const SignUp: React.FC = () => {
     
     if (validateForm() && emailVerified) {
       try {
-        console.log('Submit data:', formData);
-        console.log('Terms data:', terms);
         const requestData: ISignUpRequest = {
           id: formData.userId,
           email: formData.email,
@@ -79,7 +76,7 @@ const SignUp: React.FC = () => {
           })),
         };
 
-        const response = await signUpRequest(requestData);
+        await signUpRequest(requestData);
         alert('회원가입이 성공적으로 완료되었습니다.');
         navigate('/signin');
       } catch (error) {
@@ -134,15 +131,6 @@ const SignUp: React.FC = () => {
           {errors.email && <p className="text-red-500">{errors.email}</p>}
         </div>
 
-        {/* <FormField
-          label="이메일 인증번호"
-          id="emailVerification"
-          type="text"
-          value={formData.emailVerification}
-          onChange={(value) => handleInputChange('emailVerification', value)}
-          error={errors.emailVerification}
-          placeholder="인증번호를 입력하세요"
-        /> */}
         <div className="space-y-2">
           <Label htmlFor="emailVerification">인증번호</Label>
           <div className="flex space-x-2">

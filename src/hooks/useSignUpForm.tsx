@@ -22,6 +22,7 @@ export const useSignUpForm = () => {
   const [terms, setTerms] = useState<Term[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
+  const [verificationCode, setVerificationCode] = useState<string | null>(null);
 
   const handleInputChange = (name: keyof FormData, value: string) => {
     let processedValue = value;
@@ -35,6 +36,7 @@ export const useSignUpForm = () => {
     // 이메일 변경 시 인증 초기화
     if (name === 'email') {
       setEmailVerified(false);
+      setVerificationCode(null);
     }
   };
 
@@ -70,13 +72,20 @@ export const useSignUpForm = () => {
     if (!formData.detailAddress) {
       newErrors.detailAddress = ERROR_MESSAGES.detailAddress;
     }
-    const requiredTerms = terms.filter(term => term.chkTerm);
-    const allRequiredTermsChecked = requiredTerms.every(term => {
-      const element = document.getElementById(term.termCode);
-      return element instanceof HTMLInputElement ? element.checked : false;
-    });
+
+    // const requiredTerms = terms.filter(term => term.chkTerm);
+    // const allRequiredTermsChecked = requiredTerms.every(term => {
+    //   const element = document.getElementById(term.termCode);
+    //   return element instanceof HTMLInputElement ? element.checked : false;
+    // });
     
-    if (!allRequiredTermsChecked) {
+    // if (!allRequiredTermsChecked) {
+    //   newErrors.terms = ERROR_MESSAGES.terms;
+    // }
+    //이 밑에가 새로 한 거
+    const requiredTermsChecked = terms.filter(term => term.chkTerm).every(term => term.agreed);
+    
+    if (!requiredTermsChecked) {
       newErrors.terms = ERROR_MESSAGES.terms;
     }
 
@@ -92,7 +101,8 @@ export const useSignUpForm = () => {
   const handleEmailVerification = async () => {
     try {
       // 이메일 인증 요청 API 호출
-      await sendEmailVerificationCode(formData.email);
+      const code = await sendEmailVerificationCode(formData.email);
+      setVerificationCode(code); // 서버에서 받은 인증 코드 저장
       alert('인증번호가 발송되었습니다.');
     } catch (error) {
       alert('인증번호 발송에 실패했습니다.');
@@ -101,12 +111,7 @@ export const useSignUpForm = () => {
 
   const verifyEmailCode = async () => {
     try {
-      const isValid = await checkEmailVerificationCode(
-        formData.email, 
-        formData.emailVerification
-      );
-      
-      if (isValid) {
+      if (verificationCode && formData.emailVerification === verificationCode) {
         setEmailVerified(true);
         alert('이메일 인증이 완료되었습니다.');
       } else {

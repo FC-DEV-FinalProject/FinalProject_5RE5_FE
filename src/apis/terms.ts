@@ -33,7 +33,6 @@ export const sendEmailVerificationCode = async (email: string)
 :Promise<string> => {
   try {
     const response = await apiClient.post('/member/verify-email', { email });
-    // verificationCode = response.data.verificationCode;
     return response.data.verificationCode;
   } catch (error) {
     throw error;
