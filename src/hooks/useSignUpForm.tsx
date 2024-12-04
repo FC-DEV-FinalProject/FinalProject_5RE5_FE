@@ -129,14 +129,17 @@ export const useSignUpForm = () => {
     setTerms(updatedTerms);
   };
 
+  const handleAllTermsChange = (checked: boolean) => {
+    const updatedTerms = terms.map(term => ({ ...term, agreed: checked }));
+    setTerms(updatedTerms);
+  };
+
   useEffect(() => {
     const loadTerms = async () => {
       try {
         const response = await fetchTerms('TERMS002');
-        // console.log('Received terms data:', response);
         const termsData = response.memberTermConditionResponses?.memberTermConditionResponses;
         if (termsData) {
-          // console.log('Terms data:', termsData);
           setTerms(termsData.map(term => ({
             code: term.condCode,
             termName: term.shortCont,
@@ -152,7 +155,7 @@ export const useSignUpForm = () => {
           setTerms([]);
         }
       } catch (error) {
-        console.error('약관 불러오기 실패:', error)
+        console.error('약관 불러오기 실패')
       }
     }
     loadTerms();
@@ -172,5 +175,6 @@ export const useSignUpForm = () => {
     handleTermChange,
     handleEmailVerification,
     verifyEmailCode,
+    handleAllTermsChange,
   };
 };

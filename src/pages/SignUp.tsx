@@ -27,6 +27,7 @@ const SignUp: React.FC = () => {
     handleTermChange,
     handleEmailVerification,
     verifyEmailCode,
+    handleAllTermsChange,
   } = useSignUpForm();;
 
   // const handleEmailVerification = async () => {
@@ -227,12 +228,13 @@ const SignUp: React.FC = () => {
           terms={terms || []}
           error={errors.terms}
           onChange={handleTermChange}
+          onAllChange={handleAllTermsChange}
         />
 
         <Button type="submit" variant="outline" className="w-full py-5 rounded-3xl">가입하기</Button>
       </form>
     </div>
-  );
+  );  
 };
 
 export default SignUp;

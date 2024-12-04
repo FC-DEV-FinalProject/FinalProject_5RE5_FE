@@ -1,26 +1,45 @@
-import React from 'react';
-
-interface Term {
-  code: string;
-  termName: string;
-  shortCont: string;
-  longCont: string;
-  chkTerm: boolean;
-  agreed: boolean;
-  valid: boolean;
-  termCode: string;
-}
+import React, { useEffect, useState } from 'react';
+import { CustomCheckbox } from '@/components/common/CustomCheckbox';
+import { Term } from '@/types/signup';
 
 interface Props {
   terms: Term[];
   error?: string;
   onChange: (termCode: string, checked: boolean) => void;
+  onAllChange: (checked: boolean) => void;
 }
 
-const TermsSection: React.FC<Props> = ({ terms, error, onChange }) => {
+const TermsSection: React.FC<Props> = ({ 
+  terms, 
+  error, 
+  onChange, 
+  onAllChange 
+}) => {
+
+  const [allAgreed, setAllAgreed] = useState(false);
+
+  const handleAllChange = (checked: boolean) => {
+    setAllAgreed(checked);
+    onAllChange(checked);
+  };
+  
+  const handleTermChange = (termCode: string, checked: boolean) => {
+    onChange(termCode, checked);
+    const allTermsAgreed = terms.every(t => t.agreed);
+    setAllAgreed(allTermsAgreed);
+  };
+
   return (
     <div>
       <h3>약관 동의</h3>
+      <div className="mb-[30px] mt-[8px]">
+        <CustomCheckbox
+          id="select-all"
+          checked={allAgreed}
+          onCheckedChange={handleAllChange}
+          label="전체 동의"
+        />
+      </div>
       {terms.map((term) => (
         <div key={term.code} className="mb-[30px]">
           <h4>
@@ -29,13 +48,12 @@ const TermsSection: React.FC<Props> = ({ terms, error, onChange }) => {
           </h4>
           <p>{term.shortCont}</p>
           <p className='text-gray-400'>{term.longCont}</p>
-          <input
-            type="checkbox"
+          <CustomCheckbox
             id={term.termCode}
             checked={term.agreed}
-            onChange={(e) => onChange(term.termCode, e.target.checked)}
+            onCheckedChange={(checked) => handleTermChange(term.termCode, checked)}
+            label="동의합니다."
           />
-          <label>동의합니다.</label>
           {error && <p className="text-red-500">{error}</p>}
         </div>
       ))}
