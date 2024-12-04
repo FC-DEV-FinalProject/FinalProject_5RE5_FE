@@ -133,8 +133,10 @@ export const useSignUpForm = () => {
     const loadTerms = async () => {
       try {
         const response = await fetchTerms('TERMS002');
+        // console.log('Received terms data:', response);
         const termsData = response.memberTermConditionResponses?.memberTermConditionResponses;
         if (termsData) {
+          // console.log('Terms data:', termsData);
           setTerms(termsData.map(term => ({
             code: term.condCode,
             termName: term.shortCont,

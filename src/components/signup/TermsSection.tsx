@@ -23,7 +23,10 @@ const TermsSection: React.FC<Props> = ({ terms, error, onChange }) => {
       <h3>약관 동의</h3>
       {terms.map((term) => (
         <div key={term.code}>
-          <h4>{term.termName} {term.chkTerm ? '(필수)' : '(선택)'}</h4>
+          <h4>
+            <span className='text-green-400 text-bold'>{term.chkTerm ? '[필수]' : '[선택]'}</span>
+            {term.termName} 
+          </h4>
           <p>{term.shortCont}</p>
           <p>{term.longCont}</p>
           <input

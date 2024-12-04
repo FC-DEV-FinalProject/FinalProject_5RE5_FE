@@ -5,12 +5,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSignUpForm } from '@/hooks/useSignUpForm';
 import { FormField } from '@/components/signup/FormField';
 import { AddressSearch } from '@/components/signup/AddressSearch';
-import { TermsSection } from '@/components/signup/TermSection';
+import TermsSection from "@/components/signup/TermsSection";
 import { SignUpError } from '@/utils/auth';
 import { ISignUpRequest } from "@/types/login";
 import { signUpRequest } from "@/apis/NewAuth";
-import { sendEmailVerificationCode, checkEmailVerificationCode } from '@/apis/terms';
-// import { useEffect, useState } from "react";
 
 
 const SignUp: React.FC = () => {
@@ -58,6 +56,8 @@ const SignUp: React.FC = () => {
     
     if (validateForm() && emailVerified) {
       try {
+        console.log('Submit data:', formData);
+        console.log('Terms data:', terms);
         const requestData: ISignUpRequest = {
           id: formData.userId,
           email: formData.email,
