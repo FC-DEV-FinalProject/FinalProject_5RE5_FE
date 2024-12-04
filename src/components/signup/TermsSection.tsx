@@ -22,13 +22,13 @@ const TermsSection: React.FC<Props> = ({ terms, error, onChange }) => {
     <div>
       <h3>약관 동의</h3>
       {terms.map((term) => (
-        <div key={term.code}>
+        <div key={term.code} className="mb-[30px]">
           <h4>
-            <span className='text-green-400 text-bold'>{term.chkTerm ? '[필수]' : '[선택]'}</span>
+            <span className='font-bold text-green-600'>{term.chkTerm ? '[필수]' : '[선택]'} </span>
             {term.termName} 
           </h4>
           <p>{term.shortCont}</p>
-          <p>{term.longCont}</p>
+          <p className='text-gray-400'>{term.longCont}</p>
           <input
             type="checkbox"
             id={term.termCode}
