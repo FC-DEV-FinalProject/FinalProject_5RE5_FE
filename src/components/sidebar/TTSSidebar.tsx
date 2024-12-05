@@ -16,7 +16,7 @@ const TTSSidebar = () => {
 
   return (
     <>
-      <div className='flex gap-4 mb-4'>
+      <div className='flex gap-4 pb-4 mb-4 border-b'>
         <Button
           variant={activeTab === 'file' ? 'blue' : 'outline'}
           size='sm'

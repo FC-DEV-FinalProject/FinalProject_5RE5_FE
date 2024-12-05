@@ -5,8 +5,31 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { mockLanguages, mockStyles, mockVoices } from '@/mock/speaker';
 import { ChevronDown } from 'lucide-react';
+import { ttsLanguage, ttsStyle, ttsVoiceName } from '@/apis/ttsVoice';
+
+interface Language {
+  languageCode: string;
+  languageName: string;
+  regionCode: string;
+  regionName: string;
+}
+
+interface Style {
+  name: string;
+  mood: string | null;
+  contents: string;
+  desc: string;
+}
+
+interface Voice {
+  voiceSeq: number;
+  name: string;
+  gender: string;
+  age: number | null;
+  useCnt: number;
+  isRecommend: string;
+}
 
 interface VoiceSelectionPopoverProps {
   selectedLanguage: string | null;
@@ -17,6 +40,29 @@ interface VoiceSelectionPopoverProps {
   setSelectedVoice: (voice: string) => void;
 }
 
+const getDefaultMood = (styleName: string): string => {
+  switch (styleName) {
+    case 'Standard':
+      return '기본';
+    case 'Neural':
+      return '부드러운';
+    case 'Journey':
+      return '다양한';
+    case 'Casual':
+      return '따뜻한';
+    case 'Studio':
+      return '전문적인';
+    case 'WaveNet':
+      return '자연스러운';
+    case 'News':
+      return '뉴스 스타일';
+    case 'Polyglot':
+      return '다언어';
+    default:
+      return '일반';
+  }
+};
+
 export const VoiceSelectionPopover: React.FC<VoiceSelectionPopoverProps> = ({
   selectedLanguage,
   setSelectedLanguage,
@@ -25,27 +71,65 @@ export const VoiceSelectionPopover: React.FC<VoiceSelectionPopoverProps> = ({
   selectedVoice,
   setSelectedVoice,
 }) => {
-  const [languages, setLanguages] = useState(mockLanguages);
-  const [styles, setStyles] = useState<typeof mockStyles.ko>([]);
-  const [voices, setVoices] = useState<typeof mockVoices.standard>([]);
+  const [languages, setLanguages] = useState<Language[]>([]);
+  const [styles, setStyles] = useState<Style[]>([]);
+  const [voices, setVoices] = useState<Voice[]>([]);
   const [isLanguageSelected, setIsLanguageSelected] = useState(false);
   const [isStyleSelected, setIsStyleSelected] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    const fetchLanguages = async () => {
+      try {
+        const languageData = await ttsLanguage();
+        setLanguages(languageData);
+        setHasError(false); // 에러 없음을 설정
+      } catch (error) {
+        console.error('언어 데이터를 불러오는 데 실패했습니다:', error);
+        setHasError(true); // 에러 발생
+      }
+    };
+    fetchLanguages();
+  }, []);
 
   useEffect(() => {
     if (selectedLanguage) {
-      setStyles(mockStyles[selectedLanguage as keyof typeof mockStyles] || []);
-      setIsLanguageSelected(true);
-      setIsStyleSelected(false);
+      const fetchStyles = async () => {
+        try {
+          const styleData = await ttsStyle(selectedLanguage);
+          const updatedStyles = styleData.map((style: Style) => ({
+            ...style,
+            mood:
+              style.mood === '없음' || !style.mood
+                ? getDefaultMood(style.name)
+                : style.mood,
+          }));
+          setStyles(updatedStyles);
+          setIsLanguageSelected(true);
+          setIsStyleSelected(false);
+        } catch (error) {
+          console.error('스타일 데이터를 불러오는 데 실패했습니다:', error);
+        }
+      };
+      fetchStyles();
     }
   }, [selectedLanguage]);
 
   useEffect(() => {
-    if (selectedStyle) {
-      setVoices(mockVoices[selectedStyle as keyof typeof mockVoices] || []);
-      setIsStyleSelected(true);
+    if (selectedLanguage && selectedStyle) {
+      const fetchVoices = async () => {
+        try {
+          const voiceData = await ttsVoiceName(selectedLanguage, selectedStyle);
+          setVoices(voiceData);
+          setIsStyleSelected(true);
+        } catch (error) {
+          console.error('보이스 데이터를 불러오는 데 실패했습니다:', error);
+        }
+      };
+      fetchVoices();
     }
-  }, [selectedStyle]);
+  }, [selectedLanguage, selectedStyle]);
 
   const handleVoiceSelect = (voiceName: string) => {
     setSelectedVoice(voiceName);
@@ -53,6 +137,10 @@ export const VoiceSelectionPopover: React.FC<VoiceSelectionPopoverProps> = ({
   };
 
   const handlePopoverOpen = () => {
+    if (hasError) {
+      alert('언어 데이터를 가져오는 데 실패했습니다. 다시 시도해주세요.');
+      return;
+    }
     setIsPopoverOpen(true);
     setIsLanguageSelected(false);
     setIsStyleSelected(false);
@@ -76,7 +164,7 @@ export const VoiceSelectionPopover: React.FC<VoiceSelectionPopoverProps> = ({
       </PopoverTrigger>
       <PopoverContent className='p-0 min-w-[400px]' align='start'>
         <div className='flex'>
-          <div className='w-1/3 text-center border-r'>
+          <div className='w-1/3 overflow-y-auto text-center border-r max-h-80'>
             {languages.map((lang) => (
               <div
                 key={lang.languageCode}
@@ -90,7 +178,7 @@ export const VoiceSelectionPopover: React.FC<VoiceSelectionPopoverProps> = ({
               </div>
             ))}
           </div>
-          {isLanguageSelected && (
+          {isLanguageSelected && styles.length > 0 && (
             <div className='w-1/3 text-center border-r'>
               {styles.map((style) => (
                 <div
@@ -106,7 +194,7 @@ export const VoiceSelectionPopover: React.FC<VoiceSelectionPopoverProps> = ({
               ))}
             </div>
           )}
-          {isStyleSelected && (
+          {isStyleSelected && voices.length > 0 && (
             <div className='w-1/3 text-center'>
               {voices.map((voice) => (
                 <div
