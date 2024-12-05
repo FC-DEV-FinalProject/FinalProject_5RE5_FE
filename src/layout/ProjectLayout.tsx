@@ -8,7 +8,7 @@ import { Link, useParams } from 'react-router-dom';
 import TTS from '@/pages/TTS';
 import VC from '@/pages/VC';
 import Concat from '@/pages/Concat';
-import ConcatLayout from '@/components/concat/ConcatLayout';
+import Header from '@/components/header/Header';
 
 const ProjectLayout = () => {
   // Footer 상태 관리 (열림/닫힘 여부)
@@ -50,31 +50,11 @@ const ProjectLayout = () => {
   return (
     <div className='flex flex-col h-screen'>
       {/* 헤더 */}
-      <header className='flex-none flex items-center gap-4 px-4 text-white bg-gray-800 h-[50px]'>
-        <h1 className='text-lg font-bold'>로고</h1>
-        <nav>
-          <ul className='flex gap-4'>
-            <li>
-              <Link to={`/project/tts/project1`} className='hover:underline'>
-                Project 01
-              </Link>
-            </li>
-            <li>
-              <Link to={`/project/tts/project2`} className='hover:underline'>
-                Project 02
-              </Link>
-            </li>
-            <li>
-              <Link to={`/project/tts/project3`} className='hover:underline'>
-                Project 03
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
+
+      <Header projectTab={true} />
 
       <div className='flex overflow-hidden grow'>
-        <aside className='p-4 bg-gray-200 w-[90px] flex-none'>
+        <aside className='p-4 w-[90px] flex-none border-r border-gray-200'>
           <ul>
             <li className='mb-8'>
               <Link
@@ -100,20 +80,20 @@ const ProjectLayout = () => {
           </ul>
         </aside>
 
-        <div className='grow'>
+        <div className='grow w-[calc(100vw-90px)] flex h-full'>
           {/* 좌측 사이드바 */}
 
-          <div className='flex h-full'>
-            {/* 메인 콘텐츠 */}
-            <main className='flex-1 p-4 overflow-auto bg-white'>
+          {/* 메인 콘텐츠 */}
+          <div className='overflow-auto grow'>
+            <main className='p-4 bg-white min-w-[800px]'>
               {ContentComponent}
             </main>
-
-            {/* 우측 사이드바 */}
-            <aside className='p-4  w-[280px] flex flex-col border-l'>
-              {SidebarComponent}
-            </aside>
           </div>
+
+          {/* 우측 사이드바 */}
+          <aside className='p-4 w-[280px] flex flex-col border-l flex-none'>
+            {SidebarComponent}
+          </aside>
         </div>
       </div>
 
