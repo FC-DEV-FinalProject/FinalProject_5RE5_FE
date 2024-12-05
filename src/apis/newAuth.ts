@@ -6,7 +6,7 @@ import { SignUpError } from '@/utils/auth'
 export const signUpRequest = async (requestData: ISignUpRequest): Promise<any> => {
   try {
     const response = await apiClient.post<ISignUpRequest>(
-      '/api/member/register', 
+      '/member/register', 
       {
         ...requestData,
         // Swagger 문서에 맞춰 추가 필드 처리
@@ -14,7 +14,7 @@ export const signUpRequest = async (requestData: ISignUpRequest): Promise<any> =
           .find(term => term.agreed === 'Y')?.termCondCode.toString() || '',
         chkValid: requestData.memberTermCheckOrNotRequests
           .every(term => term.agreed === 'Y') ? 'Y' : 'N',
-        locaAddr: requestData.normAddr, // 주소 매핑
+        locaAddr: requestData.normAddr, 
         passAddr: requestData.detailAddr
       },
       {
@@ -32,7 +32,7 @@ export const signUpRequest = async (requestData: ISignUpRequest): Promise<any> =
       if (status === 400) {
         throw new SignUpError('입력된 정보를 확인해주세요.', 400);
       } else if (status === 409) {
-        throw new SignUpError('이미 존재하는 아이디 또는 이메일 입니다.', 409);
+        throw new SignUpError(message, 409);
       }
       throw new SignUpError(message, status);
     }
