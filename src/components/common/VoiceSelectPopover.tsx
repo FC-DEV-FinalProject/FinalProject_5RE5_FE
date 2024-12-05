@@ -94,7 +94,7 @@ export const VoiceSelectionPopover: React.FC<VoiceSelectionPopoverProps> = ({
     if (selectedLanguage) {
       const fetchStyles = async () => {
         try {
-          const styleData = await ttsStyle();
+          const styleData = await ttsStyle(selectedLanguage);
           const updatedStyles = styleData.map((style: Style) => ({
             ...style,
             mood:
