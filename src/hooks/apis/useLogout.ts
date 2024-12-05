@@ -11,7 +11,7 @@ const useLogout = () => {
     mutationFn: logoutRequest,
     onSuccess: () => {
       logout();
-      navigate('/signIn');
+      navigate('/signin');
     },
   });
 };
