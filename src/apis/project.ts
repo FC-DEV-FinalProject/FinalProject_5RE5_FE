@@ -38,7 +38,6 @@ export const getProjectList = async () => {
 export const createProject = async () => {
   try {
     const response = await apiRequest.post(APIURL_PROJECT.POST_PROJECT);
-    console.log(response);
   } catch (err) {
     console.error(err);
   }
@@ -65,7 +64,6 @@ export const removeProject = async (projectSeq: number) => {
     const response = await apiRequest.delete(
       APIURL_PROJECT.deleteProject(projectSeq)
     );
-    console.log(response);
   } catch (err) {
     console.error(err);
   }

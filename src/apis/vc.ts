@@ -32,7 +32,6 @@ export const getVcList = async ({ projectSeq }: IVCProps) => {
 
     if (response.code !== 200)
       throw new Error(`${response.code}, ${response.message}`);
-    console.log(response.data);
     return response.data;
   } catch (err) {
     console.error(err);
@@ -76,7 +75,6 @@ export const saveTrgFiles = ({
  */
 export const createVc = (srcSeq: number, trgSeq: number) => {
   try {
-    console.log(`createVc ${srcSeq}, ${trgSeq}`);
     apiRequest.post(APIURL_VC.CREATE_VC(srcSeq, trgSeq));
   } catch (err) {
     console.error(err);
@@ -92,6 +90,5 @@ export const modifyVc = () => {};
  * vc 정보 삭제
  */
 export const removeSrc = (seqList: number[]) => {
-  console.log(seqList);
   apiRequest.delete(APIURL_VC.REMOVE_SRC, { data: seqList });
 };

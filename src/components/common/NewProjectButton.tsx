@@ -16,7 +16,6 @@ const NewProjectButton = () => {
     createNewProject: async (type: ProjectType) => {
       alert(`${type} 프로젝트 생성`);
       const response = await createProject();
-      console.log(response);
     },
   };
   return (

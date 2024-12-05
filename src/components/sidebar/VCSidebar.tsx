@@ -56,7 +56,6 @@ const VCSidebar = () => {
       });
     },
     onAddSrcFiles: (files: File[]) => {
-      files.map((file) => console.log(`addSrcFiles: ${file.name}`));
       if (files && files.length > 0) {
         files.map((file, index) => {
           const vcData: OneVcState = {

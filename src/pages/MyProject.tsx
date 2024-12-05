@@ -35,7 +35,6 @@ const MyProject = ({
       alert(`${checkedList} 삭제요청`);
       checkedList.map((item) => {
         const a = removeProject(item);
-        console.log(a);
       });
     },
   };

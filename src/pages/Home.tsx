@@ -13,15 +13,9 @@ export const PROJECT_TYPE: Record<string, ProjectType> = {
 };
 
 const Home = () => {
-  const a = async () => {
-    const bb = await getProjectList();
-    console.log(bb);
-  };
-
   useEffect(() => {
     (async () => {
-      const a = await getProjectList();
-      console.log(a);
+      const projectList = await getProjectList();
     })();
   }, []);
 

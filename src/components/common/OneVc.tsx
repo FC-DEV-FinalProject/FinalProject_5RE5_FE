@@ -53,7 +53,6 @@ const OneVc = ({ vcData }: IOneVcProps) => {
   >({});
 
   const handleInputFocus = (seq: number, isFocused: boolean) => {
-    console.log('테스트', seq, isFocused);
     setInputEditingStates((prevState) => ({ ...prevState, [seq]: isFocused }));
   };
 
