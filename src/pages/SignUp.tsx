@@ -30,45 +30,56 @@ const SignUp: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    if (validateForm() && emailVerified) {
-      try {
-        const requestData: ISignUpRequest = {
-          id: formData.userId,
-          email: formData.email,
-          password: formData.password,
-          name: formData.name,
-          normAddr: formData.address,
-          locaAddr: formData.address,
-          detailAddr: formData.detailAddress,
-          passAddr: formData.detailAddress,
-          termCode: '', 
-          chkValid: '', 
-          userRegDate: new Date().toISOString(),
-          memberTermCheckOrNotRequests: terms.map((term) => ({
-            termCondCode: term.code,
-            agreed: term.agreed ? 'Y' : 'N',
-            valid: term.valid,
-          })),
-        };
 
-        await signUpRequest(requestData);
-        alert('회원가입이 성공적으로 완료되었습니다.');
-        navigate('/signin');
-      } catch (error) {
-        if (error instanceof SignUpError) {
-          alert(`회원가입 실패: ${error.message}`);
-        } else {
-          alert('예기치 못한 오류가 발생했습니다.');
-        }
+    if (!validateForm()) {
+      alert('모든 필드를 입력해주세요. ');
+      return;
+    }
+    if (!emailVerified) {
+      alert('이메일 인증을 완료해주세요.');
+      return;
+    }
+
+    const requiredTermsChecked = terms.filter(term => term.chkTerm).every(term => term.agreed);
+    if (!requiredTermsChecked) {
+      alert('모든 필수 약관에 동의해주세요.');
+      return;
+    }
+
+    try {
+      const requestData: ISignUpRequest = {
+        id: formData.userId,
+        email: formData.email,
+        password: formData.password,
+        name: formData.name,
+        normAddr: formData.address,
+        locaAddr: formData.address,
+        detailAddr: formData.detailAddress,
+        passAddr: formData.detailAddress,
+        termCode: '', 
+        chkValid: '', 
+        userRegDate: new Date().toISOString(),
+        memberTermCheckOrNotRequests: terms.map((term) => ({
+          termCondCode: term.code,
+          agreed: term.agreed ? 'Y' : 'N',
+          valid: term.valid,
+        })),
+      };
+      
+      await signUpRequest(requestData);
+      alert('회원가입이 성공적으로 완료되었습니다.');
+      navigate('/signin');
+    } catch (error) {
+      if (error instanceof SignUpError) {
+        alert(`회원가입 실패: ${error.message}`);
+      } else {
+        alert('예기치 못한 오류가 발생했습니다.')
       }
-    } else {
-      alert('이메일 인증을 완료해주세요.')
     }
   };
 
   return (
-    <div className="px-4 py-20 mx-auto w-96">
+    <div className="px-4 py-20 mx-auto w-[1280px]">
       <h2 className="mb-2 text-[36px] font-bold text-center">회원가입</h2>
       <h4 className="mb-10 text-center text-l">이미 계정이 있으신가요? 
         <Link to="/signin"><span className="font-bold"> 로그인</span> 화면으로 이동</Link>

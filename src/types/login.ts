@@ -21,8 +21,8 @@ export interface ISignUpRequest {
   locaAddr: string; //지역 주소
   detailAddr: string; //상세 주소
   passAddr: string; //추가 주소 정보
-  termCode: string; //가입 시 동의한 주요 약관 코드
-  chkValid: string; // 약관 전체 동의 여부 (Y/N)
+  termCode: string;
+  chkValid: string;
   userRegDate: string;
   memberTermCheckOrNotRequests: {
     termCondCode: string;
