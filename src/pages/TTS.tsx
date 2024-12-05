@@ -1,3 +1,4 @@
+import { ttsFileCreate } from '@/apis/ttsFileCreate';
 import { TTSControls } from '@/components/tts/TTSControls';
 import { TTSHeader } from '@/components/tts/TTSHeader';
 import { TextInputList } from '@/components/tts/TextInputList';
@@ -37,8 +38,8 @@ const TTS: React.FC = () => {
   const selectedCount = textInputs.filter((input) => input.isSelected).length;
 
   return (
-    <div 
-      className='container p-4 h-[calc(100vh-170px)] w-full overflow-y-auto' 
+    <div
+      className='container p-4 h-[calc(100vh-170px)] w-full overflow-y-auto'
       ref={containerRef}
     >
       <TTSHeader
@@ -67,6 +68,7 @@ const TTS: React.FC = () => {
         addTextInput={addTextInput}
         saveInput={saveInput}
         onSelectionChange={(selectedCount, totalCount) => {}}
+        ttsFileCreate={() => ttsFileCreate(projectId || '')}
       />
     </div>
   );
