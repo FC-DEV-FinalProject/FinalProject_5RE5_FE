@@ -30,11 +30,16 @@ export interface IListViewProps {
   option?: ViewOptionType;
   data?: IProjectProps[];
   navi: NavigateFunction;
+  viewRemoveData?: boolean;
 }
 
 const thumbnail = [BookAIcon, MicIcon, CombineIcon];
 
-const ListView = ({ option = 'list', data }: Omit<IListViewProps, 'navi'>) => {
+const ListView = ({
+  option = 'list',
+  data,
+  viewRemoveData,
+}: Omit<IListViewProps, 'navi'>) => {
   const navigate = useNavigate();
   return (
     <div>
@@ -144,14 +149,20 @@ const List = ({ data, navi }: IListViewProps) => {
                 <TableCell className='text-center'>
                   {convertDateFormat(new Date(item.projectDate), 'YYYY-MM-DD')}
                 </TableCell>
-                <TableCell
-                  className='flex justify-center h-full hover:cursor-pointer'
-                  onClick={() => {
-                    navi(ROUTES.PROJECT + ROUTES.TTS + `/${item.projectSeq}`);
-                  }}
-                >
-                  <SquareArrowOutUpRightIcon />
-                </TableCell>
+                {item.projectActivate === 'Y' ? (
+                  <TableCell
+                    className={`flex justify-center h-full  ${item.projectActivate === 'Y' ? 'hover:cursor-pointer' : 'cursor-not-allowed'}`}
+                    onClick={() => {
+                      navi(ROUTES.PROJECT + ROUTES.TTS + `/${item.projectSeq}`);
+                    }}
+                  >
+                    <SquareArrowOutUpRightIcon />
+                  </TableCell>
+                ) : (
+                  <TableCell className='flex justify-center h-full hover:cursor-not-allowed'>
+                    <Badge variant={'destructive'}>삭제됨</Badge>
+                  </TableCell>
+                )}
               </TableRow>
             );
           })}

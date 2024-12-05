@@ -34,7 +34,12 @@ const Home = () => {
           </div>
         </header>
         <div>
-          <ListView option={'tile'} data={PROJECT_DATA.slice(0, 3)} />
+          <ListView
+            option={'tile'}
+            data={PROJECT_DATA.filter(
+              (data) => data.projectActivate === 'Y'
+            ).slice(0, 3)}
+          />
         </div>
       </div>
       <div id='myProjectDiv' className='m-5'>
@@ -44,7 +49,10 @@ const Home = () => {
           </div>
         </header>
         <div>
-          <ListView option={'list'} data={PROJECT_DATA} />
+          <ListView
+            option={'list'}
+            data={PROJECT_DATA.filter((data) => data.projectActivate === 'Y')}
+          />
         </div>
       </div>
     </div>

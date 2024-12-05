@@ -7,17 +7,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { PROJECT_DATA2 } from '@/mocks/projectData';
+import { PROJECT_DATA } from '@/mocks/projectData';
 import { useCheckedStore } from '@/stores/checkedStore';
 import { useEffect, useState } from 'react';
 import { IProjectProps } from '@/types/project';
 import DivideLine from '@/components/common/DividingLine';
-import { apiRequest } from '@/apis/apiClient';
 import { removeProject } from '@/apis/project';
 
 const MyProject = ({
   option = 'list',
-  data = PROJECT_DATA2,
+  data = PROJECT_DATA,
 }: Omit<IListViewProps, 'navi'>) => {
   const [orderValue, setOrderValue] = useState<string>('');
   const { checkedList } = useCheckedStore();
