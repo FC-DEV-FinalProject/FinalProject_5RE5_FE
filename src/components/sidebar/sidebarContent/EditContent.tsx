@@ -161,7 +161,7 @@ const EditContent = () => {
   };
 
   return (
-    <div className='flex flex-col w-full h-full gap-4 rounded '>
+    <div className='flex flex-col w-full h-full gap-4 rounded'>
       {/* 컨텐츠 영역 */}
       <div className='flex flex-col flex-1 gap-4'>
         {/* 즐겨찾기 Dropdown */}

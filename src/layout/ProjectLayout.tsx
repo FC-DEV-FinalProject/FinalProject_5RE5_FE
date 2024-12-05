@@ -8,6 +8,7 @@ import { Link, useParams } from 'react-router-dom';
 import TTS from '@/pages/TTS';
 import VC from '@/pages/VC';
 import Concat from '@/pages/Concat';
+import Logo from '@/assets/logo.png';
 
 const ProjectLayout = () => {
   // Footer 상태 관리 (열림/닫힘 여부)
@@ -49,22 +50,33 @@ const ProjectLayout = () => {
   return (
     <div className='flex flex-col h-screen'>
       {/* 헤더 */}
-      <header className='flex items-center gap-4 px-4 text-white bg-gray-800 h-14'>
-        <h1 className='text-lg font-bold'>로고</h1>
+      <header className='flex items-center gap-4 px-4 text-white border-b h-14'>
+        <h1 className='text-lg font-bold '>
+          <img src={Logo} />
+        </h1>
         <nav>
-          <ul className='flex gap-4'>
+          <ul className='flex gap-4 border-1'>
             <li>
-              <Link to={`/project/tts/project1`} className='hover:underline'>
+              <Link
+                to={`/project/tts/project1`}
+                className='text-black hover:underline'
+              >
                 Project 01
               </Link>
             </li>
             <li>
-              <Link to={`/project/tts/project2`} className='hover:underline'>
+              <Link
+                to={`/project/tts/project2`}
+                className='text-black hover:underline'
+              >
                 Project 02
               </Link>
             </li>
             <li>
-              <Link to={`/project/tts/project3`} className='hover:underline'>
+              <Link
+                to={`/project/tts/project3`}
+                className='text-black hover:underline'
+              >
                 Project 03
               </Link>
             </li>
@@ -74,25 +86,28 @@ const ProjectLayout = () => {
 
       <div className='flex flex-1'>
         {/* 좌측 사이드바 */}
-        <aside className='p-4 bg-gray-200 w-[90px]'>
-          <ul>
-            <li className='mb-8'>
+        <aside className='p-4 w-[90px] border-r flex flex-col items-center'>
+          <ul className='flex flex-col items-center'>
+            <li className='flex items-center justify-center mb-8'>
               <Link
                 to={`/project/tts/${projectId}`}
-                className='hover:underline'
+                className='text-center hover:underline'
               >
                 TTS
               </Link>
             </li>
-            <li className='mb-8'>
-              <Link to={`/project/vc/${projectId}`} className='hover:underline'>
+            <li className='flex items-center justify-center mb-8'>
+              <Link
+                to={`/project/vc/${projectId}`}
+                className='text-center hover:underline'
+              >
                 VC
               </Link>
             </li>
-            <li>
+            <li className='flex items-center justify-center'>
               <Link
                 to={`/project/concat/${projectId}`}
-                className='hover:underline'
+                className='text-center hover:underline'
               >
                 Concat
               </Link>
@@ -106,7 +121,7 @@ const ProjectLayout = () => {
         </main>
 
         {/* 우측 사이드바 */}
-        <aside className='p-4  w-[280px] flex flex-col border-l'>
+        <aside className='  w-[280px] flex flex-col border-l p-4'>
           {SidebarComponent}
         </aside>
       </div>

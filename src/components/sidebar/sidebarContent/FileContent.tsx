@@ -107,14 +107,16 @@ export const FileContent: React.FC<IFileContentProps> = ({
   };
 
   return (
-    <div className='flex flex-col h-full'>
+    <div className='flex flex-col h-full '>
       <div className='flex-1 w-full'>
-        <Button
-          className='w-full'
-          onClick={() => document.getElementById('file-upload')?.click()}
-        >
-          텍스트 파일추가
-        </Button>
+        <div className='pb-4 border-b'>
+          <Button
+            className='w-full'
+            onClick={() => document.getElementById('file-upload')?.click()}
+          >
+            텍스트 파일추가
+          </Button>
+        </div>
         <input
           id='file-upload'
           type='file'
