@@ -228,15 +228,7 @@ const EditContent = () => {
           onClick={handleApply}
           disabled={isApplyLoading}
         >
-          개별 적용하기
-        </Button>
-
-        <Button
-          className='w-full text-white bg-black'
-          onClick={handleAllApply}
-          disabled={isApplyLoading}
-        >
-          {isApplyLoading ? '처리중...' : '전체 적용하기'}
+          적용하기
         </Button>
       </div>
     </div>
