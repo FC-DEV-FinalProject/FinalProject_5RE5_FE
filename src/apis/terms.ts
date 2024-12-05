@@ -29,12 +29,26 @@ export const fetchTerms = async (termCode: string): Promise<TermResponse> => {
 
 let verificationCode: string | null = null;
 
-export const sendEmailVerificationCode = async (email: string)
-:Promise<string> => {
+export const sendEmailVerificationCode = async (email: string):Promise<string> => {
   try {
-    const response = await apiClient.post('/member/verify-email', { email });
-    return response.data.verificationCode;
+    const response = await apiClient.post('/member/verify-email', JSON.stringify(email),{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    } );
+    console.log('Full API Response:', response);
+    console.log('Response Data:', response.data);
+    // 백엔드 응답 구조에 따라 코드 추출
+    const code = response.data;
+
+    if (!code) {
+      throw new Error('인증번호를 받지 못했습니다.');
+    }
+
+    return code;
+    // return response.data.verificationCode;
   } catch (error) {
+    console.error('이메일 인증번호 발송 실패', error);
     throw error;
   }
 };

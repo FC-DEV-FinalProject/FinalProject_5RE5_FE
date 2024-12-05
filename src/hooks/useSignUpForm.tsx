@@ -21,24 +21,8 @@ export const useSignUpForm = () => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [terms, setTerms] = useState<Term[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [emailVerified, setEmailVerified] = useState(false);
   const [verificationCode, setVerificationCode] = useState<string | null>(null);
-
-  const handleInputChange = (name: keyof FormData, value: string) => {
-    let processedValue = value;
-
-    if (name === 'phoneNumber') {
-      processedValue = value.replace(/[^\d]/g, '');
-    }
-
-    setFormData((prev) => ({ ...prev, [name]: processedValue }));
-
-    // 이메일 변경 시 인증 초기화
-    if (name === 'email') {
-      setEmailVerified(false);
-      setVerificationCode(null);
-    }
-  };
+  const [emailVerified, setEmailVerified] = useState(false);
 
   const validateForm = () => {
     const newErrors: FormErrors = {};
@@ -73,16 +57,6 @@ export const useSignUpForm = () => {
       newErrors.detailAddress = ERROR_MESSAGES.detailAddress;
     }
 
-    // const requiredTerms = terms.filter(term => term.chkTerm);
-    // const allRequiredTermsChecked = requiredTerms.every(term => {
-    //   const element = document.getElementById(term.termCode);
-    //   return element instanceof HTMLInputElement ? element.checked : false;
-    // });
-    
-    // if (!allRequiredTermsChecked) {
-    //   newErrors.terms = ERROR_MESSAGES.terms;
-    // }
-    //이 밑에가 새로 한 거
     const requiredTermsChecked = terms.filter(term => term.chkTerm).every(term => term.agreed);
     
     if (!requiredTermsChecked) {
@@ -99,9 +73,18 @@ export const useSignUpForm = () => {
   };
 
   const handleEmailVerification = async () => {
+    if (!VALIDATION_PATTERNS.email.test(formData.email)) {
+      setErrors(prev => ({
+        ...prev,
+        email: ERROR_MESSAGES.email
+      }));
+      return;
+    }
+
     try {
-      // 이메일 인증 요청 API 호출
+      // API 호출하여 인증번호 받기
       const code = await sendEmailVerificationCode(formData.email);
+      console.log('Verification Code:', code);
       setVerificationCode(code); // 서버에서 받은 인증 코드 저장
       alert('인증번호가 발송되었습니다.');
     } catch (error) {
@@ -110,19 +93,38 @@ export const useSignUpForm = () => {
   };
 
   const verifyEmailCode = async () => {
-    try {
-      if (verificationCode && formData.emailVerification === verificationCode) {
-        setEmailVerified(true);
-        alert('이메일 인증이 완료되었습니다.');
-      } else {
-        setErrors(prev => ({
-          ...prev,
-          emailVerification: '인증번호가 일치하지 않습니다.'
-        }));
-      }
-    } catch (error) {
-      alert('인증 중 오류가 발생했습니다.');
+    console.log('Stored Verification Code (type):', typeof verificationCode);
+    console.log('Entered Verification Code (type):', typeof formData.emailVerification);
+
+    console.log('Stored Verification Code:', verificationCode);
+    console.log('Entered Verification Code:', formData.emailVerification);
+
+    if (
+      verificationCode !== null && 
+      verificationCode.toString() === formData.emailVerification
+    ) {
+      setEmailVerified(true);
+      setErrors(prev => {
+        const { emailVerification, ...rest } = prev;
+        return rest;
+      });
+      alert('이메일 인증이 완료되었습니다.');
+    } else {
+      setErrors(prev => ({
+        ...prev,
+        emailVerification: '인증번호가 일치하지 않습니다.'
+      }));
     }
+  };
+
+  const handleInputChange = (name: keyof FormData, value: string) => {
+
+    if (name === 'email') {
+      setEmailVerified(false);
+      setVerificationCode(null);
+    }
+
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleTermChange = (termCode: string, checked: boolean) => {
@@ -178,6 +180,7 @@ export const useSignUpForm = () => {
     handleInputChange,
     validateForm,
     handleTermChange,
+    verificationCode,
     handleEmailVerification,
     verifyEmailCode,
     handleAllTermsChange,
