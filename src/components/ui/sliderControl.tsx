@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Slider } from '@/components/ui/slider';
 
 export const SliderControl = ({
@@ -13,23 +14,75 @@ export const SliderControl = ({
   min: number;
   max: number;
 }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [inputValue, setInputValue] = useState<string>(value.toString());
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleInputBlur = () => {
+    const parsedValue = parseFloat(inputValue);
+
+    // 입력 값이 숫자인지 확인
+    if (!isNaN(parsedValue)) {
+      const adjustedValue = Math.min(Math.max(parsedValue, min), max);
+      onChange([adjustedValue]);
+      setInputValue(adjustedValue.toString());
+    } else {
+      setInputValue(value.toString()); // 유효하지 않은 값일 경우 기존 값 복원
+    }
+
+    setIsEditing(false); // 입력 모드 종료
+  };
+
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      (e.target as HTMLInputElement).blur(); // Enter 키로 입력 완료
+    }
+  };
+
+  const handleInputFocus = () => {
+    setInputValue(''); // 포커스 시 기존 값 초기화
+  };
+
   return (
-    <div className='flex flex-col items-start w-full gap-2'>
-      {/* 제목 */}
-      <label className='text-sm font-medium text-gray-700'>{label}</label>
-      {/* 슬라이더 및 값 */}
-      <div className='flex items-center w-full gap-4'>
+    <div className='w-full'>
+      {/* 라벨과 값 */}
+      <div className='flex items-center justify-between'>
+        <label className='text-sm font-medium text-gray-700'>{label}</label>
+        {isEditing ? (
+          <input
+            type='number'
+            value={inputValue}
+            onChange={handleInputChange}
+            onBlur={handleInputBlur}
+            onKeyDown={handleInputKeyDown}
+            onFocus={handleInputFocus} // 포커스 시 기존 값 초기화
+            min={min}
+            max={max}
+            step={0.1}
+            className='w-16 px-1 text-sm text-right border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500'
+          />
+        ) : (
+          <span
+            className='text-sm font-medium text-gray-700 cursor-pointer'
+            onClick={() => setIsEditing(true)}
+          >
+            {value ? parseFloat(value.toFixed(1)) : '기본'}
+          </span>
+        )}
+      </div>
+      {/* 슬라이더 */}
+      <div className='mt-2'>
         <Slider
           value={[value]}
           onValueChange={(v) => onChange(v)}
           max={max}
           min={min}
-          step={0.1} // 소수점 조정을 위한 step 추가
-          className='flex-1'
+          step={0.1}
+          className='w-full'
         />
-        <span className='text-sm font-medium text-gray-700'>
-          {value ? value.toFixed(2) : '기본'}
-        </span>
       </div>
     </div>
   );

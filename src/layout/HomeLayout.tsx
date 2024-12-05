@@ -1,30 +1,33 @@
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { CSSProperties } from 'react';
 import { HomeSidebar } from '@/components/sidebar/HomeSidebar';
-import HomeHeader from '@/components/header/HomeHeader';
+import Header from '@/components/header/Header';
 
 export default function HomeLayout() {
   return (
     <div className='flex flex-col h-screen'>
-      <header className='ml-[210px]'>
-        <HomeHeader />
-      </header>
-      <div className='flex flex-1 overflow-hidden'>
-        <SidebarProvider
-          style={
-            {
-              '--sidebar-width': '210px',
-              maxWidth: '210px',
-              //   '--sidebar-width-mobile': '10rem',
-            } as CSSProperties
-          }
-        >
-          <HomeSidebar />
-        </SidebarProvider>
-        <main className='flex-1 overflow-auto'>
-          <Outlet />
-        </main>
+      <Header />
+
+      <div className='flex h-full overflow-hidden'>
+        <div className='flex-none w-[210px] pt-2 border-r border-gray-200'>
+          <SidebarProvider
+            style={
+              {
+                '--sidebar-width': '100%',
+                // maxWidth: '100%',
+                //   '--sidebar-width-mobile': '10rem',
+              } as CSSProperties
+            }
+          >
+            <HomeSidebar />
+          </SidebarProvider>
+        </div>
+        <div className='overflow-auto grow'>
+          <main className='flex flex-col gap-5 p-5 min-w-[1000px]'>
+            <Outlet />
+          </main>
+        </div>
       </div>
     </div>
   );

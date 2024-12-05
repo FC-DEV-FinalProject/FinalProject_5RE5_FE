@@ -17,7 +17,16 @@ interface ExtendedTTSState extends TTSState {
 }
 interface TTSStore extends ExtendedTTSState {
   addTextInput: (hoveredId: number) => void;
-  addTextInputs: (texts: string[]) => void;
+  addTextInputs: (texts: {
+    id: number;
+    text: string;
+    isSelected: boolean;
+    isEditing: boolean;
+    speed: number;
+    pitch: number;
+    volume: number;
+    voice: string;
+  }[]) => void;
   handleTextChange: (id: number, newText: string) => void;
   toggleSelection: (id: number) => void;
   toggleAllSelection: () => void;
@@ -93,26 +102,22 @@ export const useTextInputs = create<TTSStore>((set) => ({
             ],
           };
       }
-    }),
+  }),
 
   addTextInputs: (texts) =>
-    set((state: ExtendedTTSState) => ({
-      ...state,
-      textInputs: [
-        ...state.textInputs,
-        ...texts.map((text, index) => ({
-          id: state.textInputs.length + index + 1,
-          text: text.trim(),
-          isSelected: false,
-          isEditing: false,
-          speed: 1,
-          pitch: 0,
-          volume: 0,
-          voice: '',
-        })),
-      ],
-    })),
-
+    set((state) => {
+      const uniqueTexts = texts.filter( //이미 존재하는 id 제외
+        (text) => !state.textInputs.some((existingInput) => existingInput.id === text.id)
+      );
+  
+      return {
+        ...state,
+        textInputs: [
+          ...state.textInputs,
+          ...uniqueTexts,
+        ],
+      };
+    }),
   handleTextChange: (id, newText) =>
     set((state: ExtendedTTSState) => ({
       ...state,
