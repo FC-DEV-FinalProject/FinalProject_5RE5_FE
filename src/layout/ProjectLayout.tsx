@@ -8,7 +8,7 @@ import { Link, useParams } from 'react-router-dom';
 import TTS from '@/pages/TTS';
 import VC from '@/pages/VC';
 import Concat from '@/pages/Concat';
-import Logo from '@/assets/logo.png';
+import Header from '@/components/header/Header';
 
 const ProjectLayout = () => {
   // Footer 상태 관리 (열림/닫힘 여부)
@@ -50,44 +50,12 @@ const ProjectLayout = () => {
   return (
     <div className='flex flex-col h-screen'>
       {/* 헤더 */}
-      <header className='flex items-center gap-4 px-4 text-white border-b h-14'>
-        <h1 className='text-lg font-bold '>
-          <img src={Logo} />
-        </h1>
-        <nav>
-          <ul className='flex gap-4 border-1'>
-            <li>
-              <Link
-                to={`/project/tts/project1`}
-                className='text-black hover:underline'
-              >
-                Project 01
-              </Link>
-            </li>
-            <li>
-              <Link
-                to={`/project/tts/project2`}
-                className='text-black hover:underline'
-              >
-                Project 02
-              </Link>
-            </li>
-            <li>
-              <Link
-                to={`/project/tts/project3`}
-                className='text-black hover:underline'
-              >
-                Project 03
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
 
-      <div className='flex flex-1'>
-        {/* 좌측 사이드바 */}
-        <aside className='p-4 w-[90px] border-r flex flex-col items-center'>
-          <ul className='flex flex-col items-center'>
+      <Header projectTab={true} />
+
+      <div className='flex overflow-hidden grow'>
+        <aside className='p-4 w-[90px] flex-none border-r border-gray-200'>
+          <ul>
             <li className='flex items-center justify-center mb-8'>
               <Link
                 to={`/project/tts/${projectId}`}
@@ -115,20 +83,26 @@ const ProjectLayout = () => {
           </ul>
         </aside>
 
-        {/* 메인 콘텐츠 */}
-        <main className='flex-1 p-4 overflow-auto bg-white'>
-          {ContentComponent}
-        </main>
+        <div className='grow w-[calc(100vw-90px)] flex h-full'>
+          {/* 좌측 사이드바 */}
 
-        {/* 우측 사이드바 */}
-        <aside className='  w-[280px] flex flex-col border-l p-4'>
-          {SidebarComponent}
-        </aside>
+          {/* 메인 콘텐츠 */}
+          <div className='overflow-auto grow'>
+            <main className='p-4 bg-white min-w-[800px]'>
+              {ContentComponent}
+            </main>
+          </div>
+
+          {/* 우측 사이드바 */}
+          <aside className='p-4 w-[280px] flex flex-col border-l flex-none'>
+            {SidebarComponent}
+          </aside>
+        </div>
       </div>
 
       {/* 푸터 */}
       <footer
-        className={`relative flex items-center justify-center ${
+        className={`flex flex-none items-center justify-center relative ${
           isFooterExpanded ? 'h-[310px]' : 'h-[114px]'
         } text-white border-t  transition-all duration-300`}
       >

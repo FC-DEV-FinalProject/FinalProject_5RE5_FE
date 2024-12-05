@@ -6,7 +6,7 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div>
+    <div className='max-w-[1280px] mx-auto'>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
       </QueryClientProvider>
