@@ -46,7 +46,6 @@ export const sendEmailVerificationCode = async (email: string):Promise<string> =
     }
 
     return code;
-    // return response.data.verificationCode;
   } catch (error) {
     console.error('이메일 인증번호 발송 실패', error);
     throw error;

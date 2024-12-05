@@ -20,7 +20,6 @@ const SignUp: React.FC = () => {
     isOpen,
     setIsOpen,
     emailVerified,
-    // setEmailVerified,
     handleInputChange,
     validateForm,
     handleTermChange,
@@ -28,29 +27,6 @@ const SignUp: React.FC = () => {
     verifyEmailCode,
     handleAllTermsChange,
   } = useSignUpForm();;
-
-  // const handleEmailVerification = async () => {
-  //   try {
-  //     await sendEmailVerificationCode(formData.email);
-  //     alert(`인증번호가 발송되었습니다. 이메일을 확인해주세요.`);
-  //   } catch (error) {
-  //     alert('이메일 인증번호 발송 실패');
-  //   }
-  // };
-
-  // const verifyEmailCode = async () => {
-  //   try {
-  //     const isValid = await checkEmailVerificationCode(formData.email, formData.emailVerification);
-  //     if (isValid) {
-  //       setEmailVerified(true);
-  //       alert('이메일 인증 성공');
-  //     } else {
-  //       alert('이메일 인증 실패. 인증번호를 다시 확인해주세요.');
-  //     }
-  //   } catch (error) {
-  //     alert('이메일 인증 실패');
-  //   }
-  // };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -66,8 +42,8 @@ const SignUp: React.FC = () => {
           locaAddr: formData.address,
           detailAddr: formData.detailAddress,
           passAddr: formData.detailAddress,
-          termCode: '', // API에서 처리
-          chkValid: '', // API에서 처리
+          termCode: '', 
+          chkValid: '', 
           userRegDate: new Date().toISOString(),
           memberTermCheckOrNotRequests: terms.map((term) => ({
             termCondCode: term.code,

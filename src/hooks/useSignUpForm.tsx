@@ -82,7 +82,6 @@ export const useSignUpForm = () => {
     }
 
     try {
-      // API 호출하여 인증번호 받기
       const code = await sendEmailVerificationCode(formData.email);
       console.log('Verification Code:', code);
       setVerificationCode(code); // 서버에서 받은 인증 코드 저장
@@ -93,11 +92,6 @@ export const useSignUpForm = () => {
   };
 
   const verifyEmailCode = async () => {
-    console.log('Stored Verification Code (type):', typeof verificationCode);
-    console.log('Entered Verification Code (type):', typeof formData.emailVerification);
-
-    console.log('Stored Verification Code:', verificationCode);
-    console.log('Entered Verification Code:', formData.emailVerification);
 
     if (
       verificationCode !== null && 
