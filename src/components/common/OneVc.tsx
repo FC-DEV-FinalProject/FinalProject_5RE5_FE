@@ -99,13 +99,19 @@ const OneVc = ({ vcData }: IOneVcProps) => {
           </Button>
         </div>
         <div id='rightIcons' className='flex'>
-          <audio src={vcData.vcSrcFile.fileUrl} ref={audioRef} />
-          <span className='content-center px-1 text-sm'>{`${currentPlayTime} / ${duration}`}</span>
+          {!!vcData.vcSrcFile.fileUrl && (
+            <>
+              <audio src={vcData.vcSrcFile.fileUrl} ref={audioRef} />
+              <span className='content-center px-1 text-sm'>{`${currentPlayTime} / ${duration}`}</span>
+            </>
+          )}
+
           <Button
             variant={'ghost'}
             size={'sm'}
             onClick={audioStatus === 'play' ? handler.onPause : handler.onPlay}
             title={audioStatus === 'play' ? '일시정지' : '재생'}
+            disabled={!!!vcData.vcSrcFile.fileUrl}
           >
             {audioStatus === 'play' ? (
               <PauseIcon fill='black' />
@@ -118,6 +124,7 @@ const OneVc = ({ vcData }: IOneVcProps) => {
             size={'sm'}
             onClick={handler.onDownload}
             title='파일 다운로드'
+            disabled={!!!vcData.vcSrcFile.fileUrl}
           >
             <DownloadIcon />
           </Button>
@@ -148,7 +155,6 @@ const OneVc = ({ vcData }: IOneVcProps) => {
             cancelEdit();
           }}
         />
-        {/* {vcData.isEditing && ( */}
         {inputEditingStates[vcData.vcSrcFile.seq] && (
           <div className='absolute flex space-x-1 transform -translate-y-1/2 top-1/2 right-2'>
             <Button

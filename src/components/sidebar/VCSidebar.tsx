@@ -56,9 +56,9 @@ const VCSidebar = () => {
       });
     },
     onAddSrcFiles: (files: File[]) => {
-      console.log(`addSrcFiles: ${files}`);
+      files.map((file) => console.log(`addSrcFiles: ${file.name}`));
       if (files && files.length > 0) {
-        files.map((file) => {
+        files.map((file, index) => {
           const vcData: OneVcState = {
             activate: 'Y',
             isEditing: false,
@@ -68,7 +68,8 @@ const VCSidebar = () => {
               fileUrl: '',
               name: file.name,
               rowOrder: 0,
-              seq: 0,
+              // console.log('개발용 임시 seq');
+              seq: Number(100) + Number(index) + Number(Date.now()), // 개발용 임시 seq
             },
             vcText: file.name,
           };
@@ -97,9 +98,7 @@ const VCSidebar = () => {
             buttonName='보이스 클립 추가'
             emptyText='보이스 클립을 추가해 목소리를 변환해보세요'
             buttonIcon={MessageSquareMoreIcon}
-            afterFn={() => {
-              handler.onAddSrcFiles(uploadFiles);
-            }}
+            afterSrcFn={handler.onAddSrcFiles}
             fileType='audio/*'
           />
 

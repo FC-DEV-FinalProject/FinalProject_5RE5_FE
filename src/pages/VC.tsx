@@ -4,6 +4,7 @@ import OneVc from '@/components/common/OneVc';
 import VcControls from '@/components/vc/VcControls';
 import { VcHeader } from '@/components/vc/VcHeader';
 import { useVcStore } from '@/stores/vcDataStore';
+import { convertDateFormat } from '@/utils/date';
 import { downloadZip } from '@/utils/file';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -63,6 +64,10 @@ const VC = () => {
     },
   };
 
+  const getNowDate = () => {
+    return Date.now();
+  };
+
   return (
     <div>
       <div className='container p-4 h-[calc(100vh-170px)] w-full overflow-y-auto'>
@@ -99,12 +104,7 @@ const VC = () => {
             {vcList && vcList.length > 0 ? (
               vcList
                 .filter((oneVc) => oneVc.activate === 'Y')
-                .map((oneVc) => (
-                  <OneVc
-                    vcData={oneVc}
-                    key={`${oneVc.vcSrcFile.seq}${vcList.length}`}
-                  />
-                ))
+                .map((oneVc, index) => <OneVc vcData={oneVc} key={index} />)
             ) : (
               <>
                 <p>보이스 클립을 추가해 목소리를 변환해보세요</p>

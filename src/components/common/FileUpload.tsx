@@ -13,6 +13,7 @@ export interface IFileUploadProps {
   afterFn?: () => void;
   fileType?: string;
   type: 'src' | 'trg' | 'txt';
+  afterSrcFn?: (files: File[]) => void;
   afterTxtFn?: (files: File[]) => Promise<string[]>;
 }
 
@@ -27,11 +28,13 @@ const FileUpload: React.FC<IFileUploadProps> = ({
   emptyText = '파일을 업로드 해주세요',
   buttonIcon: ButtonIcon = UploadIcon,
   afterFn,
+  afterSrcFn,
   afterTxtFn,
   fileType = 'audio/*',
   type = 'src',
 }) => {
   const [files, setFiles] = useState<File[]>([]);
+  const [addFiles, setAddFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { addSrcFiles, setTxtFiles } = useVcStore();
@@ -39,26 +42,39 @@ const FileUpload: React.FC<IFileUploadProps> = ({
   const handler = {
     srcUploadClick: () => {
       fileInputRef.current?.click();
-      // setFiles([]);
+      setFiles([]);
     },
     srcFileChange: (event: React.ChangeEvent<HTMLInputElement>) => {
       if (event.target.files) {
         const fileList = Array.from(event.target.files);
+        setAddFiles((prevFiles) => [...prevFiles, ...fileList]);
         setFiles((prevFiles) => [...prevFiles, ...fileList]);
+      }
+    },
+    initFiles: () => {
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
       }
     },
   };
 
   useEffect(() => {
     if (files.length > 0) {
-      if (type === 'src') addSrcFiles(files);
-      else if (type === 'txt' && afterTxtFn) {
+      if (type === 'src' && afterSrcFn) {
+        addSrcFiles(files);
+        afterSrcFn(files);
+        handler.initFiles();
+      }
+      if (type === 'txt' && afterTxtFn) {
         afterTxtFn(files)
           .then((textList) => {
             setTxtFiles(textList);
           })
           .catch((error) => {
             console.error('Error processing files:', error);
+          })
+          .finally(() => {
+            handler.initFiles();
           });
       }
     }
@@ -85,28 +101,54 @@ const FileUpload: React.FC<IFileUploadProps> = ({
         multiple
         accept={fileType}
       />
-      {files && files.length > 0 ? (
+      {addFiles && addFiles.length > 0 ? (
         <div id='uploadFileList'>
           <ul className='my-2'>
-            {files.map((file, index) => (
-              <li
-                key={file.name + index + files.length}
-                className='box-content w-full mb-2 text-sm'
-              >
-                <div className='flex justify-between flex-grow mx-2'>
-                  <span
-                    className='content-center w-2/3 text-xs truncate'
-                    title={file.name}
+            {type === 'src'
+              ? addFiles.map((file, index) => (
+                  <li
+                    key={file.name + index + addFiles.length}
+                    className='box-content w-full mb-2 text-sm'
                   >
-                    {file.name}
-                  </span>
-                  <Badge className='w-1/4 px-2 text-center' variant={'outline'}>
-                    <CircleIcon size={8} fill='green' />
-                    &nbsp;완료
-                  </Badge>
-                </div>
-              </li>
-            ))}
+                    <div className='flex justify-between flex-grow mx-2'>
+                      <span
+                        className='content-center w-2/3 text-xs truncate'
+                        title={file.name}
+                      >
+                        {file.name}
+                      </span>
+                      <Badge
+                        className='w-1/4 px-2 text-center'
+                        variant={'outline'}
+                      >
+                        <CircleIcon size={8} fill='green' />
+                        &nbsp;완료
+                      </Badge>
+                    </div>
+                  </li>
+                ))
+              : files.map((file, index) => (
+                  <li
+                    key={file.name + index + files.length}
+                    className='box-content w-full mb-2 text-sm'
+                  >
+                    <div className='flex justify-between flex-grow mx-2'>
+                      <span
+                        className='content-center w-2/3 text-xs truncate'
+                        title={file.name}
+                      >
+                        {file.name}
+                      </span>
+                      <Badge
+                        className='w-1/4 px-2 text-center'
+                        variant={'outline'}
+                      >
+                        <CircleIcon size={8} fill='green' />
+                        &nbsp;완료
+                      </Badge>
+                    </div>
+                  </li>
+                ))}
           </ul>
         </div>
       ) : (

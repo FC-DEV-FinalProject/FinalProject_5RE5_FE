@@ -55,6 +55,7 @@ export interface VcStore extends VcState {
 export const useVcStore = create<VcStore>((set) => ({
   // console.log(목데이터 분리해야함)
   vcList: [...MOCK_VC_DATA],
+  // vcList: [],
   isAllSelected: false,
   editingId: null,
   removeList: [],
