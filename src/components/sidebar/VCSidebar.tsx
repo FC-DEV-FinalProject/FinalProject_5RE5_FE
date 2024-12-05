@@ -4,6 +4,7 @@ import FileUpload from '@/components/common/FileUpload';
 import { Button } from '@/components/ui/button';
 import { OneVcState, useVcStore } from '@/stores/vcDataStore';
 import { MessageSquareMoreIcon, SpeechIcon, UploadIcon } from 'lucide-react';
+import { useEffect } from 'react';
 
 const VCSidebar = () => {
   const { addVcList, uploadFiles, vcList } = useVcStore();
@@ -76,6 +77,10 @@ const VCSidebar = () => {
       }
     },
   };
+
+  useEffect(() => {
+    console.log(vcList);
+  }, [vcList]);
 
   return (
     <div className='flex flex-col h-full'>

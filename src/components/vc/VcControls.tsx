@@ -1,6 +1,6 @@
 import { CustomCheckbox } from '@/components/common/CustomCheckbox';
 import { Button } from '@/components/ui/button';
-import { OneVcState, VcState } from '@/stores/vcDataStore';
+import { OneVcState, useVcStore, VcState } from '@/stores/vcDataStore';
 
 interface VcControlsProps {
   state: VcState;
@@ -17,6 +17,8 @@ const VcControls = ({
   selectedCount,
   totalCount,
 }: VcControlsProps) => {
+  const { setActivate } = useVcStore();
+
   const anySelected = selectedCount > 0;
 
   const handler = {
@@ -26,6 +28,9 @@ const VcControls = ({
         .map((oneVc) => oneVc.vcSrcFile.seq);
 
       addRemoveList(removeList);
+      removeList.map((removeSeq) => {
+        setActivate(removeSeq);
+      });
     },
   };
 

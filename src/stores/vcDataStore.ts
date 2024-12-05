@@ -49,6 +49,7 @@ export interface VcStore extends VcState {
   addSrcFiles: (files: File[]) => void;
   initSrcFiles: () => void;
   setTxtFiles: (textList: string[]) => void;
+  setActivate: (seq: number) => void;
 }
 
 export const useVcStore = create<VcStore>((set) => ({
@@ -144,5 +145,13 @@ export const useVcStore = create<VcStore>((set) => ({
         ...oneVc,
         vcText: textList[index],
       })),
+    })),
+
+  setActivate: (seq) =>
+    set((state: VcState) => ({
+      ...state,
+      vcList: state.vcList.map((oneVc) =>
+        oneVc.vcSrcFile.seq === seq ? { ...oneVc, activate: 'N' } : oneVc
+      ),
     })),
 }));

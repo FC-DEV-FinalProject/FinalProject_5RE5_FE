@@ -30,9 +30,12 @@ const VC = () => {
     cancelEdit,
     toggleAllSelection,
     toggleSelection,
+    setActivate,
   } = useVcStore();
 
-  const selectedCount = vcList.filter((oneVc) => oneVc.isSelected).length;
+  const selectedCount = vcList
+    .filter((oneVc) => oneVc.activate === 'Y')
+    .filter((oneVc) => oneVc.isSelected).length;
 
   const handler = {
     onSave: () => {
@@ -86,18 +89,22 @@ const VC = () => {
               toggleAllSelection={toggleAllSelection}
               addRemoveList={handler.removeVcList}
               selectedCount={selectedCount}
-              totalCount={vcList.length}
+              totalCount={
+                vcList.filter((oneVc) => oneVc.activate === 'Y').length
+              }
             />
           </div>
           <div id='vcListDiv' className='flex flex-col pt-5'>
             {/* vc데이터 리스트 */}
             {vcList && vcList.length > 0 ? (
-              vcList.map((oneVc) => (
-                <OneVc
-                  vcData={oneVc}
-                  key={`${oneVc.vcSrcFile.seq}${vcList.length}`}
-                />
-              ))
+              vcList
+                .filter((oneVc) => oneVc.activate === 'Y')
+                .map((oneVc) => (
+                  <OneVc
+                    vcData={oneVc}
+                    key={`${oneVc.vcSrcFile.seq}${vcList.length}`}
+                  />
+                ))
             ) : (
               <>
                 <p>보이스 클립을 추가해 목소리를 변환해보세요</p>
