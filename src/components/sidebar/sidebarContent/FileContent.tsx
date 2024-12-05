@@ -107,14 +107,16 @@ export const FileContent: React.FC<IFileContentProps> = ({
   };
 
   return (
-    <div className='flex flex-col h-full'>
+    <div className='flex flex-col h-full '>
       <div className='flex-1 w-full'>
-        <Button
-          className='w-full'
-          onClick={() => document.getElementById('file-upload')?.click()}
-        >
-          텍스트 파일추가
-        </Button>
+        <div className='pb-4 border-b'>
+          <Button
+            className='w-full'
+            onClick={() => document.getElementById('file-upload')?.click()}
+          >
+            텍스트 파일추가
+          </Button>
+        </div>
         <input
           id='file-upload'
           type='file'
@@ -135,14 +137,14 @@ export const FileContent: React.FC<IFileContentProps> = ({
                 current={uploadedFiles.length}
               />
 
-              <ul className='pl-5'>
+              <ul className='flex flex-col w-full gap-4 mt-4'>
                 {allFiles.map((file, index) => (
                   <li
                     key={index}
                     className='flex items-center justify-between text-gray-700'
                   >
                     <div className='flex items-center'>
-                      <span>{file.name}</span>
+                      <span className='text-sm'>{file.name}</span>
                     </div>
                     <div className='flex items-center'>
                       <span
@@ -150,7 +152,7 @@ export const FileContent: React.FC<IFileContentProps> = ({
                           file.status === '완료' ? 'bg-blue-500' : 'bg-red-500'
                         }`}
                       ></span>
-                      <span>{file.status}</span>
+                      <span className='text-sm'>{file.status}</span>
                     </div>
                   </li>
                 ))}

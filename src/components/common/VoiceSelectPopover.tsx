@@ -77,14 +77,17 @@ export const VoiceSelectionPopover: React.FC<VoiceSelectionPopoverProps> = ({
   const [isLanguageSelected, setIsLanguageSelected] = useState(false);
   const [isStyleSelected, setIsStyleSelected] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     const fetchLanguages = async () => {
       try {
         const languageData = await ttsLanguage();
         setLanguages(languageData);
+        setHasError(false); // 에러 없음을 설정
       } catch (error) {
         console.error('언어 데이터를 불러오는 데 실패했습니다:', error);
+        setHasError(true); // 에러 발생
       }
     };
     fetchLanguages();
@@ -134,6 +137,10 @@ export const VoiceSelectionPopover: React.FC<VoiceSelectionPopoverProps> = ({
   };
 
   const handlePopoverOpen = () => {
+    if (hasError) {
+      alert('언어 데이터를 가져오는 데 실패했습니다. 다시 시도해주세요.');
+      return;
+    }
     setIsPopoverOpen(true);
     setIsLanguageSelected(false);
     setIsStyleSelected(false);
