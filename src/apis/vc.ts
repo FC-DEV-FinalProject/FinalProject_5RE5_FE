@@ -9,8 +9,9 @@ import { apiRequest } from '@/apis/apiClient';
 
 const APIURL_VC = {
   GET_VC_LIST: (projectSeq: number) => `/vc/${projectSeq}`,
-  // GET_VC_LIST: (projectSeq: number) => `/project/${projectSeq}/tts`,
-  // GET_VC_LIST: (projectSeq: number) => `/project`,
+  CREATE_VC: (srcSeq: number, trgSeq: number) =>
+    `/vc/result?srcSeq=${srcSeq}&trgSeq=${trgSeq}`,
+  REMOVE_SRC: `/vc/src`,
 };
 
 interface IVCProps<T = {}> {
@@ -73,7 +74,14 @@ export const saveTrgFiles = ({
 /**
  * vc 정보 생성
  */
-export const createVc = () => {};
+export const createVc = (srcSeq: number, trgSeq: number) => {
+  try {
+    console.log(`createVc ${srcSeq}, ${trgSeq}`);
+    apiRequest.post(APIURL_VC.CREATE_VC(srcSeq, trgSeq));
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 /**
  * vc 정보 수정
@@ -83,4 +91,7 @@ export const modifyVc = () => {};
 /**
  * vc 정보 삭제
  */
-const removeOneLine = () => {};
+export const removeSrc = (seqList: number[]) => {
+  console.log(seqList);
+  apiRequest.delete(APIURL_VC.REMOVE_SRC, { data: seqList });
+};

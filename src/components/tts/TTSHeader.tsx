@@ -11,9 +11,6 @@ interface TTSHeaderProps {
 export const TTSHeader: React.FC<TTSHeaderProps> = ({
   projectName,
   onProjectNameChange,
-  projectSeq,
-  projectDate,
-  projectUpdateDate,
 }) => {
   const [isEditable, setisEditable] = useState(false);
 
@@ -46,9 +43,7 @@ export const TTSHeader: React.FC<TTSHeaderProps> = ({
         <Pencil onClick={handleEditClick} className='cursor-pointer' />
       </div>
       <div className='flex items-center space-x-4'>
-        <span className='text-gray-500'>
-          {projectUpdateDate || projectDate || new Date().toLocaleDateString()}
-        </span>
+        <span className='text-gray-500'>{new Date().toLocaleDateString()}</span>
         <div className='flex'>
           <Button
             type='submit'

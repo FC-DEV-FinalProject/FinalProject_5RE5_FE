@@ -1,27 +1,12 @@
 import { saveProject } from '@/apis/project';
-import { getVcList } from '@/apis/vc';
-import DivideLine from '@/components/common/DividingLine';
-import EditableLabel from '@/components/common/EditableLabel';
+import { removeSrc } from '@/apis/vc';
 import OneVc from '@/components/common/OneVc';
-import { TTSControls } from '@/components/tts/TTSControls';
-import { TTSHeader } from '@/components/tts/TTSHeader';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import VcControls from '@/components/vc/VcControls';
 import { VcHeader } from '@/components/vc/VcHeader';
-import { MOCK_VC_DATA } from '@/mocks/vcData';
-import { useTextInputs } from '@/stores/textInputStore';
-import { convertDateFormat } from '@/utils/date';
+import { useVcStore } from '@/stores/vcDataStore';
 import { downloadZip } from '@/utils/file';
-import { DownloadIcon, SaveIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-
-export interface IVcDataProps {
-  activate: 'Y' | 'N';
-  vcSrcFile: IVcFileProps;
-  vcResultFile?: string | null;
-  vcText?: string | null;
-}
 
 export interface IVcFileProps {
   seq: number;
@@ -31,14 +16,23 @@ export interface IVcFileProps {
 }
 
 const VC = () => {
-  // const [vcData, setVcData] = useState<IVcDataProps[]>([
-  //   ...(MOCK_VC_DATA || []),
-  // ]);
-  const [vcData, setVcData] = useState<IVcDataProps[]>([]);
-
   const { projectId } = useParams<{ projectId: string }>();
-  console.log(projectId);
   const [projectName, setProjectName] = useState<string>('새 프로젝트');
+
+  const {
+    vcList,
+    uploadFiles,
+    handleTextChange,
+    editingId,
+    removeList,
+    isAllSelected,
+    saveInput,
+    cancelEdit,
+    toggleAllSelection,
+    toggleSelection,
+  } = useVcStore();
+
+  const selectedCount = vcList.filter((oneVc) => oneVc.isSelected).length;
 
   const handler = {
     onSave: () => {
@@ -54,23 +48,17 @@ const VC = () => {
     },
     onDownloadZip: async () => {
       downloadZip(
-        vcData.map((vc) => vc.vcSrcFile),
+        vcList.map((oneVc) => oneVc.vcSrcFile),
         `${projectName}.zip`
       );
     },
     onTypeProjectName: (e: React.ChangeEvent<HTMLInputElement>) => {
       setProjectName(e.target.value);
     },
+    removeVcList: (seqList: number[]) => {
+      removeSrc(seqList);
+    },
   };
-
-  useEffect(() => {
-    (async () => {
-      console.log('수정필요');
-      const a = await getVcList({
-        projectSeq: Number(projectId),
-      });
-    })();
-  }, []);
 
   return (
     <div>
@@ -85,15 +73,35 @@ const VC = () => {
           />
         </div>
         <div id='mainDiv'>
-          <div id='commonDiv'>{/* 리스트 컨트롤하는 파트 */}</div>
+          <div id='commonDiv'>
+            {/* 리스트 컨트롤하는 파트 */}
+            <VcControls
+              state={{
+                vcList,
+                editingId,
+                isAllSelected,
+                removeList,
+                uploadFiles,
+              }}
+              toggleAllSelection={toggleAllSelection}
+              addRemoveList={handler.removeVcList}
+              selectedCount={selectedCount}
+              totalCount={vcList.length}
+            />
+          </div>
           <div id='vcListDiv' className='flex flex-col pt-5'>
             {/* vc데이터 리스트 */}
-            {vcData && vcData.length > 0 ? (
-              vcData.map((vc) => (
-                <OneVc vcData={vc} key={`${vc.vcSrcFile.seq}`} />
+            {vcList && vcList.length > 0 ? (
+              vcList.map((oneVc) => (
+                <OneVc
+                  vcData={oneVc}
+                  key={`${oneVc.vcSrcFile.seq}${vcList.length}`}
+                />
               ))
             ) : (
-              <p>보이스 클립을 추가해 목소리를 변환해보세요</p>
+              <>
+                <p>보이스 클립을 추가해 목소리를 변환해보세요</p>
+              </>
             )}
           </div>
         </div>
