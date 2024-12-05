@@ -9,6 +9,7 @@ import TTS from '@/pages/TTS';
 import VC from '@/pages/VC';
 import Concat from '@/pages/Concat';
 import Header from '@/components/header/Header';
+import ConcatLayout from '@/components/concat/ConcatLayout';
 
 const ProjectLayout = () => {
   // Footer 상태 관리 (열림/닫힘 여부)
@@ -50,10 +51,10 @@ const ProjectLayout = () => {
   return (
     <div className='flex flex-col h-screen'>
       {/* 헤더 */}
-
       <Header projectTab={true} />
 
       <div className='flex overflow-hidden grow'>
+        {/* 좌측 사이드바 */}
         <aside className='p-4 w-[90px] flex-none border-r border-gray-200'>
           <ul>
             <li className='flex items-center justify-center mb-8'>
@@ -84,19 +85,23 @@ const ProjectLayout = () => {
         </aside>
 
         <div className='grow w-[calc(100vw-90px)] flex h-full'>
-          {/* 좌측 사이드바 */}
+          {selectedMenu === 'concat' ? (
+            <ConcatLayout />
+          ) : (
+            <>
+              {/* 메인 콘텐츠 */}
+              <div className='overflow-auto grow'>
+                <main className='p-4 bg-white min-w-[800px]'>
+                  {ContentComponent}
+                </main>
+              </div>
 
-          {/* 메인 콘텐츠 */}
-          <div className='overflow-auto grow'>
-            <main className='p-4 bg-white min-w-[800px]'>
-              {ContentComponent}
-            </main>
-          </div>
-
-          {/* 우측 사이드바 */}
-          <aside className='p-4 w-[280px] flex flex-col border-l flex-none'>
-            {SidebarComponent}
-          </aside>
+              {/* 우측 사이드바 */}
+              <aside className='p-4 w-[280px] flex flex-col border-l flex-none'>
+                {SidebarComponent}
+              </aside>
+            </>
+          )}
         </div>
       </div>
 
