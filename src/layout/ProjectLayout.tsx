@@ -8,6 +8,7 @@ import { Link, useParams } from 'react-router-dom';
 import TTS from '@/pages/TTS';
 import VC from '@/pages/VC';
 import Concat from '@/pages/Concat';
+import ConcatLayout from '@/components/concat/ConcatLayout';
 
 const ProjectLayout = () => {
   // Footer 상태 관리 (열림/닫힘 여부)
@@ -49,7 +50,7 @@ const ProjectLayout = () => {
   return (
     <div className='flex flex-col h-screen'>
       {/* 헤더 */}
-      <header className='flex items-center gap-4 px-4 text-white bg-gray-800 h-14'>
+      <header className='flex-none flex items-center gap-4 px-4 text-white bg-gray-800 h-[50px]'>
         <h1 className='text-lg font-bold'>로고</h1>
         <nav>
           <ul className='flex gap-4'>
@@ -72,9 +73,8 @@ const ProjectLayout = () => {
         </nav>
       </header>
 
-      <div className='flex flex-1'>
-        {/* 좌측 사이드바 */}
-        <aside className='p-4 bg-gray-200 w-[90px]'>
+      <div className='flex overflow-hidden grow'>
+        <aside className='p-4 bg-gray-200 w-[90px] flex-none'>
           <ul>
             <li className='mb-8'>
               <Link
@@ -100,20 +100,30 @@ const ProjectLayout = () => {
           </ul>
         </aside>
 
-        {/* 메인 콘텐츠 */}
-        <main className='flex-1 p-4 overflow-auto bg-white'>
-          {ContentComponent}
-        </main>
+        <div className='grow'>
+          {/* 좌측 사이드바 */}
 
-        {/* 우측 사이드바 */}
-        <aside className='p-4  w-[280px] flex flex-col border-l'>
-          {SidebarComponent}
-        </aside>
+          {selectedMenu === 'concat' ? (
+            <ConcatLayout />
+          ) : (
+            <div className='flex h-full'>
+              {/* 메인 콘텐츠 */}
+              <main className='flex-1 p-4 overflow-auto bg-white'>
+                {ContentComponent}
+              </main>
+
+              {/* 우측 사이드바 */}
+              <aside className='p-4  w-[280px] flex flex-col border-l'>
+                {SidebarComponent}
+              </aside>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* 푸터 */}
       <footer
-        className={`relative flex items-center justify-center ${
+        className={`flex flex-none items-center justify-center ${
           isFooterExpanded ? 'h-[310px]' : 'h-[114px]'
         } text-white bg-gray-800 transition-all duration-300`}
       >

@@ -1,7 +1,6 @@
 import ConcatTextItem from '@/components/concat/ConcatTextItem';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
-import { IConcatdata, IFormValues } from '@/types/concat';
+import { IConcatdata } from '@/types/concat';
 import { useState } from 'react';
 import {
   DndContext,
@@ -38,56 +37,35 @@ export const ConcatTextWrap = ({ datas }: IConcatTextWrapProps) => {
     },
   };
 
-  const { register, handleSubmit } = useForm<IFormValues>({
-    defaultValues: {
-      checkbox: [],
-      text: [],
-    },
-  });
-
-  const onSubmit: SubmitHandler<IFormValues> = (data) => {
-    console.log(data);
-  };
-
   const dragOverlay = items.find((item) => item.dndId === activeId);
 
   return (
     <ul className='flex flex-col gap-4'>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <DndContext
-          collisionDetection={closestCenter}
-          onDragStart={dragHandler.start}
-          onDragEnd={dragHandler.end}
-          modifiers={[restrictToVerticalAxis]}
+      <DndContext
+        collisionDetection={closestCenter}
+        onDragStart={dragHandler.start}
+        onDragEnd={dragHandler.end}
+        modifiers={[restrictToVerticalAxis]}
+      >
+        <SortableContext
+          items={items.map((item) => item.dndId)}
+          strategy={verticalListSortingStrategy}
         >
-          <SortableContext
-            items={items.map((item) => item.dndId)}
-            strategy={verticalListSortingStrategy}
-          >
-            {items.map((item) => (
-              <ConcatTextItem
-                key={item.dndId}
-                register={register}
-                item={item}
-                dndId={item.dndId}
-              />
-            ))}
-          </SortableContext>
+          {items.map((item) => (
+            <ConcatTextItem key={item.dndId} item={item} dndId={item.dndId} />
+          ))}
+        </SortableContext>
 
-          <DragOverlay modifiers={[restrictToVerticalAxis]}>
-            {dragOverlay ? (
-              <ConcatTextItem
-                key={dragOverlay.dndId}
-                register={register}
-                item={dragOverlay}
-                dndId={dragOverlay.dndId}
-              />
-            ) : null}
-          </DragOverlay>
-        </DndContext>
-
-        <Button type='submit'>생성하기</Button>
-      </form>
+        <DragOverlay modifiers={[restrictToVerticalAxis]}>
+          {dragOverlay ? (
+            <ConcatTextItem
+              key={dragOverlay.dndId}
+              item={dragOverlay}
+              dndId={dragOverlay.dndId}
+            />
+          ) : null}
+        </DragOverlay>
+      </DndContext>
     </ul>
   );
 };

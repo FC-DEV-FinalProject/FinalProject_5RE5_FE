@@ -1,30 +1,18 @@
 import { Input } from '@/components/ui/input';
 import { GripVertical, Play } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
-import { UseFormRegister } from 'react-hook-form';
 import { IConcatdata, IFormValues } from '@/types/concat';
 import { useConcatCheckboxStore } from '@/stores/concatCheckboxStore';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import { Textarea } from '@/components/ui/textarea';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { useFormContext } from 'react-hook-form';
 
 interface IConcatTextItemProps {
-  register: UseFormRegister<IFormValues>;
   item: IConcatdata;
   dndId: string;
 }
 
-export const ConcatTextItem = ({
-  register,
-  item,
-  dndId,
-}: IConcatTextItemProps) => {
+export const ConcatTextItem = ({ item, dndId }: IConcatTextItemProps) => {
   const selectedItems = useConcatCheckboxStore((state) => state.selectedItems);
   const toggleItem = useConcatCheckboxStore((state) => state.toggleItem);
   const {
@@ -40,6 +28,8 @@ export const ConcatTextItem = ({
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
+  const { register } = useFormContext<IFormValues>();
 
   return (
     <li

@@ -54,13 +54,6 @@ const ConcatSidebar = () => {
               <Button className='w-full' size='sm'>
                 텍스트 파일 추가
               </Button>
-              <ScrollArea className='h-24 my-2'>
-                <ul className='px-2'>
-                  <li>test.txt</li>
-                  <li>asdfdf.txt</li>
-                </ul>
-                <ScrollBar forceMount orientation='vertical' />
-              </ScrollArea>
             </div>
 
             <Separator className='my-3' />
