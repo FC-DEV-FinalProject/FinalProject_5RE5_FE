@@ -14,7 +14,13 @@ import useChecked from '@/hooks/useChecked';
 import { useCheckedStore } from '@/stores/checkedStore';
 import { IProjectProps } from '@/types/project';
 import { convertDateFormat } from '@/utils/date';
-import { SquareArrowOutUpRightIcon } from 'lucide-react';
+import {
+  BookAIcon,
+  CombineIcon,
+  LucideProportions,
+  MicIcon,
+  SquareArrowOutUpRightIcon,
+} from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 
@@ -25,6 +31,8 @@ export interface IListViewProps {
   data?: IProjectProps[];
   navi: NavigateFunction;
 }
+
+const thumbnail = [BookAIcon, MicIcon, CombineIcon];
 
 const ListView = ({ option = 'list', data }: Omit<IListViewProps, 'navi'>) => {
   const navigate = useNavigate();
@@ -164,7 +172,7 @@ const Tile = ({ data, navi }: IListViewProps) => {
           data.map((item, idx) => (
             <li
               key={item.projectName + idx}
-              className='p-5 w-[30%] border hover:cursor-pointer hover:scale-95 duration-100 rounded-lg z-10'
+              className='p-5 w-[30%] h-[150px] border hover:cursor-pointer hover:scale-95 duration-100 rounded-lg z-10 content-center '
               onClick={() => {
                 navi(ROUTES.PROJECT + ROUTES.TTS + `/${item.projectSeq}`);
               }}
@@ -178,8 +186,17 @@ const Tile = ({ data, navi }: IListViewProps) => {
                   onTest(e);
                 }}
               /> */}
-              <div className='content-center h-40 text-center'>썸네일</div>
-              <div>{item.projectName}</div>
+
+              <div className='text-center'>{item.projectName}</div>
+              <div className='flex justify-center gap-2 pt-2 text-center'>
+                {item.tts ? <Badge variant={'outline'}>TTS</Badge> : <></>}
+                {item.vc ? <Badge variant={'destructive'}>VC</Badge> : <></>}
+                {item.concat ? (
+                  <Badge variant={'default'}>Concat</Badge>
+                ) : (
+                  <></>
+                )}
+              </div>
             </li>
           ))
         ) : (

@@ -78,10 +78,6 @@ const VCSidebar = () => {
     },
   };
 
-  useEffect(() => {
-    console.log(vcList);
-  }, [vcList]);
-
   return (
     <div className='flex flex-col h-full'>
       <div id='sideTabMenu'>

@@ -3,9 +3,9 @@ import { useAuthStore } from '@/stores/authStore';
 
 const APIURL_PROJECT = {
   GET_PROJECT_LIST: `/project`,
-  POST_PROJECT: `/project`,
-  modifyProject: `/project`,
-  deleteProject: (projectSeq: number) => `/project?proSeq=${projectSeq}`,
+  CREATE_PROJECT: `/project`,
+  MODIFY_PROJECT: `/project`,
+  DELETE_PROJECT: (projectSeq: number) => `/project?proSeq=${projectSeq}`,
 };
 
 interface IProjectProps {
@@ -37,7 +37,7 @@ export const getProjectList = async () => {
 
 export const createProject = async () => {
   try {
-    const response = await apiRequest.post(APIURL_PROJECT.POST_PROJECT);
+    const response = await apiRequest.post(APIURL_PROJECT.CREATE_PROJECT);
   } catch (err) {
     console.error(err);
   }
@@ -48,7 +48,7 @@ export const saveProject = async (props: IProjectProps) => {
     const { userData } = useAuthStore.getState();
     if (!!!userData) throw new Error('로그인 정보를 불러오는데 실패했습니다.');
 
-    const response = await apiRequest.put(APIURL_PROJECT.modifyProject, {
+    const response = await apiRequest.put(APIURL_PROJECT.MODIFY_PROJECT, {
       proSeq: props.projectSeq,
       projectName: props.projectName,
     });
@@ -62,7 +62,7 @@ export const saveProject = async (props: IProjectProps) => {
 export const removeProject = async (projectSeq: number) => {
   try {
     const response = await apiRequest.delete(
-      APIURL_PROJECT.deleteProject(projectSeq)
+      APIURL_PROJECT.DELETE_PROJECT(projectSeq)
     );
   } catch (err) {
     console.error(err);

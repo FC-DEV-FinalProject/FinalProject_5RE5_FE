@@ -5,11 +5,11 @@ import { PROJECT_DATA } from '@/mocks/projectData';
 import MyProject from '@/pages/MyProject';
 import { useEffect } from 'react';
 
-export type ProjectType = 'TTS' | 'VC' | 'Concat';
+export type ProjectType = 'TTS' | 'VC' | 'CONCAT';
 export const PROJECT_TYPE: Record<string, ProjectType> = {
   TTS: 'TTS',
   VC: 'VC',
-  CONCAT: 'Concat',
+  CONCAT: 'CONCAT',
 };
 
 const Home = () => {

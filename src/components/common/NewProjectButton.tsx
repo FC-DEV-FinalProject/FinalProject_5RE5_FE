@@ -8,14 +8,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { ROUTES } from '@/constants/route';
 import { PROJECT_TYPE, ProjectType } from '@/pages/Home';
 import { BookAIcon, CombineIcon, FilePlusIcon, MicIcon } from 'lucide-react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const NewProjectButton = () => {
+  const navigate = useNavigate();
   const handleClick = {
-    createNewProject: async (type: ProjectType) => {
-      alert(`${type} 프로젝트 생성`);
-      const response = await createProject();
+    createNewProject: (type: ProjectType) => {
+      // 프로젝트 생성 api 호출
+      // alert(`${type} 프로젝트 생성`);
+      navigate(`${ROUTES.PROJECT}${ROUTES[type as keyof typeof ROUTES]}/0`);
     },
   };
   return (
