@@ -48,7 +48,7 @@ const ProjectLayout = () => {
   }
 
   return (
-    <div className='flex flex-col h-screen'>
+    <div className='flex flex-col h-screen max-w-[1280px] mx-auto'>
       {/* 헤더 */}
       <header className='flex-none flex items-center gap-4 px-4 text-white bg-gray-800 h-[50px]'>
         <h1 className='text-lg font-bold'>로고</h1>
