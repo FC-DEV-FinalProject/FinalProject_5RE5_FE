@@ -32,6 +32,6 @@ export const fetchTTSList = async (projectId: string): Promise<TTSResponse['resp
     return response.data.response.sentenceList;
   } catch (error) {
     console.error('Error fetching TTS list:', error);
-    throw new Error('TTS 리스트를 가져오는 데 실패했습니다.');
+    throw new Error('TTS 작업물을 가져오는 데 실패했습니다.');
   }
 };
