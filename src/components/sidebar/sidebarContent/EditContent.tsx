@@ -11,7 +11,7 @@ const EditContent = () => {
   //로컬 상태
   const [localSpeed, setLocalSpeed] = useState(1);
   const [localSliders, setLocalSliders] = useState([
-    { id: 'pitch', value: 0.0, min: -20.0, max: 20.0, label: '음높이' },
+    { id: 'pitch', value: 0.0, min: -10.0, max: 10.0, label: '음높이' },
     { id: 'volume', value: 0.0, min: -10.0, max: 10.0, label: '음량' },
   ]);
   const [localVoices, setLocalVoices] = useState<string | null>('');
@@ -182,7 +182,7 @@ const EditContent = () => {
         />
 
         {/* 속도 블럭 선택 */}
-        <div className='flex flex-col gap-2 mt-4'>
+        <div className='flex flex-col gap-2 mt-4 mb-4'>
           <label className='text-sm font-medium text-gray-700'>속도</label>
           <div className='flex gap-2'>
             {speedValues.map((value) => (
