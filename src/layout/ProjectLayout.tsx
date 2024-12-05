@@ -130,10 +130,10 @@ const ProjectLayout = () => {
       <footer
         className={`relative flex items-center justify-center ${
           isFooterExpanded ? 'h-[310px]' : 'h-[114px]'
-        } text-white bg-gray-800 transition-all duration-300`}
+        } text-white border-t  transition-all duration-300`}
       >
         {/* 재생 버튼 텍스트 */}
-        <p className='text-lg'>재생 버튼 들어갈곳</p>
+        <p className='text-lg text-black'>재생 버튼 들어갈곳</p>
 
         {/* 아이콘 버튼 */}
         <button
