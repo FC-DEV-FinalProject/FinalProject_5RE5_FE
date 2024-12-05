@@ -137,7 +137,7 @@ export const FileContent: React.FC<IFileContentProps> = ({
                 current={uploadedFiles.length}
               />
 
-              <ul className='pl-5'>
+              <ul className='flex flex-col w-full gap-4 mt-4'>
                 {allFiles.map((file, index) => (
                   <li
                     key={index}
