@@ -102,7 +102,7 @@ const ProjectLayout = () => {
 
       {/* 푸터 */}
       <footer
-        className={`flex flex-none items-center justify-center ${
+        className={`flex flex-none items-center justify-center relative ${
           isFooterExpanded ? 'h-[310px]' : 'h-[114px]'
         } text-white border-t  transition-all duration-300`}
       >
