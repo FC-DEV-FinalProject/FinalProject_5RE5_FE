@@ -144,7 +144,7 @@ export const FileContent: React.FC<IFileContentProps> = ({
                     className='flex items-center justify-between text-gray-700'
                   >
                     <div className='flex items-center'>
-                      <span>{file.name}</span>
+                      <span className='text-sm'>{file.name}</span>
                     </div>
                     <div className='flex items-center'>
                       <span
@@ -152,7 +152,7 @@ export const FileContent: React.FC<IFileContentProps> = ({
                           file.status === '완료' ? 'bg-blue-500' : 'bg-red-500'
                         }`}
                       ></span>
-                      <span>{file.status}</span>
+                      <span className='text-sm'>{file.status}</span>
                     </div>
                   </li>
                 ))}
