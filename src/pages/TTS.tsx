@@ -45,7 +45,7 @@ const TTS: React.FC = () => {
       <TTSHeader
         projectName={projectName}
         onProjectNameChange={handleProjectNameChange}
-        ttsSave={ttsSave}
+        ttsSave={() => ttsSave(projectId || '')}
       />
 
       <TTSControls
