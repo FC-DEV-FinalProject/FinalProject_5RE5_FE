@@ -56,23 +56,26 @@ const ProjectLayout = () => {
       <div className='flex overflow-hidden grow'>
         <aside className='p-4 w-[90px] flex-none border-r border-gray-200'>
           <ul>
-            <li className='mb-8'>
+            <li className='flex items-center justify-center mb-8'>
               <Link
                 to={`/project/tts/${projectId}`}
-                className='hover:underline'
+                className='text-center hover:underline'
               >
                 TTS
               </Link>
             </li>
-            <li className='mb-8'>
-              <Link to={`/project/vc/${projectId}`} className='hover:underline'>
+            <li className='flex items-center justify-center mb-8'>
+              <Link
+                to={`/project/vc/${projectId}`}
+                className='text-center hover:underline'
+              >
                 VC
               </Link>
             </li>
-            <li>
+            <li className='flex items-center justify-center'>
               <Link
                 to={`/project/concat/${projectId}`}
-                className='hover:underline'
+                className='text-center hover:underline'
               >
                 Concat
               </Link>
@@ -101,10 +104,10 @@ const ProjectLayout = () => {
       <footer
         className={`flex flex-none items-center justify-center ${
           isFooterExpanded ? 'h-[310px]' : 'h-[114px]'
-        } text-white bg-gray-800 transition-all duration-300`}
+        } text-white border-t  transition-all duration-300`}
       >
         {/* 재생 버튼 텍스트 */}
-        <p className='text-lg'>재생 버튼 들어갈곳</p>
+        <p className='text-lg text-black'>재생 버튼 들어갈곳</p>
 
         {/* 아이콘 버튼 */}
         <button

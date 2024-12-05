@@ -16,10 +16,10 @@ const Header = ({ projectTab = false }: IHeaderProps) => {
       {projectTab && (
         <nav className='pl-5'>
           <ul className='flex items-center px-4 text-sm'>
-            <li className='border-[#eee] border-x'>
+            <li className='border-[#eee] border-x text-black'>
               <Link
                 to={`/project/tts/project1`}
-                className='hover:underline flex items-center h-[50px] px-4'
+                className='hover:underline flex items-center h-[50px] px-4 text-black'
               >
                 Project 01
               </Link>
@@ -27,7 +27,7 @@ const Header = ({ projectTab = false }: IHeaderProps) => {
             <li className='border-r border-[#eee]'>
               <Link
                 to={`/project/tts/project2`}
-                className='hover:underline flex items-center h-[50px] px-4'
+                className='hover:underline flex items-center h-[50px] px-4 text-black'
               >
                 Project 02
               </Link>
@@ -35,7 +35,7 @@ const Header = ({ projectTab = false }: IHeaderProps) => {
             <li className='border-r border-[#eee]'>
               <Link
                 to={`/project/tts/project3`}
-                className='hover:underline flex items-center h-[50px] px-4'
+                className='hover:underline flex items-center h-[50px] px-4 text-black'
               >
                 Project 03
               </Link>
