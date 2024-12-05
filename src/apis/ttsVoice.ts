@@ -31,9 +31,11 @@ export const ttsLanguage = async (): Promise<Language[]> => {
   }
 };
 
-export const ttsStyle = async (): Promise<Style[]> => {
+export const ttsStyle = async (selectedLanguage: string): Promise<Style[]> => {
   try {
-    const response = await apiClient.get('/style');
+    const response = await apiClient.get(
+      `/style/search?languagecode=${selectedLanguage}`
+    );
     return response.data.response.styleList;
   } catch (error) {
     console.error(error);
