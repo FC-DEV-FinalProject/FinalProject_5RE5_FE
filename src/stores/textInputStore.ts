@@ -102,19 +102,33 @@ export const useTextInputs = create<TTSStore>((set) => ({
             ],
           };
       }
-    }),
+  }),
 
+  // addTextInputs: (texts) =>
+  //   set((state) => ({
+  //     ...state,
+  //     textInputs: [
+  //       ...state.textInputs,
+  //       ...texts.map((text, index) => ({
+  //         ...text,
+  //       })),
+  //     ],
+  // })),
   addTextInputs: (texts) =>
-    set((state) => ({
-      ...state,
-      textInputs: [
-        ...state.textInputs,
-        ...texts.map((text, index) => ({
-          ...text,
-        })),
-      ],
-    })),
-
+    set((state) => {
+      // 이미 존재하는 ID를 가진 텍스트는 제외
+      const uniqueTexts = texts.filter(
+        (text) => !state.textInputs.some((existingInput) => existingInput.id === text.id)
+      );
+  
+      return {
+        ...state,
+        textInputs: [
+          ...state.textInputs,
+          ...uniqueTexts,
+        ],
+      };
+    }),
   handleTextChange: (id, newText) =>
     set((state: ExtendedTTSState) => ({
       ...state,
