@@ -1,5 +1,5 @@
 import { ChevronDown, Home, Bell, FolderOpen, Files } from 'lucide-react';
-import Logo from '@/assets/logo.png';
+
 import {
   Sidebar,
   SidebarContent,
@@ -19,7 +19,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import DivideLine from '@/components/common/DividingLine';
+import DividingLine from '@/components/common/DividingLine';
 import { ROUTES } from '@/constants/route';
 import { PROJECT_DATA } from '@/mocks/projectData';
 import { useState } from 'react';
@@ -66,20 +66,7 @@ export function HomeSidebar() {
   const [recents, setRecents] = useState<IProjectProps[]>(items);
 
   return (
-    <Sidebar>
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem
-            className='p-2 hover:cursor-pointer'
-            onClick={() => {
-              window.location.href = ROUTES.HOME;
-            }}
-          >
-            <img src={Logo} />
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarHeader>
-      <DivideLine />
+    <>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
@@ -117,7 +104,7 @@ export function HomeSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <DivideLine />
+        <DividingLine />
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -137,7 +124,7 @@ export function HomeSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <DivideLine />
+        <DividingLine />
         <SidebarGroup>
           <SidebarGroupLabel>최근 작업 프로젝트</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -158,6 +145,6 @@ export function HomeSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-    </Sidebar>
+    </>
   );
 }

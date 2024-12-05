@@ -13,11 +13,11 @@ export const PROJECT_TYPE: Record<string, ProjectType> = {
 };
 
 const Home = () => {
-  useEffect(() => {
-    (async () => {
-      const projectList = await getProjectList();
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const projectList = await getProjectList();
+  //   })();
+  // }, []);
 
   return (
     <div>

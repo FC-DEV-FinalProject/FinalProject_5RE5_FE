@@ -96,7 +96,7 @@ const List = ({ data, navi }: IListViewProps) => {
             <TableHead className='w-10'>
               <Checkbox onClick={handleSelectAll} checked={masterChecked} />
             </TableHead>
-            <TableHead className='w-[50%]'>프로젝트 명</TableHead>
+            <TableHead className='w-[30%]'>프로젝트 명</TableHead>
             <TableHead>작업목록</TableHead>
             <TableHead>수정일</TableHead>
             <TableHead>생성일</TableHead>
@@ -130,14 +130,11 @@ const List = ({ data, navi }: IListViewProps) => {
                 <TableCell>
                   {convertDateFormat(
                     new Date(item.projectUpdateDate),
-                    'YYYY-MM-DD hh:mm:ss'
+                    'YYYY-MM-DD'
                   )}
                 </TableCell>
                 <TableCell>
-                  {convertDateFormat(
-                    new Date(item.projectDate),
-                    'YYYY-MM-DD hh:mm:ss'
-                  )}
+                  {convertDateFormat(new Date(item.projectDate), 'YYYY-MM-DD')}
                 </TableCell>
                 <TableCell
                   className='hover:cursor-pointer'
