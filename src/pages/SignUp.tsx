@@ -8,8 +8,7 @@ import { AddressSearch } from '@/components/signup/AddressSearch';
 import TermsSection from "@/components/signup/TermsSection";
 import { SignUpError } from '@/utils/auth';
 import { ISignUpRequest } from "@/types/login";
-import { signUpRequest } from "@/apis/NewAuth";
-
+import { signUpRequest } from "@/apis/newAuth";
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
