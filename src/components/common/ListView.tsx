@@ -104,11 +104,11 @@ const List = ({ data, navi }: IListViewProps) => {
             <TableHead className='w-10'>
               <Checkbox onClick={handleSelectAll} checked={masterChecked} />
             </TableHead>
-            <TableHead className='w-[30%]'>프로젝트 명</TableHead>
-            <TableHead>작업목록</TableHead>
-            <TableHead>수정일</TableHead>
-            <TableHead>생성일</TableHead>
-            <TableHead>바로가기</TableHead>
+            <TableHead className='w-[30%] text-center'>프로젝트 명</TableHead>
+            <TableHead className='text-center'>작업목록</TableHead>
+            <TableHead className='text-center'>수정일</TableHead>
+            <TableHead className='text-center'>생성일</TableHead>
+            <TableHead className='text-center'>바로가기</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -123,10 +123,10 @@ const List = ({ data, navi }: IListViewProps) => {
                     checked={item.checked}
                   />
                 </TableCell>
-                <TableCell className='font-medium'>
+                <TableCell className='font-medium truncate'>
                   {item.projectName}
                 </TableCell>
-                <TableCell className='flex gap-1'>
+                <TableCell className='flex justify-center gap-2 pt-2 text-center'>
                   {item.tts ? <Badge variant={'outline'}>TTS</Badge> : <></>}
                   {item.vc ? <Badge variant={'destructive'}>VC</Badge> : <></>}
                   {item.concat ? (
@@ -135,17 +135,17 @@ const List = ({ data, navi }: IListViewProps) => {
                     <></>
                   )}
                 </TableCell>
-                <TableCell>
+                <TableCell className='text-center'>
                   {convertDateFormat(
                     new Date(item.projectUpdateDate),
                     'YYYY-MM-DD'
                   )}
                 </TableCell>
-                <TableCell>
+                <TableCell className='text-center'>
                   {convertDateFormat(new Date(item.projectDate), 'YYYY-MM-DD')}
                 </TableCell>
                 <TableCell
-                  className='hover:cursor-pointer'
+                  className='flex justify-center h-full hover:cursor-pointer'
                   onClick={() => {
                     navi(ROUTES.PROJECT + ROUTES.TTS + `/${item.projectSeq}`);
                   }}
