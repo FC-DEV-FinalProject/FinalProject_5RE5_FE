@@ -20,12 +20,6 @@ interface TTSResponse {
           endPitch: number;
           audioFormat: string;
         };
-        // ttsAudioFileInfo: {
-        //   ttsAudioSeq: number;
-        //   audioUrl: string;
-        //   downloadYn: string;
-        //   audioPlayYn: string;
-        // };
         ttsAudioFileInfo: null;
       };
     }[];

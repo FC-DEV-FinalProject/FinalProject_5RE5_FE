@@ -53,8 +53,7 @@ const TTS: React.FC = () => {
           volume: item.sentence.ttsAttributeInfo.volume,
           voice: `Voice ${item.sentence.voiceSeq}`,
         }));
-        // addTextInputs(texts);
-        console.log(texts);
+        addTextInputs(texts);
       } catch (error) {
         console.error('Error fetching project data:', error);
       }
@@ -76,9 +75,6 @@ const TTS: React.FC = () => {
         state={{ textInputs, editingId, isAllSelected }}
         toggleAllSelection={toggleAllSelection}
         deleteSelectedInputs={deleteSelectedInputs}
-        addTextInput={addTextInput}
-        saveInput={saveInput}
-        cancelEdit={cancelEdit}
         selectedCount={selectedCount}
         totalCount={textInputs.length}
       />
