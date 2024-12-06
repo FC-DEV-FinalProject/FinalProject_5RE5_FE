@@ -123,19 +123,57 @@ const ProjectLayout = () => {
         {/* 푸터 */}
         <footer
           className={`flex flex-none items-center justify-center relative ${
-            isFooterExpanded ? 'h-[310px]' : 'h-[114px]'
+            isFooterExpanded ? 'h-[310px]' : 'h-[100px]'
           } text-white border-t  transition-all duration-300`}
         >
           {/* 재생 버튼 텍스트 */}
-          <p className='text-lg text-black'>재생 버튼 들어갈곳</p>
+          <div>
+            <div className='flex gap-10'>
+              <Button variant={'ghost'}>
+                <SkipBack color='black' fill='black' />
+              </Button>
+              <Button
+                variant={'ghost'}
+                onClick={() => {
+                  setIsPlay(false);
+                }}
+              >
+                <Square color='black' fill='black' />
+              </Button>
+
+              {isPlay ? (
+                <Button
+                  variant={'ghost'}
+                  onClick={() => {
+                    setIsPlay(false);
+                  }}
+                >
+                  <Pause color='black' fill='black' />
+                </Button>
+              ) : (
+                <Button
+                  variant={'ghost'}
+                  onClick={() => {
+                    setIsPlay(true);
+                  }}
+                >
+                  <Play color='black' fill='black' />
+                </Button>
+              )}
+
+              <Button variant={'ghost'}>
+                <SkipForward color='black' fill='black' />
+              </Button>
+            </div>
+          </div>
 
           {/* 아이콘 버튼 */}
-          <button
-            onClick={toggleFooter}
-            className='absolute bg-gray-600 rounded right-10 hover:bg-gray-700'
-          >
-            {isFooterExpanded ? <ChevronDown /> : <ChevronUp />}
-          </button>
+          {/* <button
+          onClick={toggleFooter}
+          className='absolute bg-gray-600 rounded right-10 hover:bg-gray-700'
+        >
+          {isFooterExpanded ? <ChevronDown /> : <ChevronUp />}
+        </button> */}
         </footer>
       </div>
     </div>
