@@ -11,7 +11,7 @@ const EditContent = () => {
   //로컬 상태
   const [localSpeed, setLocalSpeed] = useState(1);
   const [localSliders, setLocalSliders] = useState([
-    { id: 'pitch', value: 0.0, min: -20.0, max: 20.0, label: '음높이' },
+    { id: 'pitch', value: 0.0, min: -10.0, max: 10.0, label: '음높이' },
     { id: 'volume', value: 0.0, min: -10.0, max: 10.0, label: '음량' },
   ]);
   const [localVoices, setLocalVoices] = useState<string | null>('');
@@ -154,7 +154,7 @@ const EditContent = () => {
   };
 
   return (
-    <div className='flex flex-col w-full h-full gap-4 rounded '>
+    <div className='flex flex-col w-full h-full gap-4 rounded'>
       {/* 컨텐츠 영역 */}
       <div className='flex flex-col flex-1 gap-4'>
         {/* 즐겨찾기 Dropdown */}
@@ -177,7 +177,7 @@ const EditContent = () => {
         />
 
         {/* 속도 블럭 선택 */}
-        <div className='flex flex-col gap-2 mt-4'>
+        <div className='flex flex-col gap-2 mt-4 mb-4'>
           <label className='text-sm font-medium text-gray-700'>속도</label>
           <div className='flex gap-2'>
             {speedValues.map((value) => (
@@ -223,15 +223,7 @@ const EditContent = () => {
           onClick={handleApply}
           disabled={isApplyLoading}
         >
-          개별 적용하기
-        </Button>
-
-        <Button
-          className='w-full text-white bg-black'
-          onClick={handleAllApply}
-          disabled={isApplyLoading}
-        >
-          {isApplyLoading ? '처리중...' : '전체 적용하기'}
+          적용하기
         </Button>
       </div>
     </div>

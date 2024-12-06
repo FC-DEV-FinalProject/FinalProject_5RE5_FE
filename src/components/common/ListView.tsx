@@ -162,7 +162,7 @@ const Tile = ({ data, navi }: IListViewProps) => {
   };
   return (
     <div>
-      <ul className='flex flex-wrap flex-1 gap-5'>
+      <ul className='flex flex-wrap justify-between flex-1 gap-5'>
         {data ? (
           data.map((item, idx) => (
             <li
