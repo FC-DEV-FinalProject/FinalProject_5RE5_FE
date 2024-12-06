@@ -6,6 +6,7 @@ import { VoiceSelectionPopover } from '@/components/common/VoiceSelectPopover';
 import { useAudioSettingsStore } from '@/stores/useAudioSettingsStore';
 import { useTextInputs } from '@/stores/textInputStore';
 import { ttsStyle } from '@/apis/ttsVoice';
+import { toast } from '@/hooks/use-toast';
 
 const EditContent = () => {
   //로컬 상태
@@ -117,7 +118,12 @@ const EditContent = () => {
         .textInputs.filter((input) => input.isSelected);
 
       if (selectedInputs.length === 0) {
-        alert('적용할 항목이 없습니다. 적어도 하나의 항목을 선택하세요.');
+        toast({
+          title: '적용할 항목이 없습니다',
+          description: '적어도 하나의 항목을 선택하세요.',
+          variant: 'destructive',
+        });
+        // alert('적용할 항목이 없습니다. 적어도 하나의 항목을 선택하세요.');
         setIsApplyLoading(false);
         return;
       }
@@ -217,16 +223,18 @@ const EditContent = () => {
       {/* 하단 버튼 */}
       <div className='flex flex-col gap-4'>
         <Button
-          className='w-full text-white bg-black'
+          className='w-full'
           onClick={handlePreview}
           disabled={isPreviewLoading}
+          variant={'green'}
         >
           미리 듣기
         </Button>
         <Button
-          className='w-full text-white bg-black'
+          className='w-full'
           onClick={handleApply}
           disabled={isApplyLoading}
+          variant={'green'}
         >
           적용하기
         </Button>

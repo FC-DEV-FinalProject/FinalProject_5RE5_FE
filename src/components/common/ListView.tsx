@@ -183,21 +183,11 @@ const Tile = ({ data, navi }: IListViewProps) => {
           data.map((item, idx) => (
             <li
               key={item.projectName + idx}
-              className='p-5 w-[30%] h-[150px] border hover:cursor-pointer hover:scale-95 duration-100 rounded-lg z-10 content-center '
+              className='p-5 w-[30%] h-[200px] border hover:cursor-pointer hover:scale-95 duration-100 rounded-lg z-10 content-center '
               onClick={() => {
                 navi(ROUTES.PROJECT + ROUTES.TTS + `/${item.projectSeq}`);
               }}
             >
-              {/* <Checkbox
-                className='relative z-0 hover:bg-neutral-100'
-                onClick={(
-                  e: React.MouseEvent<HTMLInputElement, MouseEvent>
-                ) => {
-                  e.stopPropagation();
-                  onTest(e);
-                }}
-              /> */}
-
               <div className='text-center'>{item.projectName}</div>
               <div className='flex justify-center gap-2 pt-2 text-center'>
                 {item.tts ? <Badge variant={'outline'}>TTS</Badge> : <></>}

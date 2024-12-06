@@ -22,6 +22,7 @@ const TTS: React.FC = () => {
     cancelEdit,
     isAllSelected,
     editingId,
+    resetInputSettings,
   } = useTextInputs();
 
   useOutsideClick(containerRef, () => {
@@ -37,10 +38,7 @@ const TTS: React.FC = () => {
   const selectedCount = textInputs.filter((input) => input.isSelected).length;
 
   return (
-    <div 
-      className='container p-4 h-[calc(100vh-170px)] w-full overflow-y-auto' 
-      ref={containerRef}
-    >
+    <div className='container w-full p-4 ' ref={containerRef}>
       <TTSHeader
         projectName={projectName}
         onProjectNameChange={handleProjectNameChange}
@@ -67,6 +65,7 @@ const TTS: React.FC = () => {
         addTextInput={addTextInput}
         saveInput={saveInput}
         onSelectionChange={(selectedCount, totalCount) => {}}
+        resetInputSettings={resetInputSettings}
       />
     </div>
   );

@@ -2,6 +2,7 @@ import { createVc } from '@/apis/vc';
 import DivideLine from '@/components/common/DivideLine';
 import FileUpload from '@/components/common/FileUpload';
 import { Button } from '@/components/ui/button';
+import { toast } from '@/hooks/use-toast';
 import { OneVcState, useVcStore } from '@/stores/vcDataStore';
 import { MessageSquareMoreIcon, SpeechIcon, UploadIcon } from 'lucide-react';
 import { useEffect } from 'react';
@@ -11,7 +12,7 @@ const VCSidebar = () => {
 
   const handler = {
     onCreate: () => {
-      alert('vc생성하기');
+      toast({ title: 'VC 생성요청' });
       vcList.map((oneVc) => {
         // console.log(trgSeq);
         // createVc(oneVc.vcSrcFile.seq, 0);
@@ -106,7 +107,7 @@ const VCSidebar = () => {
             emptyText='생성 보이스로 목소리를 변환해보세요'
             buttonIcon={SpeechIcon}
             afterFn={() => {
-              alert('생성 보이스');
+              toast({ title: '생성 보이스 추가' });
             }}
             fileType='audio/*'
           />
