@@ -19,6 +19,7 @@ import { ROUTES } from '@/constants/route';
 import { Button } from '@/components/ui/button';
 import ProjectIconMenu from '@/components/sidebar/ProjectIconMenu';
 import Header from '@/components/header/Header';
+import ConcatLayout from '@/components/concat/ConcatLayout';
 
 const ProjectLayout = () => {
   // Footer 상태 관리 (열림/닫힘 여부)
@@ -60,11 +61,11 @@ const ProjectLayout = () => {
   return (
     <div className='flex flex-col h-screen'>
       {/* 헤더 */}
-
       <Header projectTab={true} />
 
       <div className='flex overflow-hidden grow'>
-        <aside className='p-2 w-[90px] flex-none border-r border-gray-200'>
+        {/* 좌측 사이드바 */}
+        <aside className='p-4 w-[90px] flex-none border-r border-gray-200'>
           <ul>
             <li className='mb-2'>
               <ProjectIconMenu
@@ -91,19 +92,23 @@ const ProjectLayout = () => {
         </aside>
 
         <div className='grow w-[calc(100vw-90px)] flex h-full'>
-          {/* 좌측 사이드바 */}
+          {selectedMenu === 'concat' ? (
+            <ConcatLayout />
+          ) : (
+            <>
+              {/* 메인 콘텐츠 */}
+              <div className='overflow-auto grow'>
+                <main className='p-4 bg-white min-w-[800px]'>
+                  {ContentComponent}
+                </main>
+              </div>
 
-          {/* 메인 콘텐츠 */}
-          <div className='overflow-auto grow'>
-            <main className='p-4 bg-white min-w-[800px]'>
-              {ContentComponent}
-            </main>
-          </div>
-
-          {/* 우측 사이드바 */}
-          <aside className='p-4 w-[280px] flex flex-col border-l flex-none'>
-            {SidebarComponent}
-          </aside>
+              {/* 우측 사이드바 */}
+              <aside className='p-4 w-[280px] flex flex-col border-l flex-none'>
+                {SidebarComponent}
+              </aside>
+            </>
+          )}
         </div>
       </div>
 

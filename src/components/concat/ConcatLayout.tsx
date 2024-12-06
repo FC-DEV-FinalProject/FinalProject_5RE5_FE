@@ -13,21 +13,23 @@ const ConcatLayout = () => {
   const onSubmit: SubmitHandler<IFormValues> = (data) => console.log(data);
 
   return (
-    <>
-      <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)} className='h-full'>
-          <div className='flex h-full'>
-            <main className='p-4 overflow-auto bg-white grow'>
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)} className='size-full'>
+        <div className='flex size-full'>
+          {/* 메인 콘텐츠 */}
+          <div className='overflow-auto grow'>
+            <main className='p-4 bg-white min-w-[800px]'>
               <Concat />
             </main>
-
-            <aside className='flex-none p-4 w-[280px] flex flex-col border-l'>
-              <ConcatSidebar />
-            </aside>
           </div>
-        </form>
-      </FormProvider>
-    </>
+
+          {/* 우측 사이드바 */}
+          <aside className='p-4 w-[280px] flex flex-col border-l flex-none'>
+            <ConcatSidebar />
+          </aside>
+        </div>
+      </form>
+    </FormProvider>
   );
 };
 

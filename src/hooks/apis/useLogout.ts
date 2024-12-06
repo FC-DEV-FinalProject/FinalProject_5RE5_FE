@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { logoutRequest } from '@/apis/auth';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '@/stores/authStore';
+import useAuthStore from '@/stores/authStore';
 
 const useLogout = () => {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ const useLogout = () => {
     mutationFn: logoutRequest,
     onSuccess: () => {
       logout();
-      navigate('/signIn');
+      navigate('/signin');
     },
   });
 };
