@@ -27,7 +27,7 @@ import { IProjectProps } from '@/types/project';
 import { Button } from '@/components/ui/button';
 import NewProjectButton from '@/components/common/NewProjectButton';
 import useLogout from '@/hooks/apis/useLogout';
-import { useAuthStore } from '@/stores/authStore';
+import useAuthStore from '@/stores/authStore';
 
 // Menu items.
 const Menus = [

@@ -1,4 +1,4 @@
-import { useAuthStore } from '@/stores/authStore';
+import useAuthStore from '@/stores/authStore';
 import { Navigate, Outlet } from 'react-router-dom';
 
 const PublicRoute = () => {
