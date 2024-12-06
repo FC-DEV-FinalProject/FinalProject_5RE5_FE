@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { IProjectProps } from '@/types/project';
 import DivideLine from '@/components/common/DivideLine';
 import { removeProject } from '@/apis/project';
+import { toast } from '@/hooks/use-toast';
 
 const MyProject = ({
   option = 'list',
@@ -34,10 +35,18 @@ const MyProject = ({
       console.log(`${checkedList} 삭제요청`);
       try {
         await Promise.all(checkedList.map((item) => removeProject(item)));
-        alert('선택한 프로젝트가 성공적으로 삭제되었습니다.');
+        // alert('선택한 프로젝트가 성공적으로 삭제되었습니다.');
+        toast({
+          title: '선택한 프로젝트가 성공적으로 삭제되었습니다.',
+          variant: 'destructive',
+        });
       } catch (error) {
         console.error('프로젝트 삭제 중 오류 발생:', error);
-        alert('프로젝트 삭제 중 오류가 발생했습니다.');
+        // alert('프로젝트 삭제 중 오류가 발생했습니다.');
+        toast({
+          title: '프로젝트 삭제 중 오류가 발생했습니다.',
+          variant: 'destructive',
+        });
       }
     },
   };

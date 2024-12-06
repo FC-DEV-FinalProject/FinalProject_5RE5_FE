@@ -25,6 +25,7 @@ import { Button } from '@/components/ui/button';
 import ProjectIconMenu from '@/components/sidebar/ProjectIconMenu';
 import Header from '@/components/header/Header';
 import ConcatLayout from '@/components/concat/ConcatLayout';
+import { Toaster } from '@/components/ui/toaster';
 
 const ProjectLayout = () => {
   // Footer 상태 관리 (열림/닫힘 여부)
@@ -37,10 +38,10 @@ const ProjectLayout = () => {
   };
 
   // 단축키 기능 프로젝트 레이아웃에서만 가능하도록
-  useHotkeys('ctrl+s', (event) => {
-    event.preventDefault();
-    alert('저장?');
-  });
+  // useHotkeys('ctrl+s', (event) => {
+  //   event.preventDefault();
+  //   alert('저장?');
+  // });
 
   // 컴포넌트를 조건부로 렌더링
   let ContentComponent;

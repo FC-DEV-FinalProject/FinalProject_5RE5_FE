@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import TextSlide from '@/components/login/TextSlide';
 import { validateLoginForm } from '@/utils/auth';
 import Logo from '@/assets/logo.png';
+import { toast } from '@/hooks/use-toast';
 
 interface ILoginForm {
   username: string;
@@ -58,7 +59,11 @@ const SignIn = () => {
         setLoginError(true);
       } else {
         console.error(error.message);
-        alert('예기치 못한 오류발생');
+        // alert('예기치 못한 오류발생');
+        toast({
+          title: '예기치 못한 오류발생',
+          variant: 'destructive',
+        });
       }
       resetError();
     }

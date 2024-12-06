@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { CircularProgress } from '@/components/ui/CircularProgress';
+import { toast } from '@/hooks/use-toast';
 import { useTextInputs } from '@/stores/textInputStore';
 import { UploadIcon } from 'lucide-react';
 
@@ -57,9 +58,14 @@ export const FileContent: React.FC<IFileContentProps> = ({
               .map((sentence) => sentence.trim()); // 공백 제거
 
             if (sentences.length > 30) {
-              alert(
-                `문장이 너무 많습니다. 최대 30개의 문장만 처리됩니다. (${sentences.length - 30}개의 문장은 무시됩니다.)`
-              );
+              // alert(
+              //   `문장이 너무 많습니다. 최대 30개의 문장만 처리됩니다. (${sentences.length - 30}개의 문장은 무시됩니다.)`
+              // );
+              toast({
+                title: '문장이 너무 많습니다.',
+                description: `최대 30개의 문장만 처리됩니다. (${sentences.length - 30}개의 문장은 무시됩니다.)`,
+                variant: 'destructive',
+              });
             }
 
             // 문장 추가
@@ -81,7 +87,10 @@ export const FileContent: React.FC<IFileContentProps> = ({
                 item.name === file.name ? { ...item, status: '오류' } : item
               )
             );
-            alert('텍스트 처리 중 오류가 발생했습니다.');
+            toast({
+              title: '텍스트 처리 중 오류가 발생했습니다.',
+              variant: 'destructive',
+            });
           } finally {
             // 업로드 중 개수 감소
             setUploadingCount((prev) => prev - 1);
@@ -95,7 +104,11 @@ export const FileContent: React.FC<IFileContentProps> = ({
               item.name === file.name ? { ...item, status: '오류' } : item
             )
           );
-          alert('파일을 읽을 수 없습니다.');
+          // alert('파일을 읽을 수 없습니다.');
+          toast({
+            title: '파일을 읽을 수 없습니다.',
+            variant: 'destructive',
+          });
           // 업로드 중 개수 감소
           setUploadingCount((prev) => prev - 1);
         };

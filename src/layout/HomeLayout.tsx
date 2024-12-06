@@ -3,6 +3,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import { CSSProperties } from 'react';
 import { HomeSidebar } from '@/components/sidebar/HomeSidebar';
 import Header from '@/components/header/Header';
+import { Toaster } from '@/components/ui/toaster';
 
 export default function HomeLayout() {
   return (

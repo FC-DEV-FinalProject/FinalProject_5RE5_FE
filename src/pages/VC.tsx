@@ -3,6 +3,7 @@ import { removeSrc } from '@/apis/vc';
 import OneVc from '@/components/common/OneVc';
 import VcControls from '@/components/vc/VcControls';
 import { VcHeader } from '@/components/vc/VcHeader';
+import { toast } from '@/hooks/use-toast';
 import { useVcStore } from '@/stores/vcDataStore';
 import { convertDateFormat } from '@/utils/date';
 import { downloadZip } from '@/utils/file';
@@ -40,16 +41,23 @@ const VC = () => {
 
   const handler = {
     onSave: async () => {
-      alert('save: ' + projectName);
+      // alert('save: ' + projectName);
       // 1. 프로젝트 저장
       try {
         await saveProject({
           projectSeq: Number(projectId),
           projectName,
         });
-        alert('프로젝트가 성공적으로 저장되었습니다.');
+        // alert('프로젝트가 성공적으로 저장되었습니다.');
+        toast({
+          title: '프로젝트가 성공적으로 저장되었습니다.',
+        });
       } catch (error) {
-        alert('프로젝트 저장 중 오류가 발생했습니다.');
+        // alert('프로젝트 저장 중 오류가 발생했습니다.');
+        toast({
+          title: '프로젝트 저장 중 오류가 발생했습니다.',
+          variant: 'destructive',
+        });
       }
       // 2. srg파일 저장
 
