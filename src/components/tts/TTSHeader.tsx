@@ -13,6 +13,7 @@ interface TTSHeaderProps {
 export const TTSHeader: React.FC<TTSHeaderProps> = ({
   projectName,
   onProjectNameChange,
+  ttsSave,
 }) => {
   const [isEditable, setisEditable] = useState(false);
 
@@ -51,6 +52,7 @@ export const TTSHeader: React.FC<TTSHeaderProps> = ({
             type='submit'
             variant='green'
             className='w-[130px] mr-1 rounded-3xl'
+            onClick={ttsSave}
           >
             저장
           </Button>
