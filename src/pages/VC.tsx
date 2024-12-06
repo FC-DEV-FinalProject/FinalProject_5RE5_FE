@@ -75,7 +75,7 @@ const VC = () => {
 
   return (
     <div>
-      <div className='container p-4 h-[calc(100vh-170px)] w-full overflow-y-auto'>
+      <div className='container w-full p-4 '>
         <div id='headerDiv'>
           {/* 프로젝트명, 저장, 다운로드 버튼 */}
           <VcHeader
