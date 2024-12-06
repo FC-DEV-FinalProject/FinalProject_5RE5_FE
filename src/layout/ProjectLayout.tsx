@@ -1,13 +1,25 @@
 import ConcatSidebar from '@/components/sidebar/ConcatSidebar';
 import TTSSidebar from '@/components/sidebar/TTSSidebar';
 import VCSidebar from '@/components/sidebar/VCSidebar';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import {
+  BookAIcon,
+  ChevronDown,
+  ChevronUp,
+  CombineIcon,
+  MicIcon,
+} from 'lucide-react';
 import { useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { Link, useParams } from 'react-router-dom';
 import TTS from '@/pages/TTS';
 import VC from '@/pages/VC';
 import Concat from '@/pages/Concat';
+import Logo from '@/assets/logo.png';
+import { ROUTES } from '@/constants/route';
+import { Button } from '@/components/ui/button';
+import ProjectIconMenu from '@/components/sidebar/ProjectIconMenu';
+import Header from '@/components/header/Header';
+import ConcatLayout from '@/components/concat/ConcatLayout';
 
 const ProjectLayout = () => {
   // Footer 상태 관리 (열림/닫힘 여부)
@@ -49,76 +61,65 @@ const ProjectLayout = () => {
   return (
     <div className='flex flex-col h-screen'>
       {/* 헤더 */}
-      <header className='flex items-center gap-4 px-4 text-white bg-gray-800 h-14'>
-        <h1 className='text-lg font-bold'>로고</h1>
-        <nav>
-          <ul className='flex gap-4'>
-            <li>
-              <Link to={`/project/tts/project1`} className='hover:underline'>
-                Project 01
-              </Link>
-            </li>
-            <li>
-              <Link to={`/project/tts/project2`} className='hover:underline'>
-                Project 02
-              </Link>
-            </li>
-            <li>
-              <Link to={`/project/tts/project3`} className='hover:underline'>
-                Project 03
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
+      <Header projectTab={true} />
 
-      <div className='flex flex-1'>
+      <div className='flex overflow-hidden grow'>
         {/* 좌측 사이드바 */}
-        <aside className='p-4 bg-gray-200 w-[90px]'>
+        <aside className='p-4 w-[90px] flex-none border-r border-gray-200'>
           <ul>
-            <li className='mb-8'>
-              <Link
-                to={`/project/tts/${projectId}`}
-                className='hover:underline'
-              >
-                TTS
-              </Link>
+            <li className='mb-2'>
+              <ProjectIconMenu
+                linkTo={`${ROUTES.PROJECT}${ROUTES.TTS}/${projectId}`}
+                name='TTS'
+                icon={BookAIcon}
+              />
             </li>
-            <li className='mb-8'>
-              <Link to={`/project/vc/${projectId}`} className='hover:underline'>
-                VC
-              </Link>
+            <li className='mb-2'>
+              <ProjectIconMenu
+                linkTo={`${ROUTES.PROJECT}${ROUTES.VC}/${projectId}`}
+                name='VC'
+                icon={MicIcon}
+              />
             </li>
-            <li>
-              <Link
-                to={`/project/concat/${projectId}`}
-                className='hover:underline'
-              >
-                Concat
-              </Link>
+            <li className='mb-2'>
+              <ProjectIconMenu
+                linkTo={`${ROUTES.PROJECT}${ROUTES.CONCAT}/${projectId}`}
+                name='CONCAT'
+                icon={CombineIcon}
+              />
             </li>
           </ul>
         </aside>
 
-        {/* 메인 콘텐츠 */}
-        <main className='flex-1 p-4 overflow-auto bg-white'>
-          {ContentComponent}
-        </main>
+        <div className='grow w-[calc(100vw-90px)] flex h-full'>
+          {selectedMenu === 'concat' ? (
+            <ConcatLayout />
+          ) : (
+            <>
+              {/* 메인 콘텐츠 */}
+              <div className='overflow-auto grow'>
+                <main className='p-4 bg-white min-w-[800px]'>
+                  {ContentComponent}
+                </main>
+              </div>
 
-        {/* 우측 사이드바 */}
-        <aside className='p-4  w-[280px] flex flex-col border-l'>
-          {SidebarComponent}
-        </aside>
+              {/* 우측 사이드바 */}
+              <aside className='p-4 w-[280px] flex flex-col border-l flex-none'>
+                {SidebarComponent}
+              </aside>
+            </>
+          )}
+        </div>
       </div>
 
       {/* 푸터 */}
       <footer
-        className={`relative flex items-center justify-center ${
+        className={`flex flex-none items-center justify-center relative ${
           isFooterExpanded ? 'h-[310px]' : 'h-[114px]'
-        } text-white bg-gray-800 transition-all duration-300`}
+        } text-white border-t  transition-all duration-300`}
       >
         {/* 재생 버튼 텍스트 */}
-        <p className='text-lg'>재생 버튼 들어갈곳</p>
+        <p className='text-lg text-black'>재생 버튼 들어갈곳</p>
 
         {/* 아이콘 버튼 */}
         <button

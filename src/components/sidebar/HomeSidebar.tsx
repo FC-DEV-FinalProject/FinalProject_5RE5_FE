@@ -1,5 +1,4 @@
 import { ChevronDown, Home, Bell, FolderOpen, Files } from 'lucide-react';
-import Logo from '@/assets/logo.png';
 
 import {
   Sidebar,
@@ -8,6 +7,7 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
+  SidebarInset,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -19,7 +19,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import DividingLine from '@/components/common/DividingLine';
+import DividingLine from '@/components/common/DivideLine';
 import { ROUTES } from '@/constants/route';
 import { PROJECT_DATA } from '@/mocks/projectData';
 import { useState } from 'react';
@@ -27,7 +27,7 @@ import { IProjectProps } from '@/types/project';
 import { Button } from '@/components/ui/button';
 import NewProjectButton from '@/components/common/NewProjectButton';
 import useLogout from '@/hooks/apis/useLogout';
-import { useAuthStore } from '@/stores/authStore';
+import useAuthStore from '@/stores/authStore';
 
 // Menu items.
 const Menus = [
@@ -66,20 +66,7 @@ export function HomeSidebar() {
   const [recents, setRecents] = useState<IProjectProps[]>(items);
 
   return (
-    <Sidebar>
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem
-            className='p-2 hover:cursor-pointer'
-            onClick={() => {
-              window.location.href = '/';
-            }}
-          >
-            <img src={Logo} />
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarHeader>
-      <DividingLine />
+    <>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
@@ -158,6 +145,6 @@ export function HomeSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-    </Sidebar>
+    </>
   );
 }

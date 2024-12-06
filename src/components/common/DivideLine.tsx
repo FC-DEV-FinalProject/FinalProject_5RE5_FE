@@ -4,7 +4,7 @@ interface IDivideProps {
   className?: string;
 }
 
-const DividingLine = (props: IDivideProps) => {
+const DivideLine = (props: IDivideProps) => {
   return (
     <div
       className={`border-b-[1px] border-b-gray-300 ${props.className ?? ''}`}
@@ -12,4 +12,4 @@ const DividingLine = (props: IDivideProps) => {
   );
 };
 
-export default DividingLine;
+export default DivideLine;

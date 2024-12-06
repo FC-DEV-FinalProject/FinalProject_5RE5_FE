@@ -11,7 +11,7 @@ interface AuthState {
 
 type AuthPersistState = Omit<AuthState, 'login' | 'logout'>;
 
-export const useAuthStore = create<AuthState>()(
+const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       userData: null,
