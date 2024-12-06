@@ -19,7 +19,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import DividingLine from '@/components/common/DividingLine';
+import DividingLine from '@/components/common/DivideLine';
 import { ROUTES } from '@/constants/route';
 import { PROJECT_DATA } from '@/mocks/projectData';
 import { useState } from 'react';

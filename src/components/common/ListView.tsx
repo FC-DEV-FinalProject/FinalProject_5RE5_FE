@@ -14,7 +14,13 @@ import useChecked from '@/hooks/useChecked';
 import { useCheckedStore } from '@/stores/checkedStore';
 import { IProjectProps } from '@/types/project';
 import { convertDateFormat } from '@/utils/date';
-import { SquareArrowOutUpRightIcon } from 'lucide-react';
+import {
+  BookAIcon,
+  CombineIcon,
+  LucideProportions,
+  MicIcon,
+  SquareArrowOutUpRightIcon,
+} from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 
@@ -24,9 +30,16 @@ export interface IListViewProps {
   option?: ViewOptionType;
   data?: IProjectProps[];
   navi: NavigateFunction;
+  viewRemoveData?: boolean;
 }
 
-const ListView = ({ option = 'list', data }: Omit<IListViewProps, 'navi'>) => {
+const thumbnail = [BookAIcon, MicIcon, CombineIcon];
+
+const ListView = ({
+  option = 'list',
+  data,
+  viewRemoveData,
+}: Omit<IListViewProps, 'navi'>) => {
   const navigate = useNavigate();
   return (
     <div>
@@ -96,11 +109,11 @@ const List = ({ data, navi }: IListViewProps) => {
             <TableHead className='w-10'>
               <Checkbox onClick={handleSelectAll} checked={masterChecked} />
             </TableHead>
-            <TableHead className='w-[50%]'>프로젝트 명</TableHead>
-            <TableHead>작업목록</TableHead>
-            <TableHead>수정일</TableHead>
-            <TableHead>생성일</TableHead>
-            <TableHead>바로가기</TableHead>
+            <TableHead className='w-[30%] text-center'>프로젝트 명</TableHead>
+            <TableHead className='text-center'>작업목록</TableHead>
+            <TableHead className='text-center'>수정일</TableHead>
+            <TableHead className='text-center'>생성일</TableHead>
+            <TableHead className='text-center'>바로가기</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -115,10 +128,10 @@ const List = ({ data, navi }: IListViewProps) => {
                     checked={item.checked}
                   />
                 </TableCell>
-                <TableCell className='font-medium'>
+                <TableCell className='font-medium truncate'>
                   {item.projectName}
                 </TableCell>
-                <TableCell className='flex gap-1'>
+                <TableCell className='flex justify-center gap-2 pt-2 text-center'>
                   {item.tts ? <Badge variant={'outline'}>TTS</Badge> : <></>}
                   {item.vc ? <Badge variant={'destructive'}>VC</Badge> : <></>}
                   {item.concat ? (
@@ -127,26 +140,29 @@ const List = ({ data, navi }: IListViewProps) => {
                     <></>
                   )}
                 </TableCell>
-                <TableCell>
+                <TableCell className='text-center'>
                   {convertDateFormat(
                     new Date(item.projectUpdateDate),
-                    'YYYY-MM-DD hh:mm:ss'
+                    'YYYY-MM-DD'
                   )}
                 </TableCell>
-                <TableCell>
-                  {convertDateFormat(
-                    new Date(item.projectDate),
-                    'YYYY-MM-DD hh:mm:ss'
-                  )}
+                <TableCell className='text-center'>
+                  {convertDateFormat(new Date(item.projectDate), 'YYYY-MM-DD')}
                 </TableCell>
-                <TableCell
-                  className='hover:cursor-pointer'
-                  onClick={() => {
-                    navi(ROUTES.PROJECT + ROUTES.TTS + `/${item.projectSeq}`);
-                  }}
-                >
-                  <SquareArrowOutUpRightIcon />
-                </TableCell>
+                {item.projectActivate === 'Y' ? (
+                  <TableCell
+                    className={`flex justify-center h-full  ${item.projectActivate === 'Y' ? 'hover:cursor-pointer' : 'cursor-not-allowed'}`}
+                    onClick={() => {
+                      navi(ROUTES.PROJECT + ROUTES.TTS + `/${item.projectSeq}`);
+                    }}
+                  >
+                    <SquareArrowOutUpRightIcon />
+                  </TableCell>
+                ) : (
+                  <TableCell className='flex justify-center h-full hover:cursor-not-allowed'>
+                    <Badge variant={'destructive'}>삭제됨</Badge>
+                  </TableCell>
+                )}
               </TableRow>
             );
           })}
@@ -167,7 +183,7 @@ const Tile = ({ data, navi }: IListViewProps) => {
           data.map((item, idx) => (
             <li
               key={item.projectName + idx}
-              className='p-5 w-[30%] border hover:cursor-pointer hover:scale-95 duration-100 rounded-lg z-10'
+              className='p-5 w-[30%] h-[150px] border hover:cursor-pointer hover:scale-95 duration-100 rounded-lg z-10 content-center '
               onClick={() => {
                 navi(ROUTES.PROJECT + ROUTES.TTS + `/${item.projectSeq}`);
               }}
@@ -181,8 +197,17 @@ const Tile = ({ data, navi }: IListViewProps) => {
                   onTest(e);
                 }}
               /> */}
-              <div className='content-center h-40 text-center'>썸네일</div>
-              <div>{item.projectName}</div>
+
+              <div className='text-center'>{item.projectName}</div>
+              <div className='flex justify-center gap-2 pt-2 text-center'>
+                {item.tts ? <Badge variant={'outline'}>TTS</Badge> : <></>}
+                {item.vc ? <Badge variant={'destructive'}>VC</Badge> : <></>}
+                {item.concat ? (
+                  <Badge variant={'default'}>Concat</Badge>
+                ) : (
+                  <></>
+                )}
+              </div>
             </li>
           ))
         ) : (
