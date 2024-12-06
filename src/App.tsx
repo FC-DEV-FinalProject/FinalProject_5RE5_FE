@@ -7,7 +7,7 @@ import { getWrapBg } from '@/utils/ui';
 const queryClient = new QueryClient();
 
 function App() {
-  const bg = useMemo(() => getWrapBg(), []);
+  const bg = getWrapBg();
 
   return (
     <div id='wrap' style={bg || undefined}>
