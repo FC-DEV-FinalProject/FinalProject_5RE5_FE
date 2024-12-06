@@ -1,13 +1,23 @@
 import ConcatSidebar from '@/components/sidebar/ConcatSidebar';
 import TTSSidebar from '@/components/sidebar/TTSSidebar';
 import VCSidebar from '@/components/sidebar/VCSidebar';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import {
+  BookAIcon,
+  ChevronDown,
+  ChevronUp,
+  CombineIcon,
+  MicIcon,
+} from 'lucide-react';
 import { useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { Link, useParams } from 'react-router-dom';
 import TTS from '@/pages/TTS';
 import VC from '@/pages/VC';
 import Concat from '@/pages/Concat';
+import Logo from '@/assets/logo.png';
+import { ROUTES } from '@/constants/route';
+import { Button } from '@/components/ui/button';
+import ProjectIconMenu from '@/components/sidebar/ProjectIconMenu';
 import Header from '@/components/header/Header';
 import ConcatLayout from '@/components/concat/ConcatLayout';
 
@@ -57,29 +67,26 @@ const ProjectLayout = () => {
         {/* 좌측 사이드바 */}
         <aside className='p-4 w-[90px] flex-none border-r border-gray-200'>
           <ul>
-            <li className='flex items-center justify-center mb-8'>
-              <Link
-                to={`/project/tts/${projectId}`}
-                className='text-center hover:underline'
-              >
-                TTS
-              </Link>
+            <li className='mb-2'>
+              <ProjectIconMenu
+                linkTo={`${ROUTES.PROJECT}${ROUTES.TTS}/${projectId}`}
+                name='TTS'
+                icon={BookAIcon}
+              />
             </li>
-            <li className='flex items-center justify-center mb-8'>
-              <Link
-                to={`/project/vc/${projectId}`}
-                className='text-center hover:underline'
-              >
-                VC
-              </Link>
+            <li className='mb-2'>
+              <ProjectIconMenu
+                linkTo={`${ROUTES.PROJECT}${ROUTES.VC}/${projectId}`}
+                name='VC'
+                icon={MicIcon}
+              />
             </li>
-            <li className='flex items-center justify-center'>
-              <Link
-                to={`/project/concat/${projectId}`}
-                className='text-center hover:underline'
-              >
-                Concat
-              </Link>
+            <li className='mb-2'>
+              <ProjectIconMenu
+                linkTo={`${ROUTES.PROJECT}${ROUTES.CONCAT}/${projectId}`}
+                name='CONCAT'
+                icon={CombineIcon}
+              />
             </li>
           </ul>
         </aside>

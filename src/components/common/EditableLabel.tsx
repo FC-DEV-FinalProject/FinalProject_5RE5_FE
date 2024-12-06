@@ -1,8 +1,21 @@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import React, { useState, useRef, useEffect, forwardRef } from 'react';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  forwardRef,
+  LabelHTMLAttributes,
+  InputHTMLAttributes,
+} from 'react';
 
-interface IEditableLabelProps {
+type EditableLabelAttributes = Pick<
+  LabelHTMLAttributes<HTMLLabelElement> & InputHTMLAttributes<HTMLInputElement>,
+  keyof LabelHTMLAttributes<HTMLLabelElement> &
+    keyof InputHTMLAttributes<HTMLInputElement>
+>;
+
+interface IEditableLabelProps extends EditableLabelAttributes {
   initialValue: string;
   onSave: (value: string) => void;
 }
