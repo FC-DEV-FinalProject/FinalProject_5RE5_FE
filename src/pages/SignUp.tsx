@@ -78,10 +78,10 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    <div className="px-4 py-20 mx-auto w-[1280px]">
+    <div className="px-4 py-20 mx-auto w-[800px]">
       <h2 className="mb-2 text-[36px] font-bold text-center">회원가입</h2>
       <h4 className="mb-10 text-center text-l">이미 계정이 있으신가요? 
-        <Link to="/signin"><span className="font-bold"> 로그인</span> 화면으로 이동</Link>
+        <Link to="/signin"><span className="font-bold text-blue-3"> 로그인</span> 화면으로 이동</Link>
       </h4>
       <form className="space-y-4" onSubmit={handleSubmit}>
         <FormField 
@@ -107,7 +107,7 @@ const SignUp: React.FC = () => {
             />
             <Button 
               type="button"
-              variant="green"
+              variant="secondary"
               onClick={handleEmailVerification}
               disabled={emailVerified}
             >
@@ -130,7 +130,7 @@ const SignUp: React.FC = () => {
             />
             <Button 
               type="button" 
-              variant="green"
+              variant="secondary"
               onClick={verifyEmailCode}
               disabled={emailVerified}
             >
@@ -205,7 +205,7 @@ const SignUp: React.FC = () => {
           onAllChange={handleAllTermsChange}
         />
 
-        <Button type="submit" variant="outline" className="w-full py-5 rounded-3xl">가입하기</Button>
+        <Button type="submit" variant="green" className="w-full py-5 rounded-3xl">가입하기</Button>
       </form>
     </div>
   );  
