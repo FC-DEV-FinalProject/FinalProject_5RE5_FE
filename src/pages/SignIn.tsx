@@ -71,7 +71,7 @@ const SignIn = () => {
   return (
     <div className='flex login-wrap min-w-[1280px] h-screen min-h-[600px] border-box'>
       <div className='w-[53%] bg-blue-2 relative flex justify-end'>
-        <div className='w-full max-w-[800px] border-box pt-8 pl-10'>
+        <div className='w-full max-w-[800px] border-box pt-8'>
           <h1 className='w-[108px] h-[23px]'>
             <Link to='/'>
               <img src={Logo} alt='' />
@@ -81,7 +81,7 @@ const SignIn = () => {
         </div>
       </div>
 
-      <div className='w-[47%] flex justify-center'>
+      <div className='w-[47%] flex justify-end bg-white'>
         <div className='w-[500px] mt-[240px] flex flex-col items-stretch gap-5'>
           <p className='text-[36px] text-center'>시작하기</p>
           <div>

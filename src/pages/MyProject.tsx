@@ -1,7 +1,4 @@
-import ListView, {
-  IListViewProps,
-  ViewOptionType,
-} from '@/components/common/ListView';
+import ListView, { IListViewProps } from '@/components/common/ListView';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -10,16 +7,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { PROJECT_DATA, PROJECT_DATA2 } from '@/mocks/projectData';
+import { PROJECT_DATA } from '@/mocks/projectData';
 import { useCheckedStore } from '@/stores/checkedStore';
 import { useEffect, useState } from 'react';
-import dayjs from 'dayjs';
 import { IProjectProps } from '@/types/project';
-import DividingLine from '@/components/common/DividingLine';
+import DivideLine from '@/components/common/DivideLine';
+import { removeProject } from '@/apis/project';
 
 const MyProject = ({
   option = 'list',
-  data = PROJECT_DATA2,
+  data = PROJECT_DATA,
 }: Omit<IListViewProps, 'navi'>) => {
   const [orderValue, setOrderValue] = useState<string>('');
   const { checkedList } = useCheckedStore();
@@ -32,9 +29,16 @@ const MyProject = ({
   };
 
   const handleButton = {
-    remove: () => {
+    remove: async () => {
       // api 호출
-      alert(`${checkedList} 삭제요청`);
+      console.log(`${checkedList} 삭제요청`);
+      try {
+        await Promise.all(checkedList.map((item) => removeProject(item)));
+        alert('선택한 프로젝트가 성공적으로 삭제되었습니다.');
+      } catch (error) {
+        console.error('프로젝트 삭제 중 오류 발생:', error);
+        alert('프로젝트 삭제 중 오류가 발생했습니다.');
+      }
     },
   };
 
@@ -77,7 +81,7 @@ const MyProject = ({
           </div>
         </header>
       </div>
-      <DividingLine />
+      <DivideLine />
       <div className='w-[100%] m-5'>
         <div className='flex justify-between'>
           <div className='selectDiv'>
