@@ -69,7 +69,7 @@ const ProjectLayout = () => {
     <div className='max-w-[1280px] mx-auto'>
       <div className='flex flex-col h-screen'>
         {/* 헤더 */}
-        <Header projectTab={true} />
+        <Header projectTab={false} />
 
         <div className='flex overflow-hidden grow'>
           {/* 좌측 사이드바 */}

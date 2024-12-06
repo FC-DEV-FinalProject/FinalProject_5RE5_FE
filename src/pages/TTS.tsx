@@ -22,6 +22,7 @@ const TTS: React.FC = () => {
     cancelEdit,
     isAllSelected,
     editingId,
+    resetInputSettings,
   } = useTextInputs();
 
   useOutsideClick(containerRef, () => {
@@ -64,6 +65,7 @@ const TTS: React.FC = () => {
         addTextInput={addTextInput}
         saveInput={saveInput}
         onSelectionChange={(selectedCount, totalCount) => {}}
+        resetInputSettings={resetInputSettings}
       />
     </div>
   );
