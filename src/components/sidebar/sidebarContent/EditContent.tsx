@@ -217,16 +217,18 @@ const EditContent = () => {
       {/* 하단 버튼 */}
       <div className='flex flex-col gap-4'>
         <Button
-          className='w-full text-white bg-black'
+          className='w-full'
           onClick={handlePreview}
           disabled={isPreviewLoading}
+          variant={'green'}
         >
           미리 듣기
         </Button>
         <Button
-          className='w-full text-white bg-black'
+          className='w-full'
           onClick={handleApply}
           disabled={isApplyLoading}
+          variant={'green'}
         >
           적용하기
         </Button>

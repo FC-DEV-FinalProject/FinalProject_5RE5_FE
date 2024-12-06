@@ -65,7 +65,7 @@ const ProjectLayout = () => {
 
       <div className='flex overflow-hidden grow'>
         {/* 좌측 사이드바 */}
-        <aside className='p-4 w-[90px] flex-none border-r border-gray-200'>
+        <aside className='p-2 w-[90px] flex-none border-r border-gray-200'>
           <ul>
             <li className='mb-2'>
               <ProjectIconMenu

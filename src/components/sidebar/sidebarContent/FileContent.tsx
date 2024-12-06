@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { CircularProgress } from '@/components/ui/CircularProgress';
 import { useTextInputs } from '@/stores/textInputStore';
+import { UploadIcon } from 'lucide-react';
 
 interface IFileStatus {
   name: string;
@@ -112,8 +113,10 @@ export const FileContent: React.FC<IFileContentProps> = ({
         <div className='pb-4 border-b'>
           <Button
             className='w-full'
+            variant={'outline'}
             onClick={() => document.getElementById('file-upload')?.click()}
           >
+            <UploadIcon />
             텍스트 파일추가
           </Button>
         </div>
