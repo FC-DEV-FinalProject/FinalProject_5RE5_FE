@@ -12,6 +12,9 @@ const Layout = () => {
         background: 'linear-gradient(to right, #D6EEFE 50%, #fff 50%)',
       });
     }
+    return () => {
+      setStyle(null);
+    };
   }, [path]);
 
   return (
