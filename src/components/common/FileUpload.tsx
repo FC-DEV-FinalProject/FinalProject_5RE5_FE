@@ -117,13 +117,18 @@ const FileUpload: React.FC<IFileUploadProps> = ({
                       >
                         {file.name}
                       </span>
-                      <Badge
+                      {/* <Badge
                         className='w-1/4 px-2 text-center'
                         variant={'outline'}
                       >
                         <CircleIcon size={8} fill='green' />
-                        &nbsp;완료
-                      </Badge>
+                      </Badge> */}
+                      <div>
+                        <span
+                          className={`mr-2 w-3 h-3 rounded-full bg-blue-500`}
+                        />
+                        <span>완료</span>
+                      </div>
                     </div>
                   </li>
                 ))

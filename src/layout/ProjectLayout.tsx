@@ -7,6 +7,11 @@ import {
   ChevronUp,
   CombineIcon,
   MicIcon,
+  Pause,
+  Play,
+  SkipBack,
+  SkipForward,
+  Square,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
@@ -58,6 +63,8 @@ const ProjectLayout = () => {
       ContentComponent = <div>프로젝트 생성하세요!</div>;
   }
 
+  const [isPlay, setIsPlay] = useState<boolean>(false);
+
   return (
     <div className='flex flex-col h-screen'>
       {/* 헤더 */}
@@ -65,8 +72,8 @@ const ProjectLayout = () => {
 
       <div className='flex overflow-hidden grow'>
         {/* 좌측 사이드바 */}
-        <aside className='p-2 w-[90px] flex-none border-r border-gray-200'>
-          <ul>
+        <aside className='p-2 w-[90px] flex-none border-r border-gray-200 gap-4'>
+          <ul className='flex flex-col gap-4'>
             <li className='mb-2'>
               <ProjectIconMenu
                 linkTo={`${ROUTES.PROJECT}${ROUTES.TTS}/${projectId}`}
@@ -115,19 +122,57 @@ const ProjectLayout = () => {
       {/* 푸터 */}
       <footer
         className={`flex flex-none items-center justify-center relative ${
-          isFooterExpanded ? 'h-[310px]' : 'h-[114px]'
+          isFooterExpanded ? 'h-[310px]' : 'h-[100px]'
         } text-white border-t  transition-all duration-300`}
       >
         {/* 재생 버튼 텍스트 */}
-        <p className='text-lg text-black'>재생 버튼 들어갈곳</p>
+        <div>
+          <div className='flex gap-10'>
+            <Button variant={'ghost'}>
+              <SkipBack color='black' fill='black' />
+            </Button>
+            <Button
+              variant={'ghost'}
+              onClick={() => {
+                setIsPlay(false);
+              }}
+            >
+              <Square color='black' fill='black' />
+            </Button>
+
+            {isPlay ? (
+              <Button
+                variant={'ghost'}
+                onClick={() => {
+                  setIsPlay(false);
+                }}
+              >
+                <Pause color='black' fill='black' />
+              </Button>
+            ) : (
+              <Button
+                variant={'ghost'}
+                onClick={() => {
+                  setIsPlay(true);
+                }}
+              >
+                <Play color='black' fill='black' />
+              </Button>
+            )}
+
+            <Button variant={'ghost'}>
+              <SkipForward color='black' fill='black' />
+            </Button>
+          </div>
+        </div>
 
         {/* 아이콘 버튼 */}
-        <button
+        {/* <button
           onClick={toggleFooter}
           className='absolute bg-gray-600 rounded right-10 hover:bg-gray-700'
         >
           {isFooterExpanded ? <ChevronDown /> : <ChevronUp />}
-        </button>
+        </button> */}
       </footer>
     </div>
   );
