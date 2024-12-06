@@ -63,7 +63,7 @@ const TTS: React.FC = () => {
 
   return (
     <div 
-      className='container p-4 h-[calc(100vh-170px)] w-full overflow-y-auto' 
+      className='container w-full p-4' 
       ref={containerRef}
     >
       <TTSHeader

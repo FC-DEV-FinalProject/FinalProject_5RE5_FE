@@ -62,7 +62,18 @@ export const FileContent: React.FC<IFileContentProps> = ({
             }
 
             // 문장 추가
-            addTextInputs(sentences.slice(0, 30));
+            // addTextInputs(sentences.slice(0, 30));
+            const textInputs = sentences.slice(0, 30).map((sentence, index) => ({
+              id: index + 1, // 임시 ID 할당
+              text: sentence,
+              isSelected: false,
+              isEditing: false,
+              speed: 1,
+              pitch: 0,
+              volume: 0,
+              voice: '',
+            }));
+            addTextInputs(textInputs);
 
             // 업로드 완료된 파일 상태 업데이트
             setAllFiles((prev) =>
