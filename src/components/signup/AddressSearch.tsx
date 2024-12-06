@@ -49,7 +49,7 @@ export const AddressSearch: React.FC<AddressSearchProps> = ({
         <Label>주소</Label>
         <div className="flex space-x-2">
           <Input type="text" value={address} readOnly placeholder="주소 검색을 클릭하세요" />
-          <Button type="button" onClick={() => setIsOpen(true)}>주소 검색</Button>
+          <Button type="button" variant="secondary" onClick={() => setIsOpen(true)}>주소 검색</Button>
         </div>
       </div>
 
@@ -61,7 +61,7 @@ export const AddressSearch: React.FC<AddressSearchProps> = ({
               autoClose={false}
               style={{ width: '500px', height: '600px' }}
             />
-            <Button onClick={onClose} className="mt-4">닫기</Button>
+            <div className="mt-4 text-center"><Button variant="secondary" onClick={onClose}>닫기</Button></div>
           </div>
         </div>
       )}
