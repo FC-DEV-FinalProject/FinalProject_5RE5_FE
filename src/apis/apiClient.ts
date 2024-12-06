@@ -22,14 +22,11 @@ type TApiResponse<T> =
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
-  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
   withCredentials: true,
 });
-
-apiClient.interceptors.response.use(({ data }) => data);
 
 export const apiRequest = {
   get: <T>(...args: Parameters<Axios['get']>): Promise<TApiResponse<T>> =>

@@ -4,13 +4,29 @@ import JSZipUtils from 'jszip-utils';
 import { IVcFileProps } from '@/pages/VC';
 
 export const downloadFile = async (url: string, filename: string) => {
-  const response = await fetch(url);
-  const blob = await response.blob();
-  const link = document.createElement('a');
-  link.href = window.URL.createObjectURL(blob);
-  link.download = filename;
-  link.click();
-  URL.revokeObjectURL(link.href);
+  if (!url || !filename) {
+    throw new Error('URL과 파일명은 필수값입니다.');
+  }
+  let objectUrl: string | null = null;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`파일 다운로드 실패: ${response.status}`);
+    }
+    const blob = await response.blob();
+    const link = document.createElement('a');
+    objectUrl = window.URL.createObjectURL(blob);
+    link.href = objectUrl;
+    link.download = filename;
+    link.click();
+  } catch (error) {
+    console.error('파일 다운로드 중 오류 발생:', error);
+    throw error;
+  } finally {
+    if (objectUrl) {
+      URL.revokeObjectURL(objectUrl);
+    }
+  }
 };
 
 /**

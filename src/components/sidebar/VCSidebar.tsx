@@ -1,5 +1,5 @@
 import { createVc } from '@/apis/vc';
-import DivideLine from '@/components/common/DividingLine';
+import DivideLine from '@/components/common/DivideLine';
 import FileUpload from '@/components/common/FileUpload';
 import { Button } from '@/components/ui/button';
 import { OneVcState, useVcStore } from '@/stores/vcDataStore';

@@ -11,7 +11,7 @@ import { PROJECT_DATA } from '@/mocks/projectData';
 import { useCheckedStore } from '@/stores/checkedStore';
 import { useEffect, useState } from 'react';
 import { IProjectProps } from '@/types/project';
-import DivideLine from '@/components/common/DividingLine';
+import DivideLine from '@/components/common/DivideLine';
 import { removeProject } from '@/apis/project';
 
 const MyProject = ({
@@ -29,12 +29,16 @@ const MyProject = ({
   };
 
   const handleButton = {
-    remove: () => {
+    remove: async () => {
       // api 호출
-      alert(`${checkedList} 삭제요청`);
-      checkedList.map((item) => {
-        const a = removeProject(item);
-      });
+      console.log(`${checkedList} 삭제요청`);
+      try {
+        await Promise.all(checkedList.map((item) => removeProject(item)));
+        alert('선택한 프로젝트가 성공적으로 삭제되었습니다.');
+      } catch (error) {
+        console.error('프로젝트 삭제 중 오류 발생:', error);
+        alert('프로젝트 삭제 중 오류가 발생했습니다.');
+      }
     },
   };
 

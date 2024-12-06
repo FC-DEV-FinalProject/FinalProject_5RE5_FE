@@ -19,16 +19,12 @@ interface IVCProps<T = {}> {
   fileData?: T;
 }
 
-export interface IVcDataResponse {}
-
 /**
  * 프로젝트 vc 전체 행 조회
  */
 export const getVcList = async ({ projectSeq }: IVCProps) => {
   try {
-    const response = await apiRequest.get<IVcDataResponse>(
-      APIURL_VC.GET_VC_LIST(projectSeq)
-    );
+    const response = await apiRequest.get(APIURL_VC.GET_VC_LIST(projectSeq));
 
     if (response.code !== 200)
       throw new Error(`${response.code}, ${response.message}`);

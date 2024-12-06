@@ -39,13 +39,18 @@ const VC = () => {
     .filter((oneVc) => oneVc.isSelected).length;
 
   const handler = {
-    onSave: () => {
+    onSave: async () => {
       alert('save: ' + projectName);
       // 1. 프로젝트 저장
-      saveProject({
-        projectSeq: Number(projectId),
-        projectName,
-      });
+      try {
+        await saveProject({
+          projectSeq: Number(projectId),
+          projectName,
+        });
+        alert('프로젝트가 성공적으로 저장되었습니다.');
+      } catch (error) {
+        alert('프로젝트 저장 중 오류가 발생했습니다.');
+      }
       // 2. srg파일 저장
 
       // 3. trg파일 저장

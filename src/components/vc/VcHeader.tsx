@@ -36,9 +36,11 @@ export const VcHeader: React.FC<VcHeaderProps> = ({
           title={projectName}
           ref={inputRef}
           className='w-1/2 text-xl border-none shadow-none'
+          aria-label='프로젝트 이름'
+          placeholder='프로젝트 이름을 입력하세요'
         />
         <Pencil
-          className='cursor-pointer hover:'
+          className='cursor-pointer'
           onClick={() => {
             inputRef.current?.focus();
           }}

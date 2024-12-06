@@ -1,5 +1,5 @@
 import { getProjectList } from '@/apis/project';
-import DivideLine from '@/components/common/DividingLine';
+import DivideLine from '@/components/common/DivideLine';
 import ListView from '@/components/common/ListView';
 import { PROJECT_DATA } from '@/mocks/projectData';
 import MyProject from '@/pages/MyProject';

@@ -1,5 +1,5 @@
 import { apiRequest } from '@/apis/apiClient';
-import { useAuthStore } from '@/stores/authStore';
+import useAuthStore from '@/stores/authStore';
 
 const APIURL_PROJECT = {
   GET_PROJECT_LIST: `/project`,
