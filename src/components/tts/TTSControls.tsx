@@ -8,6 +8,9 @@ interface TTSControlsProps {
   state: TTSState;
   toggleAllSelection: () => void;
   deleteSelectedInputs: () => void;
+  addTextInput: (hoveredId: number) => void;
+  saveInput: () => void;
+  cancelEdit: () => void;
   selectedCount: number;
   totalCount: number;
 }

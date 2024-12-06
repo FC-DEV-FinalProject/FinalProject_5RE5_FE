@@ -1,10 +1,9 @@
-import { fetchTTSList } from '@/apis/ttsList';
 import { TTSControls } from '@/components/tts/TTSControls';
 import { TTSHeader } from '@/components/tts/TTSHeader';
 import { TextInputList } from '@/components/tts/TextInputList';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { useTextInputs } from '@/stores/textInputStore';
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
 const TTS: React.FC = () => {
@@ -23,7 +22,6 @@ const TTS: React.FC = () => {
     cancelEdit,
     isAllSelected,
     editingId,
-    addTextInputs,
   } = useTextInputs();
 
   useOutsideClick(containerRef, () => {
@@ -37,29 +35,6 @@ const TTS: React.FC = () => {
   };
 
   const selectedCount = textInputs.filter((input) => input.isSelected).length;
-
-  useEffect(() => {
-    const fetchProjectData = async () => {
-      if (!projectId) return;
-      try {
-        const sentenceList = await fetchTTSList(projectId);
-        const texts = sentenceList.map((item) => ({
-          id: item.sentence.tsSeq,
-          text: item.sentence.text,
-          isSelected: false,
-          isEditing: false,
-          speed: item.sentence.ttsAttributeInfo.speed,
-          pitch: item.sentence.ttsAttributeInfo.stPitch,
-          volume: item.sentence.ttsAttributeInfo.volume,
-          voice: `Voice ${item.sentence.voiceSeq}`,
-        }));
-        addTextInputs(texts);
-      } catch (error) {
-        console.error('Error fetching project data:', error);
-      }
-    };
-    fetchProjectData();
-  }, [projectId, addTextInputs]);
 
   return (
     <div 
@@ -75,6 +50,9 @@ const TTS: React.FC = () => {
         state={{ textInputs, editingId, isAllSelected }}
         toggleAllSelection={toggleAllSelection}
         deleteSelectedInputs={deleteSelectedInputs}
+        addTextInput={addTextInput}
+        saveInput={saveInput}
+        cancelEdit={cancelEdit}
         selectedCount={selectedCount}
         totalCount={textInputs.length}
       />
