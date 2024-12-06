@@ -3,41 +3,43 @@ import ConcatTextWrap from '@/components/concat/ConcatTextWrap';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useConcatCheckboxStore } from '@/stores/concatCheckboxStore';
-import { useState } from 'react';
+import { useConcatStore } from '@/stores/concatStore';
+import { IConcatdata } from '@/types/concat';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-const datas = [
-  {
-    id: 'src1',
-    text: 'src1',
-    dndId: 'dnd1',
-  },
-  {
-    id: 'src2',
-    text: 'src2',
-    dndId: 'dnd2',
-  },
-  {
-    id: 'src3',
-    text: 'src3',
-    dndId: 'dnd3',
-  },
-  {
-    id: 'src4',
-    text: 'src4',
-    dndId: 'dnd4',
-  },
-  {
-    id: 'src5',
-    text: 'src5',
-    dndId: 'dnd5',
-  },
-  {
-    id: 'src6',
-    text: 'src6',
-    dndId: 'dnd6',
-  },
-];
+// const datas: IConcatdata[] = [
+//   {
+//     id: 'src1',
+//     text: 'src1',
+//     dndId: 'dnd1',
+//   },
+//   {
+//     id: 'src2',
+//     text: 'src2',
+//     dndId: 'dnd2',
+//   },
+//   {
+//     id: 'src3',
+//     text: 'src3',
+//     dndId: 'dnd3',
+//   },
+//   {
+//     id: 'src4',
+//     text: 'src4',
+//     dndId: 'dnd4',
+//   },
+//   {
+//     id: 'src5',
+//     text: 'src5',
+//     dndId: 'dnd5',
+//   },
+//   {
+//     id: 'src6',
+//     text: 'src6',
+//     dndId: 'dnd6',
+//   },
+// ];
 
 const Concat = () => {
   const { projectId } = useParams<{ projectId: string }>();
@@ -45,8 +47,11 @@ const Concat = () => {
   const handleProjectNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProjectName(e.target.value);
   };
+  const datas = useConcatStore((state) => state.datas);
+  console.log(datas);
 
   const { selectedItems, selectAll, clearAll } = useConcatCheckboxStore();
+
   const isAllSelected = selectedItems.length === datas.length;
 
   return (

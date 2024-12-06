@@ -1,11 +1,18 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { ConcatFileContent } from '@/components/sidebar/sidebarContent/ConcatFileContet';
+
+interface IFileStatus {
+  name: string;
+  status: '완료' | '오류';
+}
 
 const ConcatSidebar = () => {
   const [activeTab, setActiveTab] = useState<'file' | 'edit'>('file');
+  const [allFiles, setAllFiles] = useState<IFileStatus[]>([]); // 전체 업로드 시도된 파일 리스트
+  const [uploadedFiles, setUploadedFiles] = useState<string[]>([]); // 업로드 완료된 파일 리스트
+  const [uploadingCount, setUploadingCount] = useState<number>(0); // 현재 업로드 중인 파일 개수
 
   return (
     <>
@@ -26,52 +33,14 @@ const ConcatSidebar = () => {
         </Button>
       </div>
       {activeTab === 'file' ? (
-        <div className='flex flex-col justify-between h-full'>
-          <div>
-            <div>
-              <p className='mb-4'>편집 오디오</p>
-              <Button className='w-full' size='sm'>
-                오디오 파일 추가
-              </Button>
-              <ScrollArea className='h-24 my-2'>
-                <ul className='px-2'>
-                  <li>test.wav</li>
-                  <li>asdfdf.wav</li>
-                  <li>test.wav</li>
-                  <li>asdfdf.wav</li>
-                  <li>test.wav</li>
-                  <li>asdfdf.wav</li>
-                  <li>asdfdf.wav</li>
-                  <li>test.wav</li>
-                </ul>
-                <ScrollBar forceMount orientation='vertical' />
-              </ScrollArea>
-            </div>
-
-            <Separator className='my-3' />
-            <div>
-              <p className='mb-4 text-md'>텍스트</p>
-              <Button className='w-full' size='sm'>
-                텍스트 파일 추가
-              </Button>
-            </div>
-
-            <Separator className='my-3' />
-
-            <div>
-              <p className='mb-4 text-md'>배경 오디오</p>
-              <Button className='w-full' size='sm'>
-                배경 오디오 추가
-              </Button>
-              <ul className='mt-3 text-sm'>
-                <li>asdfsd.mp3</li>
-              </ul>
-            </div>
-          </div>
-          <Button size='lg' variant={'green'}>
-            생성하기
-          </Button>
-        </div>
+        <ConcatFileContent
+          allFiles={allFiles}
+          setAllFiles={setAllFiles}
+          uploadedFiles={uploadedFiles}
+          setUploadedFiles={setUploadedFiles}
+          uploadingCount={uploadingCount}
+          setUploadingCount={setUploadingCount}
+        />
       ) : (
         <>
           <p className='mb-4 text-sm'>무음 추가</p>
