@@ -17,7 +17,7 @@ interface TextInputListProps {
   editingId: number | null;
   onSelectionChange: (selectedCount: number, totalCount: number) => void;
   resetInputSettings: (id: number) => void;
-  ttsFileCreate: () => void;
+  ttsFileCreate: (id: number) => void; // id를 인자로 받도록 수정
 }
 
 export const TextInputList: React.FC<TextInputListProps> = ({
@@ -129,7 +129,7 @@ export const TextInputList: React.FC<TextInputListProps> = ({
                   variant='outline'
                   className='text-green-400 border-green-400 hover:bg-green-400 hover:text-white'
                   size='sm'
-                  onClick={ttsFileCreate}
+                  onClick={() => ttsFileCreate(input.id)} // 클릭 시 input.id를 전달
                 >
                   <Repeat2 />
                   TTS 생성

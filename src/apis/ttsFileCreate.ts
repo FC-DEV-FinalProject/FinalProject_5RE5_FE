@@ -1,7 +1,7 @@
 import apiClient from '@/apis/apiClient';
 import useAuthStore from '@/stores/authStore';
 
-export const ttsFileCreate = async (projectId: string) => {
+export const ttsFileCreate = async (projectId: string, textInputId: number) => {
   try {
     const { userData } = useAuthStore.getState();
 
@@ -14,12 +14,13 @@ export const ttsFileCreate = async (projectId: string) => {
     const { seq: memberSeq } = userData;
 
     const response = await apiClient.get(
-      `/project/${projectId}/tts/sentence/187/maketts?memberSeq=${memberSeq}`
+      `/project/${projectId}/tts/sentence/${textInputId}/maketts?memberSeq=${memberSeq}`
     );
 
     console.log(response.data);
     return response.data;
   } catch (error) {
-    throw new Error('TTS파일 생성에 실패했습니다.');
+    console.error(error);
+    throw new Error('TTS 파일 생성에 실패했습니다.');
   }
 };

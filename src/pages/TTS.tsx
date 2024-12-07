@@ -44,7 +44,6 @@ const TTS: React.FC = () => {
       if (!projectId) return;
       try {
         const ttsData = await ttsCall(projectId);
-        console.log(ttsData.response.sentenceList);
 
         if (ttsData?.response?.sentenceList) {
           const transformedInputs = ttsData.response.sentenceList.map(
@@ -139,7 +138,9 @@ const TTS: React.FC = () => {
         saveInput={saveInput}
         onSelectionChange={(selectedCount, totalCount) => {}}
         resetInputSettings={resetInputSettings}
-        ttsFileCreate={() => ttsFileCreate(projectId || '')}
+        ttsFileCreate={(textInputId: number) =>
+          ttsFileCreate(projectId || '', textInputId)
+        } // 수정
       />
     </div>
   );
