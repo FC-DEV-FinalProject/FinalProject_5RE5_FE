@@ -19,6 +19,7 @@ interface ExtendedTTSState extends TTSState {
 interface TTSStore extends ExtendedTTSState {
   addTextInput: (hoveredId: number) => void;
   addTextInputs: (texts: string[]) => void;
+  fetchTextInputs: (inputs: ExtendedTTSState['textInputs']) => void;
   handleTextChange: (id: number, newText: string) => void;
   toggleSelection: (id: number) => void;
   toggleAllSelection: () => void;
@@ -111,7 +112,7 @@ export const useTextInputs = create<TTSStore>((set) => ({
         ...state.textInputs,
         ...texts.map((text, index) => ({
           id: state.textInputs.length + index + 1,
-          text: text.trim(),
+          text: text,
           isSelected: false,
           isEditing: false,
           speed: 1,
@@ -121,6 +122,21 @@ export const useTextInputs = create<TTSStore>((set) => ({
           voiceSeq: 0,
         })),
       ],
+    })),
+
+  fetchTextInputs: (inputs) =>
+    set(() => ({
+      textInputs: inputs.map((input) => ({
+        id: input.id,
+        text: input.text || '',
+        isSelected: input.isSelected || false,
+        isEditing: input.isEditing || false,
+        speed: input.speed || 1,
+        pitch: input.pitch || 0,
+        volume: input.volume || 0,
+        voice: input.voice || '',
+        voiceSeq: input.voiceSeq || 0,
+      })),
     })),
 
   handleTextChange: (id, newText) =>
