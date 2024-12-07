@@ -12,8 +12,8 @@ const EditContent = () => {
   //로컬 상태
   const [localSpeed, setLocalSpeed] = useState(1);
   const [localSliders, setLocalSliders] = useState([
-    { id: 'pitch', value: 0.0, min: -10.0, max: 10.0, label: '음높이' },
-    { id: 'volume', value: 0.0, min: -10.0, max: 10.0, label: '음량' },
+    { id: 'pitch', value: 1.0, min: 0.0, max: 2.0, label: '음높이' },
+    { id: 'volume', value: 1.0, min: 0.0, max: 2.0, label: '음량' },
   ]);
   const [localVoices, setLocalVoices] = useState<string | null>('');
   const [localVoiceSeq, setLocalVoiceSeq] = useState<number | null>(null);
