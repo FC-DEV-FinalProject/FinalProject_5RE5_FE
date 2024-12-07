@@ -1,3 +1,4 @@
+// TTS 컴포넌트
 import { ttsCall } from '@/apis/ttsCall';
 import { ttsSave } from '@/apis/ttsSave';
 import { TTSControls } from '@/components/tts/TTSControls';
@@ -16,7 +17,6 @@ const TTS: React.FC = () => {
   const {
     textInputs,
     addTextInput,
-    addTextInputs,
     fetchTextInputs,
     handleTextChange,
     toggleSelection,
@@ -27,6 +27,7 @@ const TTS: React.FC = () => {
     isAllSelected,
     editingId,
     resetInputSettings,
+    getChanges,
   } = useTextInputs();
 
   useOutsideClick(containerRef, () => {
@@ -60,7 +61,6 @@ const TTS: React.FC = () => {
             })
           );
 
-          // fetchTextInputs 호출
           fetchTextInputs(transformedInputs);
         }
       } catch (error) {
@@ -75,6 +75,28 @@ const TTS: React.FC = () => {
     setProjectName(e.target.value);
   };
 
+  const handleSave = async () => {
+    const { added, deleted, updated } = getChanges();
+
+    try {
+      if (added.length > 0) {
+        await ttsSave(projectId || '', 'CREATE', added);
+      }
+
+      if (deleted.length > 0) {
+        await ttsSave(projectId || '', 'DELETE', deleted);
+      }
+
+      if (updated.length > 0) {
+        await ttsSave(projectId || '', 'UPDATE', updated);
+      }
+
+      console.log('Changes saved successfully!');
+    } catch (error) {
+      console.error('Error saving changes:', error);
+    }
+  };
+
   const selectedCount = textInputs.filter((input) => input.isSelected).length;
 
   return (
@@ -82,7 +104,7 @@ const TTS: React.FC = () => {
       <TTSHeader
         projectName={projectName}
         onProjectNameChange={handleProjectNameChange}
-        ttsSave={() => ttsSave(projectId || '')}
+        ttsSave={handleSave}
       />
 
       <TTSControls
