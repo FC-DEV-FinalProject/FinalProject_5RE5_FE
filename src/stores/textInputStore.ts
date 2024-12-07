@@ -1,4 +1,3 @@
-// Zustand Store 설정
 import { create } from 'zustand';
 import { TTSState } from '@/types/tts';
 
@@ -48,7 +47,19 @@ interface TTSStore extends ExtendedTTSState {
 }
 
 export const useTextInputs = create<TTSStore>((set, get) => ({
-  textInputs: [],
+  textInputs: [
+    {
+      id: 1,
+      text: '',
+      isSelected: false,
+      isEditing: false,
+      speed: 1,
+      pitch: 0,
+      volume: 0,
+      voice: '',
+      voiceSeq: 0,
+    },
+  ],
   originalTextInputs: [],
   isAllSelected: false,
   editingId: null,
@@ -123,10 +134,22 @@ export const useTextInputs = create<TTSStore>((set, get) => ({
 
   fetchTextInputs: (inputs) =>
     set(() => ({
-      textInputs: inputs.map((input) => ({
-        ...input,
-        isEditing: false,
-      })),
+      textInputs:
+        inputs.length > 0
+          ? inputs.map((input) => ({ ...input, isEditing: false }))
+          : [
+              {
+                id: 1,
+                text: '',
+                isSelected: false,
+                isEditing: false,
+                speed: 1,
+                pitch: 0,
+                volume: 0,
+                voice: '',
+                voiceSeq: 0,
+              },
+            ],
       originalTextInputs: inputs,
     })),
 
