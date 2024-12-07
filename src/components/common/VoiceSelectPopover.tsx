@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/popover';
 import { ChevronDown } from 'lucide-react';
 import { ttsLanguage, ttsStyle, ttsVoiceName } from '@/apis/ttsVoice';
+import { toast } from '@/hooks/use-toast';
 
 interface Language {
   languageCode: string;
@@ -138,7 +139,11 @@ export const VoiceSelectionPopover: React.FC<VoiceSelectionPopoverProps> = ({
 
   const handlePopoverOpen = () => {
     if (hasError) {
-      alert('언어 데이터를 가져오는 데 실패했습니다. 다시 시도해주세요.');
+      toast({
+        title: '언어 데이터를 가져오는 데 실패했습니다. 다시 시도해주세요.',
+        variant: 'destructive',
+      });
+
       return;
     }
     setIsPopoverOpen(true);

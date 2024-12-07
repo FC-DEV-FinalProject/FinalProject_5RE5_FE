@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import TextSlide from '@/components/login/TextSlide';
 import { validateLoginForm } from '@/utils/auth';
 import Logo from '@/assets/logo.png';
+import { toast } from '@/hooks/use-toast';
 
 interface ILoginForm {
   username: string;
@@ -58,7 +59,11 @@ const SignIn = () => {
         setLoginError(true);
       } else {
         console.error(error.message);
-        alert('예기치 못한 오류발생');
+        // alert('예기치 못한 오류발생');
+        toast({
+          title: '예기치 못한 오류발생',
+          variant: 'destructive',
+        });
       }
       resetError();
     }
@@ -172,7 +177,8 @@ const SignIn = () => {
 
           <ul className='text-[#999] text-sm mx-auto flex max-w-[300px] gap-7'>
             <li className='after:content-["|"] after:absolute after:right-[-15px] after:top-[-1px] relative after:text-[#d9d9d9]'>
-              <Link to='/reset-password'>비밀번호 찾기</Link>
+              {/* <Link to='/reset-password'>비밀번호 찾기</Link> */}
+              <p className='cursor-pointer'>비밀번호 찾기</p>
             </li>
             <li className='after:content-["|"] after:absolute after:right-[-15px] after:top-[-1px] relative after:text-[#d9d9d9]'>
               <Link to=''>아이디 찾기</Link>

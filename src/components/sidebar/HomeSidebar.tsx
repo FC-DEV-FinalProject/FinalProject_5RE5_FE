@@ -19,7 +19,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import DividingLine from '@/components/common/DivideLine';
 import { ROUTES } from '@/constants/route';
 import { PROJECT_DATA } from '@/mocks/projectData';
 import { useState } from 'react';
@@ -28,6 +27,8 @@ import { Button } from '@/components/ui/button';
 import NewProjectButton from '@/components/common/NewProjectButton';
 import useLogout from '@/hooks/apis/useLogout';
 import useAuthStore from '@/stores/authStore';
+import { toast } from '@/hooks/use-toast';
+import DivideLine from '@/components/common/DivideLine';
 
 // Menu items.
 const Menus = [
@@ -58,7 +59,7 @@ export function HomeSidebar() {
 
   if (error) {
     console.error(error);
-    alert('로그아웃에 실패했습니다.');
+    toast({ title: '로그아웃에 실패했습니다', variant: 'destructive' });
     reset();
   }
 
@@ -104,7 +105,7 @@ export function HomeSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <DividingLine />
+        <DivideLine />
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -124,7 +125,7 @@ export function HomeSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <DividingLine />
+        <DivideLine />
         <SidebarGroup>
           <SidebarGroupLabel>최근 작업 프로젝트</SidebarGroupLabel>
           <SidebarGroupContent>

@@ -3,6 +3,7 @@ import { CustomCheckbox } from '@/components/common/CustomCheckbox';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
+import { toast } from '@/hooks/use-toast';
 import { OneVcState, useVcStore, VcState } from '@/stores/vcDataStore';
 import { downloadFile } from '@/utils/file';
 import { formatTime } from '@/utils/time';
@@ -38,9 +39,11 @@ const OneVc = ({ vcData }: IOneVcProps) => {
     },
     onDownload: async () => {
       try {
+        toast({ title: '다운로드 시작' });
         downloadFile(vcData.vcSrcFile.fileUrl, vcData.vcSrcFile.name);
       } catch (err) {
-        alert('파일 다운로드에 실패했습니다. 다시 시도해주세요.');
+        // alert('파일 다운로드에 실패했습니다. 다시 시도해주세요.');
+        toast({ title: '다운로드 실패', variant: 'destructive' });
       }
     },
     onCreateVc: (srcSeq: number, trgSeq: number) => {

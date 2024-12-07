@@ -23,7 +23,7 @@ const Home = () => {
     <div>
       <header className='flex items-center justify-between px-5 py-2'>
         <div className='text-left'>
-          <span>Home</span>
+          <span>홈</span>
         </div>
       </header>
       <DivideLine />

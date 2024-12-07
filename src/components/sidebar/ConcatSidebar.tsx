@@ -3,6 +3,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import {
+  AudioLines,
+  AudioLinesIcon,
+  Headphones,
+  UploadIcon,
+} from 'lucide-react';
 
 const ConcatSidebar = () => {
   const [activeTab, setActiveTab] = useState<'file' | 'edit'>('file');
@@ -30,7 +36,8 @@ const ConcatSidebar = () => {
           <div>
             <div>
               <p className='mb-4'>편집 오디오</p>
-              <Button className='w-full' size='sm'>
+              <Button className='w-full' size='sm' variant={'outline'}>
+                <Headphones />
                 오디오 파일 추가
               </Button>
               <ScrollArea className='h-24 my-2'>
@@ -51,7 +58,8 @@ const ConcatSidebar = () => {
             <Separator className='my-3' />
             <div>
               <p className='mb-4 text-md'>텍스트</p>
-              <Button className='w-full' size='sm'>
+              <Button className='w-full' size='sm' variant={'outline'}>
+                <UploadIcon />
                 텍스트 파일 추가
               </Button>
             </div>
@@ -60,8 +68,8 @@ const ConcatSidebar = () => {
 
             <div>
               <p className='mb-4 text-md'>배경 오디오</p>
-              <Button className='w-full' size='sm'>
-                배경 오디오 추가
+              <Button className='w-full' size='sm' variant={'outline'}>
+                <AudioLinesIcon /> 배경 오디오 추가
               </Button>
               <ul className='mt-3 text-sm'>
                 <li>asdfsd.mp3</li>
