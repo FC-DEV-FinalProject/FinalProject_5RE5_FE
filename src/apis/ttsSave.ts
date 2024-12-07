@@ -1,5 +1,6 @@
 import apiClient from '@/apis/apiClient';
 import useAuthStore from '@/stores/authStore';
+import { useTextInputs } from '@/stores/textInputStore';
 
 export const ttsSave = async (
   projectId: string,
@@ -17,28 +18,34 @@ export const ttsSave = async (
 
     const { seq: memberSeq } = userData;
 
+    // 최신 상태의 textInputs를 가져오기 위해 Zustand의 get() 사용
+    const { textInputs: storeTextInputs } = useTextInputs.getState();
+
     // `textInputs`를 기반으로 `sentenceList` 생성
-    const sentenceList = textInputs.map((input, index) => ({
-      batchProcessType, // 동적으로 작업 타입 설정
-      sentence: {
-        tsSeq: input.id,
-        voiceSeq: input.voiceSeq,
-        text: input.text,
-        order: index,
-        ttsAttributeInfo: {
-          volume: input.volume,
-          speed: input.speed,
-          stPitch: input.pitch,
-          emotion: 'neutral',
-          emotionStrength: 100,
-          sampleRate: 16000,
-          alpha: 0,
-          endPitch: input.pitch,
-          audioFormat: 'wav',
+    const sentenceList = textInputs.map((input) => {
+      const order = storeTextInputs.findIndex((item) => item.id === input.id); // 스토어에서의 인덱스 계산
+      return {
+        batchProcessType, // 동적으로 작업 타입 설정
+        sentence: {
+          tsSeq: input.id,
+          voiceSeq: input.voiceSeq,
+          text: input.text,
+          order, // 스토어 기반 index 사용
+          ttsAttributeInfo: {
+            volume: input.volume,
+            speed: input.speed,
+            stPitch: input.pitch,
+            emotion: 'neutral',
+            emotionStrength: 100,
+            sampleRate: 16000,
+            alpha: 0,
+            endPitch: input.pitch,
+            audioFormat: 'wav',
+          },
+          ttsAudioFileInfo: null,
         },
-        ttsAudioFileInfo: null,
-      },
-    }));
+      };
+    });
 
     const payload = { sentenceList };
 
