@@ -37,6 +37,10 @@ export const TextInputList: React.FC<TextInputListProps> = ({
     Record<number, boolean>
   >({});
 
+  const convertInternalToUser = (internalValue: number): number => {
+    return ((internalValue + 10) / 20) * (3 - 0.3) + 0.3; // -10~10 => 0.3~3
+  };
+
   const handleInputHover = (id: number, isHovered: boolean) => {
     setInputHoverStates((prevState) => ({ ...prevState, [id]: isHovered }));
   };
@@ -98,10 +102,10 @@ export const TextInputList: React.FC<TextInputListProps> = ({
                   size='sm'
                   className={`${input.volume ? 'bg-blue-100 font-bold' : ''}`}
                 >
-                  음량:{' '}
+                  음량:
                   {input.volume !== null && input.volume !== undefined
-                    ? input.volume.toFixed(1)
-                    : '0.0'}
+                    ? convertInternalToUser(input.volume).toFixed(1)
+                    : '0.3'}
                 </Button>
                 <Button
                   key={`${input.id}-speed`}

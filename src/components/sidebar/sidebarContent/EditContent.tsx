@@ -44,7 +44,11 @@ const EditContent = () => {
 
   const handleSliderChange = (id: string, value: number) => {
     setLocalSliders((prev) =>
-      prev.map((slider) => (slider.id === id ? { ...slider, value } : slider))
+      prev.map((slider) =>
+        slider.id === id
+          ? { ...slider, value: parseFloat(value.toFixed(2)) }
+          : slider
+      )
     );
   };
 
@@ -198,7 +202,8 @@ const EditContent = () => {
               onChange={(v) => handleSliderChange(slider.id, v[0])}
               min={slider.min}
               max={slider.max}
-              step={slider.id === 'volume' ? 1 : 0.1} //
+              step={slider.id === 'volume' ? 1 : 0.1} // step 조정
+              isVolume={slider.id === 'volume'} // volume인지 판단
             />
           ))}
         </div>

@@ -9,16 +9,32 @@ export const SliderControl = ({
   min,
   max,
   step,
+  isVolume,
 }: {
   label: string;
   value: number;
   onChange: (value: number[]) => void;
   min: number;
   max: number;
-  step: number; // step 값 추가
+  step: number;
+  isVolume?: boolean;
 }) => {
+  // 내부 값 -> 사용자 값 변환
+  const convertInternalToUser = (internalValue: number): number => {
+    if (!isVolume) return internalValue; // pitch일 경우 변환하지 않음
+    return ((internalValue + 10) / 20) * (3 - 0.3) + 0.3;
+  };
+
+  // 사용자 값 -> 내부 값 변환
+  const convertUserToInternal = (userValue: number): number => {
+    if (!isVolume) return userValue; // pitch일 경우 변환하지 않음
+    return Math.round(((userValue - 0.3) / (3 - 0.3)) * 20 - 10);
+  };
+
   const [isEditing, setIsEditing] = useState(false);
-  const [inputValue, setInputValue] = useState<string>(value.toString());
+  const [inputValue, setInputValue] = useState<string>(
+    convertInternalToUser(value).toFixed(isVolume ? 1 : 2)
+  );
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -28,11 +44,15 @@ export const SliderControl = ({
     const parsedValue = parseFloat(inputValue);
 
     if (!isNaN(parsedValue)) {
-      const adjustedValue = Math.min(Math.max(parsedValue, min), max);
-      onChange([adjustedValue]);
-      setInputValue(adjustedValue.toString());
+      const adjustedUserValue = Math.min(
+        Math.max(parsedValue, isVolume ? 0.3 : min),
+        isVolume ? 3 : max
+      );
+      const adjustedInternalValue = convertUserToInternal(adjustedUserValue);
+      onChange([adjustedInternalValue]);
+      setInputValue(adjustedUserValue.toFixed(isVolume ? 1 : 2));
     } else {
-      setInputValue(value.toString()); // 유효하지 않은 값일 경우 기존 값 복원
+      setInputValue(convertInternalToUser(value).toFixed(isVolume ? 1 : 2)); // 유효하지 않은 값일 경우 복원
     }
 
     setIsEditing(false);
@@ -49,21 +69,17 @@ export const SliderControl = ({
   };
 
   const handleIncrement = () => {
-    const newValue =
-      step === 1
-        ? Math.min(Math.max(Math.round(value + step), min), max) // 정수 1단위
-        : Math.min(Math.max(parseFloat((value + step).toFixed(1)), min), max); // 소수 0.1단위
-    onChange([newValue]);
-    setInputValue(newValue.toString());
+    const newInternalValue = Math.min(value + step, max);
+    const newUserValue = convertInternalToUser(newInternalValue);
+    onChange([newInternalValue]);
+    setInputValue(newUserValue.toFixed(isVolume ? 1 : 2));
   };
 
   const handleDecrement = () => {
-    const newValue =
-      step === 1
-        ? Math.min(Math.max(Math.round(value - step), min), max) // 정수 1단위
-        : Math.min(Math.max(parseFloat((value - step).toFixed(1)), min), max); // 소수 0.1단위
-    onChange([newValue]);
-    setInputValue(newValue.toString());
+    const newInternalValue = Math.max(value - step, min);
+    const newUserValue = convertInternalToUser(newInternalValue);
+    onChange([newInternalValue]);
+    setInputValue(newUserValue.toFixed(isVolume ? 1 : 2));
   };
 
   return (
@@ -100,7 +116,7 @@ export const SliderControl = ({
               }}
               onClick={() => setIsEditing(true)}
             >
-              {value.toFixed(step === 1 ? 0 : 1)} {/* 정수 또는 소수 표시 */}
+              x{convertInternalToUser(value).toFixed(1)}
             </span>
           )}
           <Button
@@ -116,11 +132,16 @@ export const SliderControl = ({
       {/* 슬라이더 */}
       <div className='mt-2'>
         <Slider
-          value={[value]}
-          onValueChange={(v) => onChange(v)}
+          value={[value]} // 내부 값 사용
+          onValueChange={(v) => {
+            const internalValue = v[0];
+            const userValue = convertInternalToUser(internalValue);
+            onChange([internalValue]);
+            setInputValue(userValue.toFixed(isVolume ? 1 : 2));
+          }}
           max={max}
           min={min}
-          step={step} // 동적으로 step 설정
+          step={step} // 내부 값 단위
           className='w-full'
         />
       </div>
