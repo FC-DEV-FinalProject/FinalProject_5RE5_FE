@@ -47,13 +47,13 @@ export const SliderControl = ({
   };
 
   const handleIncrement = () => {
-    const newValue = Math.min(value + 0.1, max);
+    const newValue = parseFloat(Math.min(value + 0.1, max).toFixed(1));
     onChange([newValue]);
     setInputValue(newValue.toFixed(1));
   };
 
   const handleDecrement = () => {
-    const newValue = Math.max(value - 0.1, min);
+    const newValue = parseFloat(Math.max(value - 0.1, min).toFixed(1));
     onChange([newValue]);
     setInputValue(newValue.toFixed(1));
   };

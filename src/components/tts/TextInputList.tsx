@@ -98,7 +98,10 @@ export const TextInputList: React.FC<TextInputListProps> = ({
                   size='sm'
                   className={`${input.volume ? 'bg-blue-100 font-bold' : ''}`}
                 >
-                  음량: {input.volume ?? 0}
+                  음량:{' '}
+                  {input.volume !== null && input.volume !== undefined
+                    ? input.volume.toFixed(1)
+                    : '0.0'}
                 </Button>
                 <Button
                   key={`${input.id}-speed`}

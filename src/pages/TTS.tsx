@@ -56,7 +56,7 @@ const TTS: React.FC = () => {
               isSelected: false,
               isEditing: false,
               speed: item.sentence.ttsAttributeInfo.speed || 1,
-              pitch: item.sentence.ttsAttributeInfo.stPitch || 0,
+              pitch: item.sentence.ttsAttributeInfo.endPitch || 0,
               volume: item.sentence.ttsAttributeInfo.volume || 0,
               voice: `Voice ${item.sentence.voiceSeq}` || '',
               voiceSeq: item.sentence.voiceSeq || 0,
