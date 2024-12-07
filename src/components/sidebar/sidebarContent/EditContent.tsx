@@ -13,7 +13,7 @@ const EditContent = () => {
   const [localSpeed, setLocalSpeed] = useState(1);
   const [localSliders, setLocalSliders] = useState([
     { id: 'pitch', value: 1.0, min: 0.0, max: 2.0, label: '음높이' },
-    { id: 'volume', value: 1.0, min: 0.0, max: 2.0, label: '음량' },
+    { id: 'volume', value: 1.0, min: -10, max: 10, label: '음량' },
   ]);
   const [localVoices, setLocalVoices] = useState<string | null>('');
   const [localVoiceSeq, setLocalVoiceSeq] = useState<number | null>(null);
@@ -198,6 +198,7 @@ const EditContent = () => {
               onChange={(v) => handleSliderChange(slider.id, v[0])}
               min={slider.min}
               max={slider.max}
+              step={slider.id === 'volume' ? 1 : 0.1} //
             />
           ))}
         </div>

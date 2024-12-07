@@ -8,12 +8,14 @@ export const SliderControl = ({
   onChange,
   min,
   max,
+  step,
 }: {
   label: string;
   value: number;
   onChange: (value: number[]) => void;
   min: number;
   max: number;
+  step: number; // step 값 추가
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState<string>(value.toString());
@@ -47,15 +49,21 @@ export const SliderControl = ({
   };
 
   const handleIncrement = () => {
-    const newValue = parseFloat(Math.min(value + 0.1, max).toFixed(1));
+    const newValue =
+      step === 1
+        ? Math.min(Math.max(Math.round(value + step), min), max) // 정수 1단위
+        : Math.min(Math.max(parseFloat((value + step).toFixed(1)), min), max); // 소수 0.1단위
     onChange([newValue]);
-    setInputValue(newValue.toFixed(1));
+    setInputValue(newValue.toString());
   };
 
   const handleDecrement = () => {
-    const newValue = parseFloat(Math.max(value - 0.1, min).toFixed(1));
+    const newValue =
+      step === 1
+        ? Math.min(Math.max(Math.round(value - step), min), max) // 정수 1단위
+        : Math.min(Math.max(parseFloat((value - step).toFixed(1)), min), max); // 소수 0.1단위
     onChange([newValue]);
-    setInputValue(newValue.toFixed(1));
+    setInputValue(newValue.toString());
   };
 
   return (
@@ -92,7 +100,7 @@ export const SliderControl = ({
               }}
               onClick={() => setIsEditing(true)}
             >
-              {value ? parseFloat(value.toFixed(1)) : '기본'}
+              {value.toFixed(step === 1 ? 0 : 1)} {/* 정수 또는 소수 표시 */}
             </span>
           )}
           <Button
@@ -112,7 +120,7 @@ export const SliderControl = ({
           onValueChange={(v) => onChange(v)}
           max={max}
           min={min}
-          step={0.1}
+          step={step} // 동적으로 step 설정
           className='w-full'
         />
       </div>
