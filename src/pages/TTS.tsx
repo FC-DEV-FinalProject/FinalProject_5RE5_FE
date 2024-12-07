@@ -1,5 +1,6 @@
 // TTS 컴포넌트
 import { ttsCall } from '@/apis/ttsCall';
+import { ttsFileCreate } from '@/apis/ttsFileCreate';
 import { ttsSave } from '@/apis/ttsSave';
 import { TTSControls } from '@/components/tts/TTSControls';
 import { TTSHeader } from '@/components/tts/TTSHeader';
@@ -138,6 +139,7 @@ const TTS: React.FC = () => {
         saveInput={saveInput}
         onSelectionChange={(selectedCount, totalCount) => {}}
         resetInputSettings={resetInputSettings}
+        ttsFileCreate={() => ttsFileCreate(projectId || '')}
       />
     </div>
   );

@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Repeat2, Play, Download } from 'lucide-react';
 import { TextInput } from '@/types/tts';
+import { ttsFileCreate } from '@/apis/ttsFileCreate';
 
 interface TextInputListProps {
   textInputs: TextInput[];
@@ -16,6 +17,7 @@ interface TextInputListProps {
   editingId: number | null;
   onSelectionChange: (selectedCount: number, totalCount: number) => void;
   resetInputSettings: (id: number) => void;
+  ttsFileCreate: () => void;
 }
 
 export const TextInputList: React.FC<TextInputListProps> = ({
@@ -29,6 +31,7 @@ export const TextInputList: React.FC<TextInputListProps> = ({
   editingId,
   onSelectionChange,
   resetInputSettings,
+  ttsFileCreate,
 }) => {
   const [inputHoverStates, setInputHoverStates] = useState<
     Record<number, boolean>
@@ -126,6 +129,7 @@ export const TextInputList: React.FC<TextInputListProps> = ({
                   variant='outline'
                   className='text-green-400 border-green-400 hover:bg-green-400 hover:text-white'
                   size='sm'
+                  onClick={ttsFileCreate}
                 >
                   <Repeat2 />
                   TTS 생성
