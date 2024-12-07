@@ -138,20 +138,6 @@ const EditContent = () => {
           return input;
         }),
       }));
-
-      // 4. 설정 적용 후 로그
-      console.log(
-        '개별 적용 완료: 속도 값 -',
-        localSpeed,
-        ', 음높이 및 음량 값 -',
-        localSliders,
-        ', 적용된 텍스트 항목 수 -',
-        selectedInputs.length,
-        ', 보이스 -',
-        localVoices,
-        ', 보이스 시퀀스 -',
-        localVoiceSeq
-      );
     } catch (error) {
       console.error('개별 적용 실패:', error);
     } finally {
@@ -203,20 +189,22 @@ const EditContent = () => {
         </div>
 
         {/* 음높이 및 음량 슬라이더 */}
-        {localSliders.map((slider) => (
-          <SliderControl
-            key={slider.id}
-            label={slider.label}
-            value={slider.value}
-            onChange={(v) => handleSliderChange(slider.id, v[0])}
-            min={slider.min}
-            max={slider.max}
-          />
-        ))}
+        <div className='flex flex-col gap-8'>
+          {localSliders.map((slider) => (
+            <SliderControl
+              key={slider.id}
+              label={slider.label}
+              value={slider.value}
+              onChange={(v) => handleSliderChange(slider.id, v[0])}
+              min={slider.min}
+              max={slider.max}
+            />
+          ))}
+        </div>
       </div>
 
       {/* 하단 버튼 */}
-      <div className='flex flex-col gap-4'>
+      <div className='flex flex-col gap-8'>
         <Button
           className='w-full'
           onClick={handlePreview}
