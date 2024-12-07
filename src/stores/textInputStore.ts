@@ -44,6 +44,7 @@ interface TTSStore extends ExtendedTTSState {
     deleted: ExtendedTTSState['textInputs'];
     updated: ExtendedTTSState['textInputs'];
   };
+  validateVoiceSeq: () => boolean;
 }
 
 export const useTextInputs = create<TTSStore>((set, get) => ({
@@ -218,6 +219,12 @@ export const useTextInputs = create<TTSStore>((set, get) => ({
           : input
       ),
     })),
+
+  //voiceSeq 유효성 검사
+  validateVoiceSeq: () => {
+    const { textInputs } = get();
+    return textInputs.some((input) => input.voiceSeq === 0 || !input.voiceSeq);
+  },
 
   getChanges: () => {
     const { textInputs, originalTextInputs } = get();

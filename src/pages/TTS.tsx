@@ -4,6 +4,7 @@ import { ttsSave } from '@/apis/ttsSave';
 import { TTSControls } from '@/components/tts/TTSControls';
 import { TTSHeader } from '@/components/tts/TTSHeader';
 import { TextInputList } from '@/components/tts/TextInputList';
+import { toast } from '@/hooks/use-toast';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { useTextInputs } from '@/stores/textInputStore';
 import React, { useEffect, useRef } from 'react';
@@ -28,6 +29,7 @@ const TTS: React.FC = () => {
     editingId,
     resetInputSettings,
     getChanges,
+    validateVoiceSeq,
   } = useTextInputs();
 
   useOutsideClick(containerRef, () => {
@@ -77,6 +79,13 @@ const TTS: React.FC = () => {
 
   const handleSave = async () => {
     const { added, deleted, updated } = getChanges();
+    if (validateVoiceSeq()) {
+      toast({
+        title: '모든 항목에 성우가 설정되어야 합니다.',
+        variant: 'destructive',
+      });
+      return;
+    }
 
     try {
       if (added.length > 0) {
